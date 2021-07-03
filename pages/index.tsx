@@ -7,7 +7,9 @@ const IndexPage = () => (
     <ul>
       <li>ログイン</li>
       <li>ユーザー作成</li>
-      <li>みんなの投稿</li>
+      <li>
+        <Link href="/posts">みんなの投稿</Link>
+      </li>
     </ul>
     <h2>サイトについて</h2>
     <p>
