@@ -5,8 +5,13 @@ const IndexPage = () => (
   <Layout title="Home | Next.js + TypeScript Example">
     <h1>Letter From You & Me(仮)</h1>
     <ul>
-      <li>ログイン</li>
-      <li>ユーザー作成</li>
+      <li>
+        <Link href="/login">ログイン</Link>
+      </li>
+
+      <li>
+        <Link href="/user">ユーザー作成</Link>
+      </li>
       <li>
         <Link href="/posts">みんなの投稿</Link>
       </li>
