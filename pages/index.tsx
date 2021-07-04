@@ -2,7 +2,8 @@ import Link from "next/link";
 import Layout from "../components/Layout";
 
 const IndexPage = () => (
-  <Layout title="Home | Next.js + TypeScript Example">
+  // <Layout title="Home | Next.js + TypeScript Example">
+  <>
     <h1>Letter From You & Me(仮)</h1>
     <ul>
       <li>
@@ -23,12 +24,11 @@ const IndexPage = () => (
       日々不安や悩みを感じる事が多くなったように思います。
       そんな人たちの力になれたら嬉しいです。
     </p>
-    <p>
-      <Link href="/about">
+    <p>{/* <Link href="/about">
         <a>About</a>
-      </Link>
-    </p>
-  </Layout>
+      </Link> */}</p>
+  </>
+  // </Layout>
 );
 
 export default IndexPage;
