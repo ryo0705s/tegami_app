@@ -1,6 +1,8 @@
+header,
 .container {
   margin: 0 auto;
   text-align: center;
+  width: 80%;
   /* background: yellow; */
 }
 li {

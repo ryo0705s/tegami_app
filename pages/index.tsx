@@ -4,19 +4,6 @@ import Layout from "../components/layout";
 const IndexPage = () => (
   // <Layout title="Home | Next.js + TypeScript Example">
   <Layout>
-    <h1>Letter From You & Me(仮)</h1>
-    <ul>
-      <li>
-        <Link href="/login">ログイン</Link>
-      </li>
-
-      <li>
-        <Link href="/user">ユーザー作成</Link>
-      </li>
-      <li>
-        <Link href="/posts">みんなの投稿</Link>
-      </li>
-    </ul>
     <h2>サイトについて</h2>
     <p>
       このサイトは”手紙を通じて心の安らぎを感じてほしい”そんな思いから生まれました。
