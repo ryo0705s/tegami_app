@@ -1,9 +1,9 @@
 import Link from "next/link";
-import Layout from "../components/Layout";
-
+// import Layout from "../components/Layout1";
+import Layout from "../components/layout";
 const IndexPage = () => (
   // <Layout title="Home | Next.js + TypeScript Example">
-  <>
+  <Layout>
     <h1>Letter From You & Me(仮)</h1>
     <ul>
       <li>
@@ -27,8 +27,7 @@ const IndexPage = () => (
     <p>{/* <Link href="/about">
         <a>About</a>
       </Link> */}</p>
-  </>
-  // </Layout>
+  </Layout>
 );
 
 export default IndexPage;

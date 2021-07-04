@@ -1,10 +1,11 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import Layout from "../components/layout";
 
 const posts: React.FC = () => {
   return (
-    <div>
+    <Layout>
       <ul>
         <li>
           <Link href="/post">
@@ -22,7 +23,7 @@ const posts: React.FC = () => {
           <p>投稿２</p>
         </li>
       </ul>
-    </div>
+    </Layout>
   );
 };
 

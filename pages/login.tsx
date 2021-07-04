@@ -1,9 +1,10 @@
 import { Button, TextField } from "@material-ui/core";
 import React from "react";
+import Layout from "../components/layout";
 
 const login: React.FC = () => {
   return (
-    <div>
+    <Layout>
       <p>メール</p>
       <TextField />
       <p>パスワード</p>
@@ -13,7 +14,7 @@ const login: React.FC = () => {
       <Button>ゲストログイン</Button>
       <Button>パスワードを忘れた</Button>
       <Button>アカウントを作成する</Button>
-    </div>
+    </Layout>
   );
 };
 
