@@ -1,9 +1,24 @@
 header,
-.container {
+footer,
+main {
   margin: 0 auto;
   text-align: center;
-  width: 80%;
+  width: 80vw;
   /* background: yellow; */
+}
+header,
+main {
+  border-bottom: 1px solid #000;
+}
+main {
+  height: 800px;
+  margin-top: 5rem;
+}
+footer {
+  margin-top: 2rem;
+}
+a {
+  text-decoration: none;
 }
 li {
   list-style: none;

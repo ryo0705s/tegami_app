@@ -1,4 +1,4 @@
-import { Button, TextField } from "@material-ui/core";
+import { TextField } from "@material-ui/core";
 import React from "react";
 import Layout from "../components/layout";
 
@@ -11,9 +11,9 @@ const login: React.FC = () => {
       <TextField />
       <p>グーグルアカウントでログイン</p>
       <TextField />
-      <Button>ゲストログイン</Button>
-      <Button>パスワードを忘れた</Button>
-      <Button>アカウントを作成する</Button>
+      <div>ゲストログイン</div>
+      <div>パスワードを忘れた</div>
+      <div>アカウントを作成する</div>
     </Layout>
   );
 };
