@@ -23,6 +23,9 @@ const Layout = ({ children }) => {
             <Link href="/user">ユーザー作成</Link>
           </li>
           <li>
+            <Link href="/posting">投稿する</Link>
+          </li>
+          <li>
             <Link href="/posts">みんなの投稿</Link>
           </li>
         </ul>
