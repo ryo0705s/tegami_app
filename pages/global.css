@@ -11,7 +11,7 @@ main {
   border-bottom: 1px solid #000;
 }
 main {
-  height: 800px;
+  height: 100%;
   margin-top: 5rem;
 }
 footer {

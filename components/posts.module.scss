@@ -1,0 +1,11 @@
+.posts {
+  display: flex;
+  flex-wrap: wrap;
+  // justify-content: space-between;
+  &:hover {
+    cursor: pointer;
+  }
+  li {
+    margin-right: 5rem;
+  }
+}
