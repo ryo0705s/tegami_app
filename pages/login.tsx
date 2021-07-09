@@ -1,4 +1,5 @@
 import { TextField } from "@material-ui/core";
+import Link from "next/link";
 import React from "react";
 import Layout from "../components/layout";
 import styles from "../components/login.module.scss";
@@ -24,7 +25,9 @@ const login: React.FC = () => {
         <br />
         <p>パスワードを忘れた</p>
         <br />
-        <p>アカウントを作成する</p>
+        <p>
+          <Link href="/loginUser">アカウントを作成する</Link>
+        </p>
       </div>
     </Layout>
   );
