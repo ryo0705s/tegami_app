@@ -3,7 +3,7 @@ import Link from "next/link";
 import React, { useState } from "react";
 import Layout from "../components/layout";
 import styles from "../components/login.module.scss";
-import { auth } from "../firebase";
+import { auth, provider } from "../firebase";
 import { useRouter } from "next/router";
 
 const login: React.FC = () => {
@@ -21,6 +21,12 @@ const login: React.FC = () => {
       });
     setEmail("");
     setPassword("");
+    router.push("/");
+  };
+  const googleSubmit = () => {
+    auth.signInWithPopup(provider).then((result) => {
+      return result;
+    });
     router.push("/");
   };
   return (
@@ -51,7 +57,7 @@ const login: React.FC = () => {
           登録する
         </Button>
         <br />
-        <p>グーグルアカウントでログイン</p>
+        <p onClick={googleSubmit}>グーグルアカウントでログイン</p>
         <br />
         <p>ゲストログイン</p>
         <br />
