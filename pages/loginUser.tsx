@@ -1,9 +1,8 @@
 import { Button, TextField } from "@material-ui/core";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Layout from "../components/layout";
 import styles from "../components/login.module.scss";
 import firebase from "firebase/app";
-import "firebase/auth";
 import { auth } from "../firebase";
 import { useRouter } from "next/router";
 
