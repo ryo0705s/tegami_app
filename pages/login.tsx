@@ -24,9 +24,25 @@ const login: React.FC = () => {
     router.push("/");
   };
   const googleSubmit = () => {
-    auth.signInWithPopup(provider).then((result) => {
-      return result;
-    });
+    auth
+      .signInWithPopup(provider)
+      .then((result: any) => {
+        return result;
+      })
+      .catch((error) => {
+        alert(error.message);
+      });
+    router.push("/");
+  };
+  const anonymousSubmit = () => {
+    auth
+      .signInAnonymously()
+      .then((result: any) => {
+        return result;
+      })
+      .catch((error) => {
+        alert(error.message);
+      });
     router.push("/");
   };
   return (
@@ -59,7 +75,7 @@ const login: React.FC = () => {
         <br />
         <p onClick={googleSubmit}>グーグルアカウントでログイン</p>
         <br />
-        <p>ゲストログイン</p>
+        <p onClick={anonymousSubmit}>ゲストログイン</p>
         <br />
         <p>パスワードを忘れた</p>
         <br />
