@@ -2,7 +2,23 @@ import React from "react";
 import Head from "next/head";
 import Link from "next/link";
 import styles from "./layout.module.scss";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import { auth } from "../firebase";
+import { useRouter } from "next/router";
+
 const Layout = ({ children }) => {
+  const router = useRouter();
+  const handleLogout = () => {
+    auth
+      .signOut()
+      .then((result: any) => {
+        return result;
+      })
+      .catch((error) => {
+        alert(error.message);
+      });
+    router.push("/login");
+  };
   return (
     <>
       <Head>
@@ -11,7 +27,12 @@ const Layout = ({ children }) => {
         <title>Letter From You &amp; Me</title>
       </Head>
       <header>
-        <h1>Letter From You &amp; Me(仮)</h1>
+        <div>
+          <h1>Letter From You &amp; Me(仮)</h1>
+          <div className={styles.svg} onClick={handleLogout}>
+            <ExitToAppIcon fontSize="large" />
+          </div>
+        </div>
         <ul className={styles.listStyle}>
           <li>
             <Link href="/">トップ</Link>
