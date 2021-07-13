@@ -70,7 +70,7 @@ const login: React.FC = () => {
         </div>
         <br />
         <Button variant="contained" color="primary" onClick={handleSubmit}>
-          登録する
+          ログイン
         </Button>
         <br />
         <p onClick={googleSubmit}>グーグルアカウントでログイン</p>
