@@ -10,29 +10,22 @@ import firebase from "firebase/app";
 
 const posting: React.FC = () => {
   const [post, setPost] = useState("");
-  const [picture, setPicture] = useState("");
-  const storageRef = storage.ref();
-  const imagesRef = storageRef.child("images/*");
-  const next = function (snapshot) {};
-  const error = function (error) {};
-  const complete = function () {};
+  const [picture, setPicture] = useState<File | null>(null);
 
   const handlePicture = (e: any) => {
-    const uploadTask = storage
+    const next = function (snapshot) {};
+    const error = function (error) {};
+    const complete = function () {};
+    const uploadPicture = storage
       .ref(`/images/${e.target.files[0].name}`)
       .put(e.target.files[0]);
-    setPicture(e.target.files[0]);
-    // imagesRef
-    //   .put(picture)
-    //   .on(firebase.storage.TaskEvent.STATE_CHANGED, next, error, complete);
-    // storage.ref("images/*").put(picture);
-    uploadTask.on(
+    // setPicture(e.target.files[0]);
+    uploadPicture.on(
       firebase.storage.TaskEvent.STATE_CHANGED,
       next,
       error,
       complete
     );
-    console.log(uploadTask);
     e.target.value = "";
     // console.log(handlePicture);
   };
