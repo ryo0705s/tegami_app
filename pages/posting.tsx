@@ -11,6 +11,7 @@ import firebase from "firebase/app";
 const posting: React.FC = () => {
   const [post, setPost] = useState("");
   const [picture, setPicture] = useState<File | null>(null);
+  const [adress, setAdress] = useState("");
 
   const handlePicture = (e: any) => {
     const next = function (snapshot) {};
@@ -20,18 +21,45 @@ const posting: React.FC = () => {
       .ref(`/images/${e.target.files[0].name}`)
       .put(e.target.files[0]);
     // setPicture(e.target.files[0]);
-    uploadPicture.on(
+    const uploadPictureResult = uploadPicture.on(
       firebase.storage.TaskEvent.STATE_CHANGED,
       next,
       error,
       complete
     );
-    e.target.value = "";
-    // console.log(handlePicture);
+    // console.log(uploadPicture);
   };
+  const handlePhoto = () => {
+    // uploadPictureResult()
+    storage
+      .ref()
+      .child("/images/NANPA!.001.jpeg")
+      .getDownloadURL()
+      .then(function (url) {
+        // `url` is the download URL for 'images/stars.jpg'
+
+        // This can be downloaded directly:
+        // var xhr = new XMLHttpRequest();
+        // xhr.responseType = 'blob';
+        // xhr.onload = function(event) {
+        //   var blob = xhr.response;
+        // };
+        // xhr.open('GET', url);
+        // xhr.send();
+
+        // Or inserted into an <img> element:
+        const img = document.getElementById("myimg");
+        img.src = url;
+      })
+      .catch(function (error) {
+        alert(error.message);
+      });
+  };
+
+  // e.target.value = "";
   return (
     <Layout>
-      <Image src="/letter1.jpg" width="400" height="500" />
+      <img src="" width="400" height="500" id="myimg" />
       <IconButton>
         <label>
           <PhotoCameraIcon />
@@ -42,6 +70,7 @@ const posting: React.FC = () => {
           />
         </label>
       </IconButton>
+      <button onClick={handlePhoto}>ダウンロード</button>
       <p>説明</p>
       <TextField multiline variant="outlined" fullWidth />
       <p>
