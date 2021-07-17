@@ -4,14 +4,13 @@ import Image from "next/image";
 import Layout from "../components/layout";
 import PhotoCameraIcon from "@material-ui/icons/PhotoCamera";
 import styles from "../components/posting.module.scss";
-import { storage } from "../firebase";
+import { storage, db } from "../firebase";
 import "firebase/storage";
 import firebase from "firebase/app";
 
 const posting: React.FC = () => {
   const [post, setPost] = useState("");
   const [picture, setPicture] = useState("");
-  const [adress, setAdress] = useState("");
   const [text, setText] = useState([null]);
   const inputText = (e) => {
     setText(e.target.files[0]);
@@ -60,8 +59,19 @@ const posting: React.FC = () => {
       });
   };
   // };
-
-  // e.target.value = "";
+  const handlePost = () => {
+    db.collection("posts")
+      .add({
+        image: "",
+        text: post,
+      })
+      .then((result) => {
+        return result;
+      })
+      .catch((error) => {
+        alert(error.message);
+      });
+  };
   return (
     <Layout>
       <input type="file" onChange={inputText} />
@@ -78,9 +88,14 @@ const posting: React.FC = () => {
       </IconButton>
       {/* <button onClick={handlePhoto}>ダウンロード</button> */}
       <p>説明</p>
-      <TextField multiline variant="outlined" fullWidth />
+      <TextField
+        multiline
+        variant="outlined"
+        fullWidth
+        onChange={(e) => setPost(e.target.value)}
+      />
       <p>
-        <Button variant="contained" color="primary">
+        <Button variant="contained" color="primary" onClick={handlePost}>
           作成
         </Button>
       </p>
