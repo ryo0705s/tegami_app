@@ -10,18 +10,23 @@ import firebase from "firebase/app";
 
 const posting: React.FC = () => {
   const [post, setPost] = useState("");
-  const [picture, setPicture] = useState<File | null>(null);
+  const [picture, setPicture] = useState("");
   const [adress, setAdress] = useState("");
-
+  const [text, setText] = useState([null]);
+  const inputText = (e) => {
+    setText(e.target.files[0]);
+    console.log(text);
+  };
   const handlePicture = (e: any) => {
     const next = function (snapshot) {};
     const error = function (error) {};
     const complete = function () {};
-    const uploadPicture = storage
-      .ref(`/images/${e.target.files[0].name}`)
-      .put(e.target.files[0]);
-    // setPicture(e.target.files[0]);
-    const uploadPictureResult = uploadPicture.on(
+    const uploadPicture = storage.ref(`/images/${picture.name}`).put(picture);
+
+    setPicture(e.target.files[0]);
+    console.log(picture);
+    // const uploadPictureResult =
+    uploadPicture.on(
       firebase.storage.TaskEvent.STATE_CHANGED,
       next,
       error,
@@ -33,7 +38,7 @@ const posting: React.FC = () => {
     // uploadPictureResult()
     storage
       .ref()
-      .child("/images/NANPA!.001.jpeg")
+      .child(`/images/${picture.name}`)
       .getDownloadURL()
       .then(function (url) {
         // `url` is the download URL for 'images/stars.jpg'
@@ -59,6 +64,7 @@ const posting: React.FC = () => {
   // e.target.value = "";
   return (
     <Layout>
+      <input type="file" onChange={inputText} />
       <img src="" width="400" height="500" id="myimg" />
       <IconButton>
         <label>
