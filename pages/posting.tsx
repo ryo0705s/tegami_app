@@ -33,8 +33,7 @@ const posting: React.FC = () => {
       complete
     );
     // console.log(uploadPicture);
-  };
-  const handlePhoto = () => {
+    // const handlePhoto = () => {
     // uploadPictureResult()
     storage
       .ref()
@@ -60,6 +59,7 @@ const posting: React.FC = () => {
         alert(error.message);
       });
   };
+  // };
 
   // e.target.value = "";
   return (
@@ -76,7 +76,7 @@ const posting: React.FC = () => {
           />
         </label>
       </IconButton>
-      <button onClick={handlePhoto}>ダウンロード</button>
+      {/* <button onClick={handlePhoto}>ダウンロード</button> */}
       <p>説明</p>
       <TextField multiline variant="outlined" fullWidth />
       <p>
