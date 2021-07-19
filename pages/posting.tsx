@@ -1,5 +1,5 @@
 import { Button, IconButton, TextField } from "@material-ui/core";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Layout from "../components/layout";
 import PhotoCameraIcon from "@material-ui/icons/PhotoCamera";
@@ -9,13 +9,14 @@ import "firebase/storage";
 import firebase from "firebase/app";
 
 const posting: React.FC = () => {
-  const [post, setPost] = useState("");
+  const [message, setMessage] = useState("");
   const [picture, setPicture] = useState("");
-  const [text, setText] = useState([null]);
-  const inputText = (e) => {
-    setText(e.target.files[0]);
-    console.log(text);
-  };
+  const [posts, setPosts] = useState([{ id: "", image: "", text: "" }]);
+  // const [hoge, setHoge] = useState([null]);
+  // const inputHoge = (e) => {
+  //   setHoge(e.target.files[0]);
+  //   console.log(hoge);
+  // };
   const handlePicture = (e: any) => {
     const next = function (snapshot) {};
     const error = function (error) {};
@@ -63,7 +64,7 @@ const posting: React.FC = () => {
     db.collection("posts")
       .add({
         image: "",
-        text: post,
+        text: message,
       })
       .then((result) => {
         return result;
@@ -72,9 +73,24 @@ const posting: React.FC = () => {
         alert(error.message);
       });
   };
+  useEffect(() => {
+    const unSub = db.collection("posts").onSnapshot((snapshot) =>
+      setPosts(
+        snapshot.docs.map((doc) => ({
+          id: doc.id,
+          image: doc.data().image,
+          text: doc.data().text,
+        }))
+      )
+    );
+    console.log(posts);
+    return () => {
+      unSub();
+    };
+  }, []);
   return (
     <Layout>
-      <input type="file" onChange={inputText} />
+      {/* <input type="file" onChange={inputHoge} /> */}
       <img src="" width="400" height="500" id="myimg" />
       <IconButton>
         <label>
@@ -92,13 +108,18 @@ const posting: React.FC = () => {
         multiline
         variant="outlined"
         fullWidth
-        onChange={(e) => setPost(e.target.value)}
+        onChange={(e) => setMessage(e.target.value)}
       />
       <p>
         <Button variant="contained" color="primary" onClick={handlePost}>
           作成
         </Button>
       </p>
+      {/* <div>{post.text}</div> */}
+      <div>aaaa</div>
+      {posts.map((post) => {
+        return <div>{post.id}</div>;
+      })}
     </Layout>
   );
 };
