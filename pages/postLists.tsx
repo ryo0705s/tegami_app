@@ -1,23 +1,31 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Layout from "../components/layout";
 import styles from "../components/posts.module.scss";
 import { storage, db } from "../firebase";
 
-const posts: React.FC = () => {
-  const [posts, setPosts] = useState("");
-  const getPosts = () => {};
+const postLists: React.FC = () => {
+  const [posts, setPosts] = useState([{ id: "", image: "", text: "" }]);
+  useEffect(() => {
+    const unSub = db.collection("posts").onSnapshot((snapshot) =>
+      setPosts(
+        snapshot.docs.map((doc) => ({
+          id: doc.id,
+          image: doc.data().image,
+          text: doc.data().text,
+        }))
+      )
+    );
+    return () => {
+      unSub();
+    };
+  }, []);
   return (
     <Layout>
       <ul className={styles.posts}>
         {posts.map((post) => {
-          <li>
-            <Link href="/post">
-              <Image src="/letter1.jpg" width={100} height={100} alt="test" />
-            </Link>
-            <p>投稿0</p>
-          </li>;
+          return <li>{post.id}</li>;
         })}
         <li>
           <Link href="/post">
@@ -64,4 +72,4 @@ const posts: React.FC = () => {
   );
 };
 
-export default posts;
+export default postLists;
