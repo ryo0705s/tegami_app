@@ -7,8 +7,10 @@ import { storage, db } from "../firebase";
 
 const postLists: React.FC = () => {
   const [posts, setPosts] = useState([{ id: "", image: "", text: "" }]);
+  const [pictures, setPictures] = useState([""]);
+
   useEffect(() => {
-    const unSub = db.collection("posts").onSnapshot((snapshot) =>
+    db.collection("posts").onSnapshot((snapshot) =>
       setPosts(
         snapshot.docs.map((doc) => ({
           id: doc.id,
@@ -17,16 +19,38 @@ const postLists: React.FC = () => {
         }))
       )
     );
-    return () => {
-      unSub();
-    };
   }, []);
+
+  useEffect(() => {
+    const listRef = storage.ref().child("posts/uid");
+    storage
+      .ref()
+      .root.listAll()
+      .then(function (res) {
+        res.prefixes.forEach(function (folderRef) {
+          setPictures(folderRef.name);
+        });
+        res.items.forEach(function (itemRef) {
+          console.log(itemRef);
+        });
+      })
+      .catch(function (error) {
+        alert(error.message);
+      });
+  }, []);
+
   return (
     <Layout>
       <ul className={styles.posts}>
         {posts.map((post) => {
-          return <li>{post.id}</li>;
+          return <li key={post.id}>{post.id}</li>;
         })}
+        {/* {pictures.map((picture) => {
+          return <li>{picture}</li>;
+        })} */}
+        {/* <li>
+          <img src="" width="50" height="50" id="myimg" />
+        </li> */}
         <li>
           <Link href="/post">
             <Image src="/letter1.jpg" width={100} height={100} alt="test" />

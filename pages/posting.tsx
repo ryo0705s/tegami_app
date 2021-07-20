@@ -7,35 +7,41 @@ import styles from "../components/posting.module.scss";
 import { storage, db } from "../firebase";
 import "firebase/storage";
 import firebase from "firebase/app";
+import { useRouter } from "next/router";
 
 const posting: React.FC = () => {
   const [message, setMessage] = useState("");
-  const [picture, setPicture] = useState("");
+  // const [picture, setPicture] = useState("");
+  const router = useRouter();
+
   const handlePicture = (e: any) => {
     const next = function (snapshot) {};
     const error = function (error) {};
-    const complete = function () {};
-    const uploadPicture = storage.ref(`/images/${picture.name}`).put(picture);
+    const complete = function () {
+      storage
+        .ref()
+        .child(`/images/${e.target.files[0].name}`)
+        .getDownloadURL()
+        .then(function (url) {
+          const img = document.getElementById("myimg");
+          img.src = url;
+        })
+        .catch(function (error) {
+          alert(error.message);
+        });
+    };
+    const uploadPicture = storage
+      .ref(`/images/${e.target.files[0].name}`)
+      .put(e.target.files[0]);
 
-    setPicture(e.target.files[0]);
-    console.log(picture);
+    // setPicture(e.target.files[0]);
+    // console.log(picture);
     uploadPicture.on(
       firebase.storage.TaskEvent.STATE_CHANGED,
       next,
       error,
       complete
     );
-    storage
-      .ref()
-      .child(`/images/${picture.name}`)
-      .getDownloadURL()
-      .then(function (url) {
-        const img = document.getElementById("myimg");
-        img.src = url;
-      })
-      .catch(function (error) {
-        alert(error.message);
-      });
   };
   const handlePost = () => {
     db.collection("posts")
@@ -49,6 +55,7 @@ const posting: React.FC = () => {
       .catch((error) => {
         alert(error.message);
       });
+    router.push("/postLists");
   };
 
   return (
