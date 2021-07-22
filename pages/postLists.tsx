@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Layout from "../components/layout";
@@ -27,9 +27,11 @@ const postLists: React.FC = () => {
       .ref()
       .root.listAll()
       .then(function (res) {
+        let temp = [];
         res.prefixes.forEach(function (folderRef) {
-          setPictures(folderRef.name);
+          temp.push(folderRef.name);
         });
+        setPictures(temp);
         res.items.forEach(function (itemRef) {
           console.log(itemRef);
         });
@@ -45,13 +47,13 @@ const postLists: React.FC = () => {
         {posts.map((post) => {
           return <li key={post.id}>{post.id}</li>;
         })}
-        {/* {pictures.map((picture) => {
-          return <li>{picture}</li>;
-        })} */}
+        {pictures.map((picture) => {
+          return <li key={picture.id}>{picture}</li>;
+        })}
         {/* <li>
           <img src="" width="50" height="50" id="myimg" />
         </li> */}
-        <li>
+        {/* <li>
           <Link href="/post">
             <Image src="/letter1.jpg" width={100} height={100} alt="test" />
           </Link>
@@ -90,7 +92,7 @@ const postLists: React.FC = () => {
         <li>
           <Image src="/sasaki.jpeg" width={100} height={100} alt="test" />
           <p>投稿6</p>
-        </li>
+        </li> */}
       </ul>
     </Layout>
   );
