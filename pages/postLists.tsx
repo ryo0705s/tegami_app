@@ -1,13 +1,25 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Layout from "../components/layout";
 import styles from "../components/posts.module.scss";
 import { storage, db } from "../firebase";
+import { useRouter } from "next/router";
+import { AppContext } from "../components/PageStates";
 
-const postLists: React.FC = () => {
+const postLists = () => {
+  const { clickedId, setClickedId } = useContext(AppContext);
   const [posts, setPosts] = useState([{ id: "", image: "", text: "" }]);
   const [pictures, setPictures] = useState([""]);
+  // const [clickedId, setClickedId] = useState("");
+  const router = useRouter();
+
+  const selectPost = (e) => {
+    // e.prevent.default();
+    router.push("/post");
+    setClickedId(e.target.value);
+    console.log(clickedId);
+  };
 
   useEffect(() => {
     db.collection("posts").onSnapshot((snapshot) =>
@@ -22,14 +34,14 @@ const postLists: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    const listRef = storage.ref().child("posts/uid");
-    storage
-      .ref()
-      .root.listAll()
+    const listRef = storage.ref().child("images");
+    listRef
+      .listAll()
       .then(function (res) {
         let temp = [];
         res.prefixes.forEach(function (folderRef) {
           temp.push(folderRef.name);
+          console.log(folderRef);
         });
         setPictures(temp);
         res.items.forEach(function (itemRef) {
@@ -45,7 +57,11 @@ const postLists: React.FC = () => {
     <Layout>
       <ul className={styles.posts}>
         {posts.map((post) => {
-          return <li key={post.id}>{post.id}</li>;
+          return (
+            <li key={post.id} onClick={selectPost}>
+              {post.id}
+            </li>
+          );
         })}
         {pictures.map((picture) => {
           return <li key={picture.id}>{picture}</li>;
@@ -53,46 +69,12 @@ const postLists: React.FC = () => {
         {/* <li>
           <img src="" width="50" height="50" id="myimg" />
         </li> */}
-        {/* <li>
+        <li>
           <Link href="/post">
             <Image src="/letter1.jpg" width={100} height={100} alt="test" />
           </Link>
           <p>投稿１</p>
         </li>
-        <li>
-          <Image src="/sasaki.jpeg" width={100} height={100} alt="test" />
-          <p>投稿２</p>
-        </li>
-        <li>
-          <Link href="/post">
-            <Image
-              src="/kumamotofood_dekomikan-00115.jpg"
-              width={100}
-              height={100}
-              alt="test"
-            />
-          </Link>
-          <p>投稿3</p>
-        </li>
-        <li>
-          <Image src="/sasaki.jpeg" width={100} height={100} alt="test" />
-          <p>投稿4</p>
-        </li>
-        <li>
-          <Link href="/post">
-            <Image
-              src="/kumamotofood_dekomikan-00115.jpg"
-              width={100}
-              height={100}
-              alt="test"
-            />
-          </Link>
-          <p>投稿5</p>
-        </li>
-        <li>
-          <Image src="/sasaki.jpeg" width={100} height={100} alt="test" />
-          <p>投稿6</p>
-        </li> */}
       </ul>
     </Layout>
   );
