@@ -1,5 +1,5 @@
 import { Button, IconButton, TextField } from "@material-ui/core";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Image from "next/image";
 import Layout from "../components/layout";
 import PhotoCameraIcon from "@material-ui/icons/PhotoCamera";
@@ -8,10 +8,10 @@ import { storage, db } from "../firebase";
 import "firebase/storage";
 import firebase from "firebase/app";
 import { useRouter } from "next/router";
+import { AppContext } from "../components/PageStates";
 
 const posting: React.FC = () => {
-  const [message, setMessage] = useState("");
-  // const [picture, setPicture] = useState("");
+  const { message, setMessage } = useContext(AppContext);
   const router = useRouter();
 
   const handlePicture = (e: any) => {

@@ -6,6 +6,8 @@ function PageStates({ children }): React.FC {
   const [posts, setPosts] = useState([{ id: "", image: "", text: "" }]);
   const [pictures, setPictures] = useState([""]);
   const [clickedId, setClickedId] = useState("");
+  const [edited, setEdited] = useState(false);
+  const [message, setMessage] = useState("");
   const value = {
     posts,
     setPosts,
@@ -13,6 +15,10 @@ function PageStates({ children }): React.FC {
     setPictures,
     clickedId,
     setClickedId,
+    edited,
+    setEdited,
+    message,
+    setMessage,
   };
   return (
     <div>
