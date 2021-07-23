@@ -8,17 +8,20 @@ import { useRouter } from "next/router";
 import { AppContext } from "../components/PageStates";
 
 const postLists = () => {
-  const { clickedId, setClickedId } = useContext(AppContext);
-  const [posts, setPosts] = useState([{ id: "", image: "", text: "" }]);
-  const [pictures, setPictures] = useState([""]);
-  // const [clickedId, setClickedId] = useState("");
+  const {
+    posts,
+    setPosts,
+    pictures,
+    setPictures,
+    clickedId,
+    setClickedId,
+  } = useContext(AppContext);
   const router = useRouter();
 
-  const selectPost = (e) => {
-    // e.prevent.default();
+  const selectPost = (post) => {
     router.push("/post");
-    setClickedId(e.target.value);
-    console.log(clickedId);
+    setClickedId(post.id);
+    console.log(post.id);
   };
 
   useEffect(() => {
@@ -58,7 +61,7 @@ const postLists = () => {
       <ul className={styles.posts}>
         {posts.map((post) => {
           return (
-            <li key={post.id} onClick={selectPost}>
+            <li key={post.id} onClick={() => selectPost(post)}>
               {post.id}
             </li>
           );

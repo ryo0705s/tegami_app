@@ -3,14 +3,20 @@ import React, { useState, useEffect, useContext, createContext } from "react";
 export const AppContext = createContext();
 
 function PageStates({ children }): React.FC {
-  // const [posts, setPosts] = useState([{ id: "", image: "", text: "" }]);
-  // const [pictures, setPictures] = useState([""]);
+  const [posts, setPosts] = useState([{ id: "", image: "", text: "" }]);
+  const [pictures, setPictures] = useState([""]);
   const [clickedId, setClickedId] = useState("");
+  const value = {
+    posts,
+    setPosts,
+    pictures,
+    setPictures,
+    clickedId,
+    setClickedId,
+  };
   return (
     <div>
-      <AppContext.Provider value={{ clickedId, setClickedId }}>
-        {children}
-      </AppContext.Provider>
+      <AppContext.Provider value={value}>{children}</AppContext.Provider>
     </div>
   );
 }

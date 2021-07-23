@@ -7,23 +7,46 @@ import { db, storage } from "../firebase";
 import { AppContext } from "../components/PageStates";
 
 const post: React.FC = () => {
-  const { clickedId } = useContext(AppContext);
+  const {
+    posts,
+    setPosts,
+    pictures,
+    setPictures,
+    clickedId,
+    setClickedId,
+  } = useContext(AppContext);
   useEffect(() => {
-    storage
-      .ref()
-      .child("/images/image.name")
-      .getDownloadURL()
-      .then(function (url) {
-        const img = document.getElementById("postImage");
-        img.src = url;
+    const docRef = db.collection("posts").doc(clickedId);
+
+    docRef
+      .get()
+      .then((doc) => {
+        setPosts({
+          id: doc.id,
+          image: doc.data().image,
+          text: doc.data().text,
+        });
       })
-      .catch(function (error) {
+      .catch((error) => {
         alert(error.message);
       });
   }, []);
+  // useEffect(() => {
+  //   storage
+  //     .ref()
+  //     .child("/images/image.name")
+  //     .getDownloadURL()
+  //     .then(function (url) {
+  //       const img = document.getElementById("postImage");
+  //       img.src = url;
+  //     })
+  //     .catch(function (error) {
+  //       alert(error.message);
+  //     });
+  // }, []);
   return (
     <Layout>
-      <div>{clickedId}</div>
+      <div>{posts.text}</div>
       <img src="/letter1.jpg" width="400" height="500" id="postImage" />
       <ThumbUpAltIcon />
       <p>説明</p>
