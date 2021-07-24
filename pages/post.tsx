@@ -7,8 +7,24 @@ import { db, storage } from "../firebase";
 import { AppContext } from "../components/PageStates";
 
 const post: React.FC = () => {
-  const editText = () => {
-    setMessage(posts.text);
+  const editText = (e) => {
+    db.collection("posts")
+      .doc(clickedId)
+      .update({
+        text: e.target.value,
+      })
+      // db.collection("posts")
+      //   .doc(clickedId)
+      //   .set({ text: e.target.value }, { merge: true })
+      .then((result) => {
+        console.log(result);
+        // setPosts(result);
+        // return result;
+      })
+      .catch((error) => {
+        alert(error.message);
+      });
+    // setMessage(posts.text));
     // message == posts.text;
   };
   const {
