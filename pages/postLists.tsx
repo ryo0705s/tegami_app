@@ -55,14 +55,12 @@ const postLists = () => {
       //   alert(error.message);
       // });
       .then(function (res) {
+        let items = [];
         res.prefixes.forEach(function (folderRef) {
-          console.log(folderRef);
+          items.push(folderRef.name);
         });
         res.items.forEach(function (itemRef) {
-          let items = [];
-          // const newItem = {...items, items}
-          items.push(itemRef.name);
-          setPictures(items);
+          setPictures(itemRef.name);
         });
       })
       .catch(function (error) {
