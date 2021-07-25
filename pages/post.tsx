@@ -5,17 +5,16 @@ import Image from "next/image";
 import Layout from "../components/layout";
 import { db, storage } from "../firebase";
 import { AppContext } from "../components/PageStates";
+import { useRouter } from "next/router";
 
 const post: React.FC = () => {
+  const router = useRouter();
   const editText = (e) => {
     db.collection("posts")
       .doc(clickedId)
       .update({
         text: e.target.value,
       })
-      // db.collection("posts")
-      //   .doc(clickedId)
-      //   .set({ text: e.target.value }, { merge: true })
       .then((result) => {
         const docRef = db.collection("posts").doc(clickedId);
         docRef
@@ -34,8 +33,17 @@ const post: React.FC = () => {
       .catch((error) => {
         alert(error.message);
       });
-    // setMessage(posts.text));
-    // message == posts.text;
+  };
+  const handleDelete = () => {
+    db.collection("posts")
+      .doc(clickedId)
+      .delete()
+      .then(() => {
+        router.push("/postLists");
+      })
+      .catch((error) => {
+        alert(error.message);
+      });
   };
   const {
     posts,
@@ -46,8 +54,6 @@ const post: React.FC = () => {
     setClickedId,
     edited,
     setEdited,
-    message,
-    setMessage,
   } = useContext(AppContext);
 
   useEffect(() => {
@@ -65,19 +71,7 @@ const post: React.FC = () => {
         alert(error.message);
       });
   }, []);
-  // useEffect(() => {
-  //   storage
-  //     .ref()
-  //     .child("/images/image.name")
-  //     .getDownloadURL()
-  //     .then(function (url) {
-  //       const img = document.getElementById("postImage");
-  //       img.src = url;
-  //     })
-  //     .catch(function (error) {
-  //       alert(error.message);
-  //     });
-  // }, []);
+
   return (
     <Layout>
       <img src="/letter1.jpg" width="400" height="500" id="postImage" />
@@ -100,6 +94,9 @@ const post: React.FC = () => {
         onClick={() => setEdited(!edited)}
       >
         編集
+      </Button>
+      <Button variant="contained" color="secondary" onClick={handleDelete}>
+        削除
       </Button>
 
       <p>コメント</p>
