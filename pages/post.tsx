@@ -17,9 +17,19 @@ const post: React.FC = () => {
       //   .doc(clickedId)
       //   .set({ text: e.target.value }, { merge: true })
       .then((result) => {
-        console.log(result);
-        // setPosts(result);
-        // return result;
+        const docRef = db.collection("posts").doc(clickedId);
+        docRef
+          .get()
+          .then((doc) => {
+            setPosts({
+              id: doc.id,
+              image: doc.data().image,
+              text: doc.data().text,
+            });
+          })
+          .catch((error) => {
+            alert(error.message);
+          });
       })
       .catch((error) => {
         alert(error.message);
