@@ -34,8 +34,6 @@ const posting: React.FC = () => {
       .ref(`/images/${e.target.files[0].name}`)
       .put(e.target.files[0]);
 
-    // setPicture(e.target.files[0]);
-    // console.log(picture);
     uploadPicture.on(
       firebase.storage.TaskEvent.STATE_CHANGED,
       next,

@@ -40,19 +40,33 @@ const postLists = () => {
     const listRef = storage.ref().child("images");
     listRef
       .listAll()
+      // .then(function (res) {
+      //   let temp = [];
+      //   res.prefixes.forEach(function (folderRef) {
+      //     temp.push(folderRef.name);
+      //     console.log(folderRef.name);
+      //   });
+      //   res.items.forEach(function (itemRef) {
+      //     // setPictures(itemRef);
+      //     console.log(itemRef);
+      //   });
+      // })
+      // .catch(function (error) {
+      //   alert(error.message);
+      // });
       .then(function (res) {
-        let temp = [];
         res.prefixes.forEach(function (folderRef) {
-          temp.push(folderRef.name);
           console.log(folderRef);
         });
-        setPictures(temp);
         res.items.forEach(function (itemRef) {
-          console.log(itemRef);
+          let items = [];
+          // const newItem = {...items, items}
+          items.push(itemRef.name);
+          setPictures(items);
         });
       })
       .catch(function (error) {
-        alert(error.message);
+        console.log(error);
       });
   }, []);
 
@@ -66,6 +80,7 @@ const postLists = () => {
             </li>
           );
         })}
+        {/* <li>{pictures}</li> */}
         {pictures.map((picture) => {
           return <li key={picture.id}>{picture}</li>;
         })}
