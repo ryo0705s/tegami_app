@@ -10,6 +10,7 @@ import { useRouter } from "next/router";
 const post: React.FC = () => {
   const router = useRouter();
   const editText = (e) => {
+    setPosts([{ id: posts.id, image: posts.image, text: e.target.value }]);
     db.collection("posts")
       .doc(clickedId)
       .update({

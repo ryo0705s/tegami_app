@@ -1,5 +1,5 @@
 import { Button, IconButton, TextField } from "@material-ui/core";
-import React, {useState} from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import Layout from "../components/layout";
 import PhotoCameraIcon from "@material-ui/icons/PhotoCamera";
@@ -8,7 +8,7 @@ import firebase from "firebase/app";
 import { storage } from "../firebase";
 
 const user: React.FC = () => {
-  const [myName, setMyName] = useState("")
+  // const [myName, setMyName] = useState("")
   const handleAvatar = (e: any) => {
     const next = function (snapshot) {};
     const error = function (error) {};
@@ -46,7 +46,7 @@ const user: React.FC = () => {
         </label>
       </IconButton>
       <p>レターネーム</p>
-      <TextField onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => setMyName(e.target.value) />
+      <TextField />
       <p>コメント</p>
       <TextField multiline variant="outlined" />
       <p>

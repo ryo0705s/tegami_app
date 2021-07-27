@@ -37,35 +37,32 @@ const postLists = () => {
   }, []);
 
   useEffect(() => {
-    const listRef = storage.ref().child("images");
+    const listRef = storage.ref().child(`/images/${pictures}`);
     listRef
       .listAll()
-      // .then(function (res) {
-      //   let temp = [];
-      //   res.prefixes.forEach(function (folderRef) {
-      //     temp.push(folderRef.name);
-      //     console.log(folderRef.name);
-      //   });
-      //   res.items.forEach(function (itemRef) {
-      //     // setPictures(itemRef);
-      //     console.log(itemRef);
-      //   });
-      // })
-      // .catch(function (error) {
-      //   alert(error.message);
-      // });
       .then(function (res) {
         let items = [];
-        res.prefixes.forEach(function (folderRef) {
-          items.push(folderRef.name);
-        });
+        res.prefixes.forEach(function (folderRef) {});
         res.items.forEach(function (itemRef) {
-          setPictures(itemRef.name);
+          items.push(itemRef.name);
+          const img = document.getElementById("myPictures");
+          img.src = itemRef.name;
         });
+        setPictures(items);
       })
       .catch(function (error) {
         console.log(error);
       });
+    // const listRefPictures = storage.ref().child(`/images/${pictures}`);
+    // listRefPictures
+    //   .listAll()
+    //   .then(function (url) {
+    //     const img = document.getElementById("myPictures");
+    //     img.src = url;
+    //   })
+    //   .catch(function (error) {
+    //     alert(error.message);
+    //   });
   }, []);
 
   return (
@@ -78,19 +75,10 @@ const postLists = () => {
             </li>
           );
         })}
-        {/* <li>{pictures}</li> */}
-        {pictures.map((picture) => {
-          return <li key={picture.id}>{picture}</li>;
+        {pictures.map((picture, index) => {
+          // return <li key={index}>{picture}</li>;
+          return <img src="picture" width={100} height={100} />;
         })}
-        {/* <li>
-          <img src="" width="50" height="50" id="myimg" />
-        </li> */}
-        <li>
-          <Link href="/post">
-            <Image src="/letter1.jpg" width={100} height={100} alt="test" />
-          </Link>
-          <p>投稿１</p>
-        </li>
       </ul>
     </Layout>
   );

@@ -8,6 +8,7 @@ function PageStates({ children }): React.FC {
   const [clickedId, setClickedId] = useState("");
   const [edited, setEdited] = useState(false);
   const [message, setMessage] = useState("");
+  const [url, setUrl] = useState("");
   const value = {
     posts,
     setPosts,
@@ -19,6 +20,8 @@ function PageStates({ children }): React.FC {
     setEdited,
     message,
     setMessage,
+    url,
+    setUrl,
   };
   return (
     <div>
