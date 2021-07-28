@@ -55,6 +55,7 @@ const posting: React.FC = () => {
         alert(error.message);
       });
     router.push("/postLists");
+    setUrl("");
   };
 
   return (

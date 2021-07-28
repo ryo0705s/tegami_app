@@ -8,20 +8,12 @@ import { useRouter } from "next/router";
 import { AppContext } from "../components/PageStates";
 
 const postLists = () => {
-  const {
-    posts,
-    setPosts,
-    pictures,
-    setPictures,
-    clickedId,
-    setClickedId,
-  } = useContext(AppContext);
+  const { posts, setPosts, clickedId, setClickedId } = useContext(AppContext);
   const router = useRouter();
 
   const selectPost = (post) => {
     router.push("/post");
     setClickedId(post.id);
-    console.log(post.id);
   };
 
   useEffect(() => {
@@ -36,48 +28,21 @@ const postLists = () => {
     );
   }, []);
 
-  useEffect(() => {
-    const listRef = storage.ref().child(`/images/${pictures}`);
-    listRef
-      .listAll()
-      .then(function (res) {
-        let items = [];
-        res.prefixes.forEach(function (folderRef) {});
-        res.items.forEach(function (itemRef) {
-          items.push(itemRef.name);
-          const img = document.getElementById("myPictures");
-          img.src = itemRef.name;
-        });
-        setPictures(items);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-    // const listRefPictures = storage.ref().child(`/images/${pictures}`);
-    // listRefPictures
-    //   .listAll()
-    //   .then(function (url) {
-    //     const img = document.getElementById("myPictures");
-    //     img.src = url;
-    //   })
-    //   .catch(function (error) {
-    //     alert(error.message);
-    //   });
-  }, []);
-
   return (
     <Layout>
       <ul className={styles.posts}>
         {posts.map((post) => {
           return (
-            <li key={post.id} onClick={() => selectPost(post)}>
-              {post.id}
+            <li>
+              <img
+                src={post.image}
+                width={100}
+                height={100}
+                id={post.id}
+                onClick={() => selectPost(post)}
+              />
             </li>
           );
-        })}
-        {pictures.map((picture, index) => {
-          // return <li key={index}>{picture}</li>;
-          return <img src="picture" width={100} height={100} />;
         })}
       </ul>
     </Layout>
