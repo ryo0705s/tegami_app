@@ -13,7 +13,14 @@ import styles from "../components/post.module.scss";
 const post: React.FC = () => {
   const router = useRouter();
   const editText = (e) => {
-    setPosts([{ id: posts.id, image: posts.image, text: e.target.value }]);
+    setPosts([
+      {
+        id: posts.id,
+        image: posts.image,
+        text: e.target.value,
+        uid: posts.uid,
+      },
+    ]);
     db.collection("posts")
       .doc(clickedId)
       .update({
@@ -28,6 +35,7 @@ const post: React.FC = () => {
               id: doc.id,
               image: doc.data().image,
               text: doc.data().text,
+              uid: doc.data().uid,
             });
           })
           .catch((error) => {
@@ -62,6 +70,7 @@ const post: React.FC = () => {
             id: posts.id,
             image: URL,
             text: posts.text,
+            uid: posts.uid,
           });
           console.log(URL, "アドレス１");
           console.log(posts.image, "アドレス1+");
@@ -116,6 +125,7 @@ const post: React.FC = () => {
           id: doc.id,
           image: doc.data().image,
           text: doc.data().text,
+          uid: doc.data().uid,
         });
       })
       .catch((error) => {

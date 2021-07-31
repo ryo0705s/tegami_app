@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
 import Head from "next/head";
 import Link from "next/link";
 import styles from "./layout.module.scss";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import { auth } from "../firebase";
 import { useRouter } from "next/router";
+import { AppContext } from "./PageStates";
 
 const Layout = ({ children }) => {
+  const { userId, setUserId, avatarUrl, setAvatarUrl } = useContext(AppContext);
   const router = useRouter();
   const handleLogout = () => {
     auth
@@ -29,6 +31,7 @@ const Layout = ({ children }) => {
       <header>
         <div>
           <h1>Letter From You &amp; Me(仮)</h1>
+          <img src={avatarUrl} alt="prof" width="50" height="50" />
           <div className={styles.svg} onClick={handleLogout}>
             <ExitToAppIcon fontSize="large" />
           </div>
@@ -52,6 +55,7 @@ const Layout = ({ children }) => {
         </ul>
       </header>
       <main>
+        <div>{`${userId}さんこんにちは`}</div>
         <div>{children}</div>
       </main>
       <footer>

@@ -11,7 +11,9 @@ import { useRouter } from "next/router";
 import { AppContext } from "../components/PageStates";
 
 const posting: React.FC = () => {
-  const { message, setMessage, url, setUrl } = useContext(AppContext);
+  const { message, setMessage, url, setUrl, userId, setUserId } = useContext(
+    AppContext
+  );
   const router = useRouter();
 
   const handlePicture = (e: any) => {
@@ -47,6 +49,7 @@ const posting: React.FC = () => {
       .add({
         image: url,
         text: message,
+        uid: userId,
       })
       .then((result) => {
         return result;

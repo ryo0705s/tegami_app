@@ -1,16 +1,24 @@
 import { Button, TextField } from "@material-ui/core";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import Layout from "../components/layout";
 import styles from "../components/login.module.scss";
+import firebase from "firebase/app";
 import { auth, provider } from "../firebase";
 import { useRouter } from "next/router";
+import { AppContext } from "../components/PageStates";
 
 const login: React.FC = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const {
+    email,
+    setEmail,
+    password,
+    setPassword,
+    userId,
+    setUserId,
+  } = useContext(AppContext);
   const router = useRouter();
-  const handleSubmit = () => {
+  const handleLogin = () => {
     auth
       .signInWithEmailAndPassword(email, password)
       .then((result: any) => {
@@ -23,7 +31,7 @@ const login: React.FC = () => {
     setPassword("");
     router.push("/");
   };
-  const googleSubmit = () => {
+  const googleLogin = () => {
     auth
       .signInWithPopup(provider)
       .then((result: any) => {
@@ -34,7 +42,7 @@ const login: React.FC = () => {
       });
     router.push("/");
   };
-  const anonymousSubmit = () => {
+  const anonymousLogin = () => {
     auth
       .signInAnonymously()
       .then((result: any) => {
@@ -45,6 +53,15 @@ const login: React.FC = () => {
       });
     router.push("/");
   };
+  useEffect(() => {
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        const uid = user.uid;
+        setUserId(uid);
+      } else {
+      }
+    });
+  }, []);
   return (
     <Layout>
       <h2>ログイン</h2>
@@ -69,13 +86,13 @@ const login: React.FC = () => {
           />
         </div>
         <br />
-        <Button variant="contained" color="primary" onClick={handleSubmit}>
+        <Button variant="contained" color="primary" onClick={handleLogin}>
           ログイン
         </Button>
         <br />
-        <p onClick={googleSubmit}>グーグルアカウントでログイン</p>
+        <p onClick={googleLogin}>グーグルアカウントでログイン</p>
         <br />
-        <p onClick={anonymousSubmit}>ゲストログイン</p>
+        <p onClick={anonymousLogin}>ゲストログイン</p>
         <br />
         <p>パスワードを忘れた</p>
         <br />

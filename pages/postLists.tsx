@@ -23,6 +23,7 @@ const postLists = () => {
           id: doc.id,
           image: doc.data().image,
           text: doc.data().text,
+          uid: doc.data().uid,
         }))
       )
     );
