@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import Head from "next/head";
 import Link from "next/link";
 import styles from "./layout.module.scss";
@@ -6,10 +6,21 @@ import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import { auth } from "../firebase";
 import { useRouter } from "next/router";
 import { AppContext } from "./PageStates";
+import firebase from "firebase/app";
+import { db } from "../firebase";
+import { PostAddSharp } from "@material-ui/icons";
 
 const Layout = ({ children }) => {
-  const { userId, setUserId, avatarUrl, setAvatarUrl } = useContext(AppContext);
   const router = useRouter();
+  const {
+    userId,
+    setUserId,
+    avatarUrl,
+    setAvatarUrl,
+    users,
+    setUsers,
+  } = useContext(AppContext);
+
   const handleLogout = () => {
     auth
       .signOut()
@@ -19,8 +30,41 @@ const Layout = ({ children }) => {
       .catch((error) => {
         alert(error.message);
       });
+    setUsers({
+      id: "",
+      avatar: "",
+      letterName: "",
+      otherInfo: "",
+      uid: "",
+    });
+    console.log(users);
     router.push("/login");
   };
+
+  // useEffect(() => {
+  //   const docRef = db.collection("users").doc(users.id);
+
+  //   docRef
+  //     .get()
+  //     .then((doc) => {
+  //       if (doc.exists) {
+  //         setUsers({
+  //           id: doc.id,
+  //           avatar: doc.data().avatar,
+  //           letterName: doc.data().letterName,
+  //           otherInfo: doc.data().otherInfo,
+  //           uid: doc.data().uid,
+  //         });
+  //       } else {
+  //         router.push("/login");
+  //         console.log("No such document!");
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       alert(error.message);
+  //     });
+  //   console.log(users);
+  // }, []);
   return (
     <>
       <Head>
@@ -31,7 +75,13 @@ const Layout = ({ children }) => {
       <header>
         <div>
           <h1>Letter From You &amp; Me(仮)</h1>
-          <img src={avatarUrl} alt="prof" width="50" height="50" />
+          <img
+            src={users.avatar}
+            alt="prof"
+            width="50"
+            height="50"
+            onClick={() => router.push("./editProf")}
+          />
           <div className={styles.svg} onClick={handleLogout}>
             <ExitToAppIcon fontSize="large" />
           </div>
@@ -55,7 +105,7 @@ const Layout = ({ children }) => {
         </ul>
       </header>
       <main>
-        <div>{`${userId}さんこんにちは`}</div>
+        <div>{`${users.uid}さんこんにちは`}</div>
         <div>{children}</div>
       </main>
       <footer>
