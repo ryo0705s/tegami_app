@@ -97,8 +97,8 @@ const login: React.FC = () => {
         alert(error.message);
       });
     setLogined(true);
-    findLoginId();
-    getLoginInfo();
+    // findLoginId();
+    // getLoginInfo();
     router.push("/");
   };
   const anonymousLogin = () => {

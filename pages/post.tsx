@@ -105,6 +105,41 @@ const post: React.FC = () => {
     );
   };
 
+  const handleLike = () => {
+    setLiked(!liked);
+    setLikeCount((previousCount) => previousCount + 1);
+    setLikedUids([...userId, userId[0]]);
+    // console.log(handleLike, "like呼ばれてます");
+    setLikes(
+      likesRef.set(
+        {
+          likeCount: likeCount,
+          liked: true,
+          likedUid: likedUids,
+        },
+        { merge: true }
+      )
+    );
+    console.log(likes, "likeの状況教えて！");
+  };
+  const handleUnLike = () => {
+    setLiked(!liked);
+    setLikeCount((previousCount) => previousCount - 1);
+    const newUids = likedUids.filter((likedUid) => likedUid === userId[0]);
+    setLikedUids(newUids);
+    // console.log(handleUnLike, "unlike呼ばれてます");
+    setLikes(
+      likesRef.set(
+        {
+          likeCount: likeCount,
+          liked: false,
+          likedUid: likedUids,
+        },
+        { merge: true }
+      )
+    );
+  };
+
   const {
     posts,
     setPosts,
@@ -114,7 +149,23 @@ const post: React.FC = () => {
     setEdited,
     url,
     setUrl,
+    likes,
+    setLikes,
+    likeCount,
+    setLikeCount,
+    liked,
+    setLiked,
+    likedUids,
+    setLikedUids,
+    userId,
+    setUserId,
   } = useContext(AppContext);
+
+  const likesRef = db
+    .collection("posts")
+    .doc(posts.id)
+    .collection("likes")
+    .doc(likes.id);
 
   useEffect(() => {
     const docRef = db.collection("posts").doc(clickedId);
@@ -146,7 +197,7 @@ const post: React.FC = () => {
           />
         </label>
       </IconButton>
-      <ThumbUpAltIcon />
+      <ThumbUpAltIcon onClick={!liked ? handleLike : handleUnLike} />
       <p>説明</p>
       {!edited ? (
         <div>{posts.text}</div>
