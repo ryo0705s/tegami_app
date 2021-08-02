@@ -1,7 +1,7 @@
 import { Button, TextField, IconButton } from "@material-ui/core";
 import ThumbUpAltIcon from "@material-ui/icons/ThumbUpAlt";
 import PhotoCameraIcon from "@material-ui/icons/PhotoCamera";
-import React, { useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Image from "next/image";
 import Layout from "../components/layout";
 import firebase from "firebase/app";
@@ -12,15 +12,20 @@ import styles from "../components/post.module.scss";
 
 const post: React.FC = () => {
   const router = useRouter();
+  const [comment, setComment] = useState({ commentUid: "", text: "" });
+  const [commentUid, setCommentUid] = useState("");
+  const [text, setText] = useState("");
   const editText = (e) => {
+    setMessage(e.target.value);
     setPosts([
       {
         id: posts.id,
         image: posts.image,
-        text: e.target.value,
+        text: message,
         uid: posts.uid,
       },
     ]);
+    console.log(posts.image, "写真読み込み");
     db.collection("posts")
       .doc(clickedId)
       .update({
@@ -66,6 +71,7 @@ const post: React.FC = () => {
         .then(function (URL) {
           // const img = document.getElementById("myimg");
           // img.src = URL;
+          setPictureUrl(URL);
           setPosts({
             id: posts.id,
             image: URL,
@@ -140,15 +146,23 @@ const post: React.FC = () => {
     );
   };
 
+  const createComment = (e) => {
+    setText(e.target.value);
+    setCommentUid(userId);
+    console.log(createComment, "コメントしました");
+  };
+  const editComment = () => {};
   const {
+    message,
+    setMessage,
     posts,
     setPosts,
     clickedId,
     setClickedId,
     edited,
     setEdited,
-    url,
-    setUrl,
+    pictureUrl,
+    setPictureUrl,
     likes,
     setLikes,
     likeCount,
@@ -165,6 +179,12 @@ const post: React.FC = () => {
     .collection("posts")
     .doc(posts.id)
     .collection("likes")
+    .doc(likes.id);
+
+  const commentRef = db
+    .collection("posts")
+    .doc(posts.id)
+    .collection("comments")
     .doc(likes.id);
 
   useEffect(() => {
@@ -197,7 +217,11 @@ const post: React.FC = () => {
           />
         </label>
       </IconButton>
-      <ThumbUpAltIcon onClick={!liked ? handleLike : handleUnLike} />
+      <IconButton onClick={!liked ? handleLike : handleUnLike}>
+        <label>
+          <ThumbUpAltIcon />
+        </label>
+      </IconButton>
       <p>説明</p>
       {!edited ? (
         <div>{posts.text}</div>
@@ -226,8 +250,14 @@ const post: React.FC = () => {
         multiline
         variant="outlined"
         fullWidth
-        value="面白いですね！"
+        onChange={(e) => e.target.value}
       />
+      <Button variant="contained" color="primary" onClick={createComment}>
+        投稿
+      </Button>
+      <Button variant="contained" color="primary" onClick={editComment}>
+        編集
+      </Button>
     </Layout>
   );
 };

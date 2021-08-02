@@ -11,9 +11,14 @@ import { useRouter } from "next/router";
 import { AppContext } from "../components/PageStates";
 
 const posting: React.FC = () => {
-  const { message, setMessage, url, setUrl, userId, setUserId } = useContext(
-    AppContext
-  );
+  const {
+    message,
+    setMessage,
+    pictureUrl,
+    setPictureUrl,
+    userId,
+    setUserId,
+  } = useContext(AppContext);
   const router = useRouter();
 
   const handlePicture = (e: any) => {
@@ -27,7 +32,7 @@ const posting: React.FC = () => {
         .then(function (URL) {
           // const img = document.getElementById("myimg");
           // img.src = URL;
-          setUrl(URL);
+          setPictureUrl(URL);
         })
         .catch(function (error) {
           alert(error.message);
@@ -47,7 +52,7 @@ const posting: React.FC = () => {
   const handlePost = () => {
     db.collection("posts")
       .add({
-        image: url,
+        image: pictureUrl,
         text: message,
         uid: userId,
       })
@@ -58,12 +63,12 @@ const posting: React.FC = () => {
         alert(error.message);
       });
     router.push("/postLists");
-    setUrl("");
+    setPictureUrl("");
   };
 
   return (
     <Layout>
-      <img src={url} width="400" height="500" />
+      <img src={pictureUrl} width="400" height="500" />
       <IconButton>
         <label>
           <PhotoCameraIcon />

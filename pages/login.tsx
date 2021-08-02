@@ -37,7 +37,6 @@ const login: React.FC = () => {
           let userIds = [];
           userIds.push(doc.id);
           const loginId = userIds.find((userId) => userId.uid === users.uid);
-          // このuserIdはfirestoreのデフォルトid
           setLoginedId(loginId);
           console.log(loginId, "何が出るかな？");
         });
@@ -96,9 +95,9 @@ const login: React.FC = () => {
       .catch((error) => {
         alert(error.message);
       });
-    setLogined(true);
-    // findLoginId();
-    // getLoginInfo();
+    // setLogined(true);
+    findLoginId();
+    getLoginInfo();
     router.push("/");
   };
   const anonymousLogin = () => {

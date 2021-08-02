@@ -12,8 +12,8 @@ const postLists = () => {
   const router = useRouter();
 
   const selectPost = (post) => {
-    router.push("/post");
     setClickedId(post.id);
+    router.push("/post");
   };
 
   useEffect(() => {
@@ -28,23 +28,24 @@ const postLists = () => {
       )
     );
   }, []);
-
+  console.log(posts);
   return (
     <Layout>
       <ul className={styles.posts}>
-        {posts.map((post) => {
-          return (
-            <li>
-              <img
-                src={post.image}
-                width={100}
-                height={100}
-                id={post.id}
-                onClick={() => selectPost(post)}
-              />
-            </li>
-          );
-        })}
+        {posts &&
+          posts.map((post) => {
+            return (
+              <li>
+                <img
+                  src={post.image}
+                  width={100}
+                  height={100}
+                  id={post.id}
+                  onClick={() => selectPost(post)}
+                />
+              </li>
+            );
+          })}
       </ul>
     </Layout>
   );
