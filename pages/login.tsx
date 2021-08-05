@@ -29,11 +29,12 @@ const login: React.FC = () => {
 
   const router = useRouter();
 
-  const findLoginId = () => {
-    db.collection("users")
+  const findLoginId = async () => {
+    await db
+      .collection("users")
       .get()
-      .then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
+      .then(async (querySnapshot) => {
+        await querySnapshot.forEach((doc) => {
           let userIds = [];
           userIds.push(doc.id);
           const loginId = userIds.find((userId) => userId.uid === users.uid);
@@ -46,13 +47,13 @@ const login: React.FC = () => {
       });
     console.log(loginedId, "1番目に呼ばれています");
   };
-  const getLoginInfo = () => {
+  const getLoginInfo = async () => {
     const docRef = db.collection("users").doc(loginedId);
-    docRef
+    await docRef
       .get()
-      .then((doc) => {
+      .then(async (doc) => {
         if (doc.exists) {
-          setUsers({
+          await setUsers({
             id: doc.id,
             avatar: doc.data().avatar,
             letterName: doc.data().letterName,
@@ -60,7 +61,7 @@ const login: React.FC = () => {
             uid: doc.data().uid,
           });
         } else {
-          router.push("/login");
+          // router.push("/login");
           console.log("No such document!");
         }
       })
@@ -96,8 +97,10 @@ const login: React.FC = () => {
         alert(error.message);
       });
     // setLogined(true);
-    findLoginId();
-    getLoginInfo();
+    async () => {
+      await findLoginId();
+      await getLoginInfo();
+    };
     router.push("/");
   };
   const anonymousLogin = () => {
