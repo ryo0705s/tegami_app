@@ -29,31 +29,29 @@ const login: React.FC = () => {
 
   const router = useRouter();
 
-  const findLoginId = async () => {
-    await db
-      .collection("users")
+  const findLoginId = () => {
+    db.collection("users")
       .get()
-      .then(async (querySnapshot) => {
-        await querySnapshot.forEach((doc) => {
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
           let userIds = [];
           userIds.push(doc.id);
           const loginId = userIds.find((userId) => userId.uid === users.uid);
           setLoginedId(loginId);
-          console.log(loginId, "何が出るかな？");
         });
+        console.log(users, "何が出るかな？");
       })
       .catch((error) => {
         console.log("Error getting documents: ", error);
       });
-    console.log(loginedId, "1番目に呼ばれています");
   };
-  const getLoginInfo = async () => {
+  const getLoginInfo = () => {
     const docRef = db.collection("users").doc(loginedId);
-    await docRef
+    docRef
       .get()
-      .then(async (doc) => {
+      .then((doc) => {
         if (doc.exists) {
-          await setUsers({
+          setUsers({
             id: doc.id,
             avatar: doc.data().avatar,
             letterName: doc.data().letterName,
@@ -61,7 +59,7 @@ const login: React.FC = () => {
             uid: doc.data().uid,
           });
         } else {
-          // router.push("/login");
+          router.push("/login");
           console.log("No such document!");
         }
       })
@@ -87,8 +85,8 @@ const login: React.FC = () => {
     getLoginInfo();
     router.push("/");
   };
-  const googleLogin = () => {
-    auth
+  const googleLogin = async () => {
+    await auth
       .signInWithPopup(provider)
       .then((result: any) => {
         return result;
@@ -96,11 +94,29 @@ const login: React.FC = () => {
       .catch((error) => {
         alert(error.message);
       });
+
+    const authUser = firebase.auth().currentUser;
+    if (authUser) {
+      const displayName = authUser.displayName;
+      const email = authUser.email;
+      // const photoURL = authUser.photoURL;
+      // const emailVerified = authUser.emailVerified;
+      const authUid = authUser.uid;
+      // console.log(authUid);
+      await setUsers({
+        id: users.id,
+        avatar: users.avatar,
+        letterName: users.letterName,
+        otherInfo: users.otherInfo,
+        uid: authUid,
+      });
+    } else {
+      // No user is signed in.
+    }
+    console.log(users.uid, "uid呼ばれています");
     // setLogined(true);
-    async () => {
-      await findLoginId();
-      await getLoginInfo();
-    };
+    await findLoginId();
+    // await getLoginInfo();
     router.push("/");
   };
   const anonymousLogin = () => {
@@ -117,23 +133,24 @@ const login: React.FC = () => {
     getLoginInfo();
     router.push("/");
   };
-  useEffect(() => {
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        const uid = user.uid;
-        // このuserIdはauthenticationのuid
-        setUserId(uid);
-      } else {
-      }
-    });
-    setUsers({
-      id: users.id,
-      avatar: users.avatar,
-      letterName: users.letterName,
-      otherInfo: user.otherInfo,
-      uid: userId,
-    });
-  }, []);
+  // useEffect(() => {
+  //   firebase.auth().onAuthStateChanged((user) => {
+  //     if (user) {
+  //       const uid = user.uid;
+  //       // このuserIdはauthenticationのuid
+  //       setUserId(uid);
+  //     } else {
+  //     }
+  //   });
+  //   setUsers({
+  //     id: users.id,
+  //     avatar: users.avatar,
+  //     letterName: users.letterName,
+  //     otherInfo: user.otherInfo,
+  //     uid: userId,
+  //   });
+  //   console.log("ID教えて！", userId);
+  // }, [user]);
   return (
     <Layout>
       <h2>ログイン</h2>
