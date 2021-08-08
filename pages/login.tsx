@@ -38,13 +38,12 @@ const login: React.FC = () => {
           userIds.push(doc.id);
           const loginId = userIds.find((userId) => userId.uid === users.uid);
           setLoginedId(loginId);
-          console.log(loginId, "何が出るかな？");
         });
+        console.log(users, "何が出るかな？");
       })
       .catch((error) => {
         console.log("Error getting documents: ", error);
       });
-    console.log(loginedId, "1番目に呼ばれています");
   };
   const getLoginInfo = () => {
     const docRef = db.collection("users").doc(loginedId);
@@ -70,8 +69,8 @@ const login: React.FC = () => {
     console.log(getLoginInfo, "２番目に呼ばれてます");
   };
 
-  const handleLogin = () => {
-    auth
+  const handleLogin = async () => {
+    await auth
       .signInWithEmailAndPassword(email, password)
       .then((result: any) => {
         return result;
@@ -79,15 +78,16 @@ const login: React.FC = () => {
       .catch((error) => {
         alert(error.message);
       });
-    setEmail("");
-    setPassword("");
-    setLogined(true);
-    findLoginId();
-    getLoginInfo();
+    await currentLogin();
+    await findLoginId();
+    await setEmail("");
+    await setPassword("");
+    // setLogined(true);
+    // getLoginInfo();
     router.push("/");
   };
-  const googleLogin = () => {
-    auth
+  const googleLogin = async () => {
+    await auth
       .signInWithPopup(provider)
       .then((result: any) => {
         return result;
@@ -95,13 +95,33 @@ const login: React.FC = () => {
       .catch((error) => {
         alert(error.message);
       });
+    await currentLogin();
+    // const authUser = firebase.auth().currentUser;
+    // if (authUser) {
+    //   const displayName = authUser.displayName;
+    //   const email = authUser.email;
+    //   // const photoURL = authUser.photoURL;
+    //   // const emailVerified = authUser.emailVerified;
+    //   const authUid = authUser.uid;
+    //   // console.log(authUid);
+    //   await setUsers({
+    //     id: users.id,
+    //     avatar: users.avatar,
+    //     letterName: users.letterName,
+    //     otherInfo: users.otherInfo,
+    //     uid: authUid,
+    //   });
+    // } else {
+    //   // No user is signed in.
+    // }
+    console.log(users.uid, "uid呼ばれています");
     // setLogined(true);
-    findLoginId();
-    getLoginInfo();
+    await findLoginId();
+    // await getLoginInfo();
     router.push("/");
   };
-  const anonymousLogin = () => {
-    auth
+  const anonymousLogin = async () => {
+    await auth
       .signInAnonymously()
       .then((result: any) => {
         return result;
@@ -109,28 +129,50 @@ const login: React.FC = () => {
       .catch((error) => {
         alert(error.message);
       });
-    setLogined(true);
-    findLoginId();
-    getLoginInfo();
+    await currentLogin();
+    // setLogined(true);
+    await findLoginId();
+    // getLoginInfo();
     router.push("/");
   };
-  useEffect(() => {
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        const uid = user.uid;
-        // このuserIdはauthenticationのuid
-        setUserId(uid);
-      } else {
-      }
-    });
-    setUsers({
-      id: users.id,
-      avatar: users.avatar,
-      letterName: users.letterName,
-      otherInfo: user.otherInfo,
-      uid: userId,
-    });
-  }, []);
+  const currentLogin = () => {
+    const authUser = firebase.auth().currentUser;
+    if (authUser) {
+      const displayName = authUser.displayName;
+      const email = authUser.email;
+      // const photoURL = authUser.photoURL;
+      // const emailVerified = authUser.emailVerified;
+      const authUid = authUser.uid;
+      // console.log(authUid);
+      setUsers({
+        id: users.id,
+        avatar: users.avatar,
+        letterName: users.letterName,
+        otherInfo: users.otherInfo,
+        uid: authUid,
+      });
+    } else {
+      // No user is signed in.
+    }
+  };
+  // useEffect(() => {
+  //   firebase.auth().onAuthStateChanged((user) => {
+  //     if (user) {
+  //       const uid = user.uid;
+  //       // このuserIdはauthenticationのuid
+  //       setUserId(uid);
+  //     } else {
+  //     }
+  //   });
+  //   setUsers({
+  //     id: users.id,
+  //     avatar: users.avatar,
+  //     letterName: users.letterName,
+  //     otherInfo: user.otherInfo,
+  //     uid: userId,
+  //   });
+  //   console.log("ID教えて！", userId);
+  // }, [user]);
   return (
     <Layout>
       <h2>ログイン</h2>
