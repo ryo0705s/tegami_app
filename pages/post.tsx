@@ -5,10 +5,12 @@ import React, { useState, useEffect, useContext } from "react";
 import Image from "next/image";
 import Layout from "../components/layout";
 import firebase from "firebase/app";
+import "firebase/firestore";
 import { db, storage } from "../firebase";
 import { AppContext } from "../components/PageStates";
 import { useRouter } from "next/router";
 import styles from "../components/post.module.scss";
+import user from "./user";
 
 const post: React.FC = () => {
   const router = useRouter();
@@ -112,38 +114,55 @@ const post: React.FC = () => {
   };
 
   const handleLike = () => {
-    setLiked(!liked);
-    setLikeCount((previousCount) => previousCount + 1);
-    setLikedUids([...userId, userId[0]]);
+    // setLikeCount((prevCount) => prevCount + 1);
+    // setLikedUids(posts.uid);
     // console.log(handleLike, "like呼ばれてます");
-    setLikes(
-      likesRef.set(
-        {
-          likeCount: likeCount,
-          liked: true,
-          likedUid: likedUids,
-        },
-        { merge: true }
-      )
-    );
+    // const washingtonRef = db.collection("posts").doc("djJtq6u4uNhQl3V2q6ns");
+
+    // Atomically add a new region to the "regions" array field.
+    likesRef.update({
+      likedUid: firebase.firestore.FieldValue.arrayUnion(users.uid),
+    });
+
+    // Atomically increment the population of the city by 50.
+    likesRef.update({
+      likeCount: firebase.firestore.FieldValue.increment(1),
+    });
+    setLiked(!liked);
+    // setLikes(
+    likesRef.update({
+      liked: true,
+    });
+    // );
     console.log(likes, "likeの状況教えて！");
   };
   const handleUnLike = () => {
+    likesRef.update({
+      likedUid: firebase.firestore.FieldValue.arrayRemove(users.uid),
+    });
+
+    // Atomically increment the population of the city by 50.
+    likesRef.update({
+      likeCount: firebase.firestore.FieldValue.increment(-1),
+    });
     setLiked(!liked);
-    setLikeCount((previousCount) => previousCount - 1);
-    const newUids = likedUids.filter((likedUid) => likedUid === userId[0]);
-    setLikedUids(newUids);
-    // console.log(handleUnLike, "unlike呼ばれてます");
-    setLikes(
-      likesRef.set(
-        {
-          likeCount: likeCount,
-          liked: false,
-          likedUid: likedUids,
-        },
-        { merge: true }
-      )
-    );
+    likesRef.update({
+      liked: false,
+    });
+    // setLikeCount((previousCount) => previousCount - 1);
+    // const newUids = likedUids.filter((likedUid) => likedUid === userId[0]);
+    // setLikedUids(newUids);
+    // // console.log(handleUnLike, "unlike呼ばれてます");
+    // setLikes(
+    //   likesRef.set(
+    //     {
+    //       likeCount: likeCount,
+    //       liked: false,
+    //       likedUid: likedUids,
+    //     },
+    //     { merge: true }
+    //   )
+    // );
   };
 
   const createComment = (e) => {
@@ -173,19 +192,21 @@ const post: React.FC = () => {
     setLikedUids,
     userId,
     setUserId,
+    users,
+    setUsers,
   } = useContext(AppContext);
 
   const likesRef = db
     .collection("posts")
     .doc(posts.id)
     .collection("likes")
-    .doc(likes.id);
+    .doc("djJtq6u4uNhQl3V2q6ns");
 
   const commentRef = db
     .collection("posts")
     .doc(posts.id)
     .collection("comments")
-    .doc(likes.id);
+    .doc("1aWxWQcRxYcRJtfzDmai");
 
   useEffect(() => {
     const docRef = db.collection("posts").doc(clickedId);

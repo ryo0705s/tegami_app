@@ -20,11 +20,11 @@ function PageStates({ children }): React.FC {
   const [likes, setLikes] = useState({
     likeCount: 0,
     liked: false,
-    likedUid: "",
+    likedUid: [""],
   });
   const [likeCount, setLikeCount] = useState(0);
   const [liked, setLiked] = useState(false);
-  const [likedUids, setLikedUids] = useState([""]);
+  const [likedUids, setLikedUids] = useState("");
   const [users, setUsers] = useState({
     id: "",
     avatar: "avatar.png",
