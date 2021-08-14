@@ -19,6 +19,8 @@ const Layout = ({ children }) => {
     setAvatarUrl,
     users,
     setUsers,
+    loginedId,
+    setLoginedId,
   } = useContext(AppContext);
 
   const handleLogout = () => {
@@ -105,7 +107,7 @@ const Layout = ({ children }) => {
         </ul>
       </header>
       <main>
-        <div>{`${users.uid}さんこんにちは`}</div>
+        <div>{`${loginedId}さんこんにちは`}</div>
         <div>{children}</div>
       </main>
       <footer>

@@ -38,11 +38,11 @@ const login: React.FC = () => {
           userIds.push(doc.id);
           const loginId = userIds.find((userId) => userId.uid === users.uid);
           setLoginedId(loginId);
+          // console.log(users.uid, "何が出るかな？");
         });
-        console.log(users, "何が出るかな？");
       })
       .catch((error) => {
-        console.log("Error getting documents: ", error);
+        // console.log("Error getting documents: ", error);
       });
   };
   const getLoginInfo = () => {
@@ -60,13 +60,13 @@ const login: React.FC = () => {
           });
         } else {
           router.push("/login");
-          console.log("No such document!");
+          // console.log("No such document!");
         }
       })
       .catch((error) => {
         alert(error.message);
       });
-    console.log(getLoginInfo, "２番目に呼ばれてます");
+    // console.log(getLoginInfo, "２番目に呼ばれてます");
   };
 
   const handleLogin = async () => {
@@ -96,6 +96,7 @@ const login: React.FC = () => {
         alert(error.message);
       });
     await currentLogin();
+    // await hoge();
     // const authUser = firebase.auth().currentUser;
     // if (authUser) {
     //   const displayName = authUser.displayName;
@@ -114,12 +115,13 @@ const login: React.FC = () => {
     // } else {
     //   // No user is signed in.
     // }
-    console.log(users.uid, "uid呼ばれています");
+    // console.log(users.uid, "uid呼ばれています");
     // setLogined(true);
-    await findLoginId();
-    // await getLoginInfo();
+    // await findLoginId();
+    await getLoginInfo();
     router.push("/");
   };
+
   const anonymousLogin = async () => {
     await auth
       .signInAnonymously()
@@ -135,7 +137,7 @@ const login: React.FC = () => {
     // getLoginInfo();
     router.push("/");
   };
-  const currentLogin = () => {
+  const currentLogin = async () => {
     const authUser = firebase.auth().currentUser;
     if (authUser) {
       const displayName = authUser.displayName;
@@ -143,36 +145,86 @@ const login: React.FC = () => {
       // const photoURL = authUser.photoURL;
       // const emailVerified = authUser.emailVerified;
       const authUid = authUser.uid;
-      // console.log(authUid);
-      setUsers({
-        id: users.id,
-        avatar: users.avatar,
-        letterName: users.letterName,
-        otherInfo: users.otherInfo,
-        uid: authUid,
-      });
+      // console.log(photoURL, "ちゃんと出てる？");
+      await db
+        .collection("users")
+        .get()
+        .then(async (querySnapshot) => {
+          await querySnapshot.forEach(async (doc) => {
+            let userIds = [];
+            await userIds.push(doc.data().uid);
+            const loginId = userIds.find((userId) => userId === authUid);
+            // doc.data() is never undefined for query doc snapshots
+            loginId !== undefined
+              ? await setLoginedId(loginId)
+              : await console.log("見つけられませんでした");
+          });
+        })
+        .catch((error) => {
+          console.log("Error getting documents: ", error);
+        });
+      // setUsers({
+      //   id: users.id,
+      //   avatar: users.avatar,
+      //   letterName: users.letterName,
+      //   otherInfo: users.otherInfo
+      //   uid: authUid,
+      // });
     } else {
       // No user is signed in.
     }
   };
+  // デバッグ用コード
+  useEffect(() => {
+    console.log(loginedId, "出ていますか？");
+  }, [loginedId]);
+
   // useEffect(() => {
-  //   firebase.auth().onAuthStateChanged((user) => {
-  //     if (user) {
-  //       const uid = user.uid;
-  //       // このuserIdはauthenticationのuid
-  //       setUserId(uid);
-  //     } else {
-  //     }
-  //   });
-  //   setUsers({
-  //     id: users.id,
-  //     avatar: users.avatar,
-  //     letterName: users.letterName,
-  //     otherInfo: user.otherInfo,
-  //     uid: userId,
-  //   });
-  //   console.log("ID教えて！", userId);
-  // }, [user]);
+  //   db.collection("users")
+  //     .doc(users.id)
+  //     .get()
+  //     .then((doc) => {
+  //       if (doc.id === users.id) {
+  //         console.log("Document data:", doc.data());
+  //       } else {
+  //         // doc.data() will be undefined in this case
+  //         console.log("No such document!");
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       console.log("Error getting document:", error);
+  //     });
+  // }, [currentLogin()]);
+  const hoge = () => {
+    // db.collection("users")
+    //   .doc(users.id)
+    //   .get()
+    //   .then((doc) => {
+    //     if (doc.id === users.id) {
+    //       console.log("Document data:", doc.data());
+    //     } else {
+    //       // doc.data() will be undefined in this case
+    //       console.log("No such document!");
+    //     }
+    //   })
+    //   .catch((error) => {
+    //     console.log("Error getting document:", error);
+    //   });
+    db.collection("users")
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          let userIds = [];
+          userIds.push(doc.data().uid);
+          const loginId = userIds.find((userId) => userId === users.uid);
+          // doc.data() is never undefined for query doc snapshots
+          console.log(userIds);
+        });
+      })
+      .catch((error) => {
+        console.log("Error getting documents: ", error);
+      });
+  };
   return (
     <Layout>
       <h2>ログイン</h2>
