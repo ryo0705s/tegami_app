@@ -28,7 +28,7 @@ const login: React.FC = () => {
   } = useContext(AppContext);
 
   const router = useRouter();
-
+  const [loginedIdNumber, setLoginedIdNumber] = useState(0);
   const findLoginId = () => {
     db.collection("users")
       .get()
@@ -126,14 +126,17 @@ const login: React.FC = () => {
       await db
         .collection("users")
         .get()
-        .then(async (querySnapshot) => {
-          await querySnapshot.forEach(async (doc) => {
-            let userIds = [];
-            await userIds.push(doc.data().uid);
-            const loginId = userIds.find((userId) => userId === authUid);
-            loginId !== undefined
-              ? await setLoginedId(loginId)
-              : await console.log("見つけられませんでした");
+        .then((querySnapshot) => {
+          let userIds = [];
+          querySnapshot.forEach((doc) => {
+            userIds.push(doc.data().uid);
+            console.log(userIds, "userIdsのなかみ");
+            const loginIdNumber = userIds.findIndex(
+              (userId) => userId === authUid
+            );
+            loginIdNumber !== -1
+              ? setLoginedIdNumber(loginIdNumber)
+              : console.log("見つけられませんでした");
           });
         })
         .catch((error) => {
@@ -143,11 +146,24 @@ const login: React.FC = () => {
       // No user is signed in.
     }
   };
-
+  useEffect(() => {
+    db.collection("users")
+      .get()
+      .then((querySnapshot) => {
+        let usersIds = [];
+        querySnapshot.forEach((doc) => {
+          usersIds.push(doc.id);
+          setLoginedId(usersIds[loginedIdNumber]);
+        });
+      })
+      .catch((error) => {
+        console.log("Error getting documents: ", error);
+      });
+  }, [loginedIdNumber]);
   // デバッグ用コード
   useEffect(() => {
-    console.log(loginedId, "出ていますか？");
-  }, [loginedId]);
+    console.log(loginedIdNumber, "出ていますか？");
+  }, [loginedIdNumber]);
 
   return (
     <Layout>

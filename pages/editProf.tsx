@@ -1,5 +1,5 @@
 import { Button, IconButton, TextField } from "@material-ui/core";
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import Image from "next/image";
 import Layout from "../components/layout";
 import PhotoCameraIcon from "@material-ui/icons/PhotoCamera";
@@ -8,25 +8,62 @@ import firebase from "firebase/app";
 import { db, storage } from "../firebase";
 import { AppContext } from "../components/PageStates";
 import { useRouter } from "next/router";
+import user from "./user";
 
 const editProf: React.FC = () => {
-  const { avatarUrl } = useContext(AppContext);
+  const router = useRouter();
+  const {
+    users,
+    setUsers,
+    avatarUrl,
+    setAvatarUrl,
+    loginedId,
+    setLoginedId,
+  } = useContext(AppContext);
+
+  useEffect(() => {
+    const docRef = db.collection("users").doc(loginedId);
+    docRef
+      .get()
+      .then((doc) => {
+        if (doc.exists) {
+          setUsers({
+            id: doc.id,
+            avatar: doc.data().avatar,
+            letterName: doc.data().letterName,
+            otherInfo: doc.data().otherInfo,
+            uid: doc.data().uid,
+          });
+        } else {
+          // router.push("/login");
+          console.log("No such document!");
+        }
+      })
+      .catch((error) => {
+        alert(error.message);
+      });
+  }, []);
+
+  useEffect(() => {
+    console.log(users, "お前誰？");
+  }, [users]);
+
   return (
     <Layout>
-      <img src={avatarUrl} width={100} height={100} />
+      {/* <img src={avatarUrl} width={100} height={100} />
       <IconButton>
         <label>
           <PhotoCameraIcon />
-          <input type="file" className={styles.input} onChange={handleAvatar} />
+          <input type="file" className={styles.input} value={users.avatar} onChange={editAvatar} />
         </label>
       </IconButton>
       <p>レターネーム</p>
-      <TextField onChange={(e) => setLetterName(e.target.value)} />
+      <TextField value={users.letterName} onChange={editLetterName} />
       <p>コメント</p>
       <TextField
         multiline
         variant="outlined"
-        onChange={(e) => setOtherInfo(e.target.value)}
+        value={users.otherInfo} onChange={editOterInfo}
       />
       <p>
         <Button variant="contained" color="primary" onClick={createProfile}>
@@ -34,7 +71,7 @@ const editProf: React.FC = () => {
         </Button>
       </p>
       <br />
-      <div className={styles.posts}>投稿一覧</div>
+      <div className={styles.posts}>投稿一覧</div> */}
     </Layout>
   );
 };
