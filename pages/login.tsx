@@ -38,7 +38,6 @@ const login: React.FC = () => {
           userIds.push(doc.id);
           const loginId = userIds.find((userId) => userId.uid === users.uid);
           setLoginedId(loginId);
-          // console.log(users.uid, "何が出るかな？");
         });
       })
       .catch((error) => {
@@ -66,7 +65,6 @@ const login: React.FC = () => {
       .catch((error) => {
         alert(error.message);
       });
-    // console.log(getLoginInfo, "２番目に呼ばれてます");
   };
 
   const handleLogin = async () => {
@@ -86,6 +84,7 @@ const login: React.FC = () => {
     // getLoginInfo();
     router.push("/");
   };
+
   const googleLogin = async () => {
     await auth
       .signInWithPopup(provider)
@@ -96,29 +95,7 @@ const login: React.FC = () => {
         alert(error.message);
       });
     await currentLogin();
-    // await hoge();
-    // const authUser = firebase.auth().currentUser;
-    // if (authUser) {
-    //   const displayName = authUser.displayName;
-    //   const email = authUser.email;
-    //   // const photoURL = authUser.photoURL;
-    //   // const emailVerified = authUser.emailVerified;
-    //   const authUid = authUser.uid;
-    //   // console.log(authUid);
-    //   await setUsers({
-    //     id: users.id,
-    //     avatar: users.avatar,
-    //     letterName: users.letterName,
-    //     otherInfo: users.otherInfo,
-    //     uid: authUid,
-    //   });
-    // } else {
-    //   // No user is signed in.
-    // }
-    // console.log(users.uid, "uid呼ばれています");
-    // setLogined(true);
-    // await findLoginId();
-    await getLoginInfo();
+    // await getLoginInfo();
     router.push("/");
   };
 
@@ -137,6 +114,7 @@ const login: React.FC = () => {
     // getLoginInfo();
     router.push("/");
   };
+
   const currentLogin = async () => {
     const authUser = firebase.auth().currentUser;
     if (authUser) {
@@ -145,7 +123,6 @@ const login: React.FC = () => {
       // const photoURL = authUser.photoURL;
       // const emailVerified = authUser.emailVerified;
       const authUid = authUser.uid;
-      // console.log(photoURL, "ちゃんと出てる？");
       await db
         .collection("users")
         .get()
@@ -154,7 +131,6 @@ const login: React.FC = () => {
             let userIds = [];
             await userIds.push(doc.data().uid);
             const loginId = userIds.find((userId) => userId === authUid);
-            // doc.data() is never undefined for query doc snapshots
             loginId !== undefined
               ? await setLoginedId(loginId)
               : await console.log("見つけられませんでした");
@@ -163,68 +139,16 @@ const login: React.FC = () => {
         .catch((error) => {
           console.log("Error getting documents: ", error);
         });
-      // setUsers({
-      //   id: users.id,
-      //   avatar: users.avatar,
-      //   letterName: users.letterName,
-      //   otherInfo: users.otherInfo
-      //   uid: authUid,
-      // });
     } else {
       // No user is signed in.
     }
   };
+
   // デバッグ用コード
   useEffect(() => {
     console.log(loginedId, "出ていますか？");
   }, [loginedId]);
 
-  // useEffect(() => {
-  //   db.collection("users")
-  //     .doc(users.id)
-  //     .get()
-  //     .then((doc) => {
-  //       if (doc.id === users.id) {
-  //         console.log("Document data:", doc.data());
-  //       } else {
-  //         // doc.data() will be undefined in this case
-  //         console.log("No such document!");
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       console.log("Error getting document:", error);
-  //     });
-  // }, [currentLogin()]);
-  const hoge = () => {
-    // db.collection("users")
-    //   .doc(users.id)
-    //   .get()
-    //   .then((doc) => {
-    //     if (doc.id === users.id) {
-    //       console.log("Document data:", doc.data());
-    //     } else {
-    //       // doc.data() will be undefined in this case
-    //       console.log("No such document!");
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     console.log("Error getting document:", error);
-    //   });
-    db.collection("users")
-      .get()
-      .then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-          let userIds = [];
-          userIds.push(doc.data().uid);
-          const loginId = userIds.find((userId) => userId === users.uid);
-          // doc.data() is never undefined for query doc snapshots
-          console.log(userIds);
-        });
-      })
-      .catch((error) => {
-        console.log("Error getting documents: ", error);
-      });
-  };
   return (
     <Layout>
       <h2>ログイン</h2>
