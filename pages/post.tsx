@@ -42,6 +42,9 @@ const post: React.FC = () => {
         image: posts.image,
         text: message,
         uid: posts.uid,
+        likeCount: posts.likeCount,
+        liked: posts.liked,
+        likedUid: posts.likedUid,
       },
     ]);
     console.log(posts.image, "写真読み込み");
@@ -60,6 +63,9 @@ const post: React.FC = () => {
               image: doc.data().image,
               text: doc.data().text,
               uid: doc.data().uid,
+              likeCount: doc.data().likeCount,
+              liked: doc.data().liked,
+              likedUid: doc.data().likedUid,
             });
           })
           .catch((error) => {
@@ -94,6 +100,9 @@ const post: React.FC = () => {
             image: URL,
             text: posts.text,
             uid: posts.uid,
+            likeCount: posts.likeCount,
+            liked: posts.liked,
+            likedUid: posts.likedUid,
           });
           console.log(URL, "アドレス１");
           console.log(posts.image, "アドレス1+");
@@ -140,7 +149,7 @@ const post: React.FC = () => {
     likesRef.update({
       liked: true,
     });
-    console.log(likes, "likeの状況教えて！");
+    // console.log(likes, "likeの状況教えて！");
   };
   const handleUnLike = () => {
     likesRef.update({
@@ -206,8 +215,8 @@ const post: React.FC = () => {
     setEdited,
     pictureUrl,
     setPictureUrl,
-    likes,
-    setLikes,
+    // likes,
+    // setLikes,
     likeCount,
     setLikeCount,
     liked,
@@ -220,11 +229,9 @@ const post: React.FC = () => {
     setUsers,
   } = useContext(AppContext);
 
-  const likesRef = db
-    .collection("posts")
-    .doc(posts.id)
-    .collection("likes")
-    .doc("djJtq6u4uNhQl3V2q6ns");
+  const likesRef = db.collection("posts").doc(posts.id);
+  // .collection("likes")
+  // .doc("djJtq6u4uNhQl3V2q6ns");
 
   const commentRef = db
     .collection("posts")
@@ -241,6 +248,9 @@ const post: React.FC = () => {
           image: doc.data().image,
           text: doc.data().text,
           uid: doc.data().uid,
+          likeCount: doc.data().likeCount,
+          liked: doc.data().liked,
+          likedUid: doc.data().likedUid,
         });
       })
       .catch((error) => {
@@ -277,11 +287,11 @@ const post: React.FC = () => {
 
   // デバッグ用
   useEffect(() => {
-    console.log(commentText, "呼ばれてますか？");
-  }, [commentText]);
+    console.log(users.uid, "呼ばれてますか？");
+  }, [users.uid]);
   useEffect(() => {
-    console.log(comments, "米米クラブ");
-  }, [comments]);
+    console.log(posts.likeCount, "ポストクラブ");
+  }, [posts.likeCount]);
 
   return (
     <Layout>
@@ -301,6 +311,7 @@ const post: React.FC = () => {
           <ThumbUpAltIcon />
         </label>
       </IconButton>
+      <div>{posts.likeCount}</div>
       <p>説明</p>
       {!edited ? (
         <div>{posts.text}</div>
