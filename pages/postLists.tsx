@@ -11,8 +11,8 @@ const postLists = () => {
   const { posts, setPosts, clickedId, setClickedId } = useContext(AppContext);
   const router = useRouter();
 
-  const selectPost = (post) => {
-    setClickedId(post.id);
+  const selectPost = async (post) => {
+    await setClickedId(post.id);
     router.push("/post");
   };
 
@@ -40,7 +40,6 @@ const postLists = () => {
                   src={post.image}
                   width={100}
                   height={100}
-                  id={post.id}
                   onClick={() => selectPost(post)}
                 />
               </li>

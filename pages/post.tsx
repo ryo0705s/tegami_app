@@ -14,9 +14,26 @@ import user from "./user";
 
 const post: React.FC = () => {
   const router = useRouter();
-  const [comment, setComment] = useState({ commentUid: "", text: "" });
+  const [comments, setComments] = useState([
+    {
+      id: "",
+      commentUid: "",
+      commented: false,
+      text: "",
+    },
+  ]);
+  const [commented, setCommented] = useState(false);
+  const [commentEdited, setCommentEdited] = useState(false);
   const [commentUid, setCommentUid] = useState("");
-  const [text, setText] = useState("");
+  const [commentText, setCommentText] = useState({
+    comment: "",
+    commented: false,
+  });
+  const [updateCommentText, setUpdateCommentText] = useState({
+    id: "",
+    comment: "",
+    edited: false,
+  });
   const editText = (e) => {
     setMessage(e.target.value);
     setPosts([
@@ -71,8 +88,6 @@ const post: React.FC = () => {
         .child(`/images/${e.target.files[0].name}`)
         .getDownloadURL()
         .then(function (URL) {
-          // const img = document.getElementById("myimg");
-          // img.src = URL;
           setPictureUrl(URL);
           setPosts({
             id: posts.id,
@@ -114,26 +129,17 @@ const post: React.FC = () => {
   };
 
   const handleLike = () => {
-    // setLikeCount((prevCount) => prevCount + 1);
-    // setLikedUids(posts.uid);
-    // console.log(handleLike, "like呼ばれてます");
-    // const washingtonRef = db.collection("posts").doc("djJtq6u4uNhQl3V2q6ns");
-
-    // Atomically add a new region to the "regions" array field.
     likesRef.update({
       likedUid: firebase.firestore.FieldValue.arrayUnion(users.uid),
     });
 
-    // Atomically increment the population of the city by 50.
     likesRef.update({
       likeCount: firebase.firestore.FieldValue.increment(1),
     });
     setLiked(!liked);
-    // setLikes(
     likesRef.update({
       liked: true,
     });
-    // );
     console.log(likes, "likeの状況教えて！");
   };
   const handleUnLike = () => {
@@ -141,7 +147,6 @@ const post: React.FC = () => {
       likedUid: firebase.firestore.FieldValue.arrayRemove(users.uid),
     });
 
-    // Atomically increment the population of the city by 50.
     likesRef.update({
       likeCount: firebase.firestore.FieldValue.increment(-1),
     });
@@ -149,28 +154,47 @@ const post: React.FC = () => {
     likesRef.update({
       liked: false,
     });
-    // setLikeCount((previousCount) => previousCount - 1);
-    // const newUids = likedUids.filter((likedUid) => likedUid === userId[0]);
-    // setLikedUids(newUids);
-    // // console.log(handleUnLike, "unlike呼ばれてます");
-    // setLikes(
-    //   likesRef.set(
-    //     {
-    //       likeCount: likeCount,
-    //       liked: false,
-    //       likedUid: likedUids,
-    //     },
-    //     { merge: true }
-    //   )
-    // );
   };
 
-  const createComment = (e) => {
-    setText(e.target.value);
-    setCommentUid(userId);
-    console.log(createComment, "コメントしました");
+  const createComment = () => {
+    commentRef.doc().set({
+      commentUid: users.uid,
+      text: commentText.comment,
+      commented: true,
+    });
+    setCommentText({ comment: "", commented: true });
+    // window.location.reload();
   };
-  const editComment = () => {};
+  const editComment = (comment, index) => {
+    setUpdateCommentText({
+      id: comment.id,
+      comment: comment.text,
+      edited: true,
+    });
+  };
+
+  const updateComment = () => {
+    commentRef.doc(updateCommentText.id).update({
+      text: updateCommentText.comment,
+    });
+    setUpdateCommentText({
+      id: "",
+      comment: "",
+      edited: false,
+    });
+    // window.location.reload();
+  };
+  const deleteComment = (comment, index) => {
+    commentRef
+      .doc(comment.id)
+      .delete()
+      .then(() => {
+        // window.location.reload();
+      })
+      .catch((error) => {
+        alert(error.message);
+      });
+  };
   const {
     message,
     setMessage,
@@ -205,8 +229,7 @@ const post: React.FC = () => {
   const commentRef = db
     .collection("posts")
     .doc(posts.id)
-    .collection("comments")
-    .doc("1aWxWQcRxYcRJtfzDmai");
+    .collection("comments");
 
   useEffect(() => {
     const docRef = db.collection("posts").doc(clickedId);
@@ -223,7 +246,42 @@ const post: React.FC = () => {
       .catch((error) => {
         alert(error.message);
       });
+    commentRef.get().then((querySnapshot) => {
+      let commentlists = [];
+      querySnapshot.forEach((doc) => {
+        commentlists.push({
+          id: doc.id,
+          commentUid: doc.data().commentUid,
+          commented: doc.data().commented,
+          text: doc.data().text,
+        });
+      });
+      setComments(commentlists);
+    });
   }, []);
+
+  useEffect(() => {
+    commentRef.get().then((querySnapshot) => {
+      let commentlists = [];
+      querySnapshot.forEach((doc) => {
+        commentlists.push({
+          id: doc.id,
+          commentUid: doc.data().commentUid,
+          commented: doc.data().commented,
+          text: doc.data().text,
+        });
+      });
+      setComments(commentlists);
+    });
+  }, [posts]);
+
+  // デバッグ用
+  useEffect(() => {
+    console.log(commentText, "呼ばれてますか？");
+  }, [commentText]);
+  useEffect(() => {
+    console.log(comments, "米米クラブ");
+  }, [comments]);
 
   return (
     <Layout>
@@ -265,20 +323,76 @@ const post: React.FC = () => {
       <Button variant="contained" color="secondary" onClick={handleDelete}>
         削除
       </Button>
-
+      <br />
+      {!commentText.commented ? (
+        <>
+          <div>コメントする</div>
+          <TextField
+            multiline
+            variant="outlined"
+            fullWidth
+            value={commentText.comment}
+            onChange={(e) =>
+              setCommentText({ comment: e.target.value, commented: false })
+            }
+          />
+          <Button variant="contained" color="primary" onClick={createComment}>
+            投稿
+          </Button>
+        </>
+      ) : (
+        <div></div>
+      )}
+      <br />
       <p>コメント</p>
-      <TextField
-        multiline
-        variant="outlined"
-        fullWidth
-        onChange={(e) => e.target.value}
-      />
-      <Button variant="contained" color="primary" onClick={createComment}>
-        投稿
-      </Button>
-      <Button variant="contained" color="primary" onClick={editComment}>
-        編集
-      </Button>
+      <ul>
+        {comments &&
+          comments.map((comment, index) => {
+            return (
+              <li>
+                <div>{comment.text}</div>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={() => editComment(comment, index)}
+                >
+                  編集
+                </Button>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={() => deleteComment(comment, index)}
+                >
+                  削除
+                </Button>
+              </li>
+            );
+          })}
+      </ul>
+      <br />
+      {!updateCommentText.edited ? (
+        <div></div>
+      ) : (
+        <>
+          <div>コメントを編集する</div>
+          <TextField
+            multiline
+            variant="outlined"
+            fullWidth
+            value={updateCommentText.comment}
+            onChange={(e) =>
+              setUpdateCommentText({
+                id: updateCommentText.id,
+                comment: e.target.value,
+                edited: true,
+              })
+            }
+          />
+          <Button variant="contained" color="primary" onClick={updateComment}>
+            完了
+          </Button>
+        </>
+      )}
     </Layout>
   );
 };
