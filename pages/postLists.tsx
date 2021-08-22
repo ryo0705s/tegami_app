@@ -24,6 +24,9 @@ const postLists = () => {
           image: doc.data().image,
           text: doc.data().text,
           uid: doc.data().uid,
+          likeCount: doc.data().likeCount,
+          liked: doc.data().liked,
+          likedUid: doc.data().likedUid,
         }))
       )
     );

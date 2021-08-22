@@ -4,7 +4,15 @@ export const AppContext = createContext();
 
 function PageStates({ children }): React.FC {
   const [posts, setPosts] = useState([
-    { id: "", image: "", text: "", uid: "" },
+    {
+      id: "",
+      image: "",
+      text: "",
+      uid: "",
+      likeCount: 0,
+      liked: false,
+      likedUid: [""],
+    },
   ]);
   const [pictures, setPictures] = useState([""]);
   const [clickedId, setClickedId] = useState("");
@@ -17,11 +25,11 @@ function PageStates({ children }): React.FC {
   const [password, setPassword] = useState("");
   const [avatarUrl, setAvatarUrl] = useState("");
   const [logined, setLogined] = useState(false);
-  const [likes, setLikes] = useState({
-    likeCount: 0,
-    liked: false,
-    likedUid: [""],
-  });
+  // const [likes, setLikes] = useState({
+  //   likeCount: 0,
+  //   liked: false,
+  //   likedUid: [""],
+  // });
   const [likeCount, setLikeCount] = useState(0);
   const [liked, setLiked] = useState(false);
   const [likedUids, setLikedUids] = useState("");
@@ -59,8 +67,8 @@ function PageStates({ children }): React.FC {
     setUsers,
     logined,
     setLogined,
-    likes,
-    setLikes,
+    // likes,
+    // setLikes,
     likeCount,
     setLikeCount,
     liked,
