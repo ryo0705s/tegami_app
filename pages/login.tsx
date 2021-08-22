@@ -129,16 +129,35 @@ const login: React.FC = () => {
         .then((querySnapshot) => {
           let userIds = [];
           querySnapshot.forEach((doc) => {
-            userIds.push(doc.data().uid);
+            const restData = { ...doc.data() };
+            userIds.push({
+              id: doc.id,
+              avatar: restData.avatar,
+              letterName: restData.letterName,
+              otherInfo: restData.otherInfo,
+              uid: restData.uid,
+            });
             console.log(userIds, "userIdsのなかみ");
             const loginIdNumber = userIds.findIndex(
-              (userId) => userId === authUid
+              (userId) => userId.uid === authUid
             );
-            loginIdNumber !== -1
-              ? setLoginedIdNumber(loginIdNumber)
-              : console.log("見つけられませんでした");
+            console.log(loginIdNumber, "loginナンバー出てる？");
+            loginIdNumber !== -1 ? setLoginedId(userIds[loginIdNumber].id) : "";
           });
         })
+        // .then((querySnapshot) => {
+        //   let userIds = [];
+        //   querySnapshot.forEach((doc) => {
+        //     userIds.push(doc.data().uid);
+        //     console.log(userIds, "userIdsのなかみ");
+        //     const loginIdNumber = userIds.findIndex(
+        //       (userId) => userId === authUid
+        //     );
+        //     loginIdNumber !== -1
+        //       ? setLoginedIdNumber(loginIdNumber)
+        //       : console.log("見つけられませんでした");
+        //   });
+        // })
         .catch((error) => {
           console.log("Error getting documents: ", error);
         });
@@ -146,20 +165,21 @@ const login: React.FC = () => {
       // No user is signed in.
     }
   };
-  useEffect(() => {
-    db.collection("users")
-      .get()
-      .then((querySnapshot) => {
-        let usersIds = [];
-        querySnapshot.forEach((doc) => {
-          usersIds.push(doc.id);
-          setLoginedId(usersIds[loginedIdNumber]);
-        });
-      })
-      .catch((error) => {
-        console.log("Error getting documents: ", error);
-      });
-  }, [loginedIdNumber]);
+  // useEffect(() => {
+  //   db.collection("users")
+  //     .get()
+  //     .then((querySnapshot) => {
+  //       let usersIds = [];
+  //       querySnapshot.forEach((doc) => {
+  //         usersIds.push(doc.id);
+  //         setLoginedId(usersIds[loginedIdNumber]);
+  //       });
+  //     })
+  //     .catch((error) => {
+  //       console.log("Error getting documents: ", error);
+  //     });
+  // }, [loginedIdNumber]);
+
   // デバッグ用コード
   useEffect(() => {
     console.log(loginedIdNumber, "出ていますか？");
