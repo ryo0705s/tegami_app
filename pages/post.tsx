@@ -13,6 +13,16 @@ import styles from "../components/post.module.scss";
 import user from "./user";
 
 const post: React.FC = () => {
+  // function doReload() {
+  //   // reloadメソッドによりページをリロード
+  //   window.location.reload();
+  // }
+
+  // window.addEventListener("load", function () {
+  //   // ページ表示完了した5秒後にリロード
+  //   setTimeout(doReload, 5000);
+  // });
+
   const router = useRouter();
   const [comments, setComments] = useState([
     {
@@ -172,7 +182,7 @@ const post: React.FC = () => {
       commented: true,
     });
     setCommentText({ comment: "", commented: true });
-    // window.location.reload();
+    window.location.reload();
   };
   const editComment = (comment, index) => {
     setUpdateCommentText({
@@ -191,14 +201,14 @@ const post: React.FC = () => {
       comment: "",
       edited: false,
     });
-    // window.location.reload();
+    window.location.reload();
   };
   const deleteComment = (comment, index) => {
     commentRef
       .doc(comment.id)
       .delete()
       .then(() => {
-        // window.location.reload();
+        window.location.reload();
       })
       .catch((error) => {
         alert(error.message);
@@ -256,18 +266,6 @@ const post: React.FC = () => {
       .catch((error) => {
         alert(error.message);
       });
-    commentRef.get().then((querySnapshot) => {
-      let commentlists = [];
-      querySnapshot.forEach((doc) => {
-        commentlists.push({
-          id: doc.id,
-          commentUid: doc.data().commentUid,
-          commented: doc.data().commented,
-          text: doc.data().text,
-        });
-      });
-      setComments(commentlists);
-    });
   }, []);
 
   useEffect(() => {
@@ -285,10 +283,12 @@ const post: React.FC = () => {
     });
   }, [posts]);
 
+  useEffect(() => {});
+
   // デバッグ用
   useEffect(() => {
-    console.log(users.uid, "呼ばれてますか？");
-  }, [users.uid]);
+    console.log(clickedId, "呼ばれてますか？");
+  }, [clickedId]);
   useEffect(() => {
     console.log(posts.likeCount, "ポストクラブ");
   }, [posts.likeCount]);

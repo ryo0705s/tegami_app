@@ -11,10 +11,12 @@ const postLists = () => {
   const { posts, setPosts, clickedId, setClickedId } = useContext(AppContext);
   const router = useRouter();
 
-  const selectPost = async (post) => {
-    await setClickedId(post.id);
-    router.push("/post");
+  const selectPost = (post) => {
+    setClickedId(post.id);
   };
+  useEffect(() => {
+    router.push("/post");
+  }, [selectPost]);
 
   useEffect(() => {
     db.collection("posts").onSnapshot((snapshot) =>
