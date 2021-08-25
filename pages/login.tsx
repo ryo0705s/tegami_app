@@ -29,43 +29,6 @@ const login: React.FC = () => {
 
   const router = useRouter();
   const [loginedIdNumber, setLoginedIdNumber] = useState(0);
-  const findLoginId = () => {
-    db.collection("users")
-      .get()
-      .then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-          let userIds = [];
-          userIds.push(doc.id);
-          const loginId = userIds.find((userId) => userId.uid === users.uid);
-          setLoginedId(loginId);
-        });
-      })
-      .catch((error) => {
-        // console.log("Error getting documents: ", error);
-      });
-  };
-  const getLoginInfo = () => {
-    const docRef = db.collection("users").doc(loginedId);
-    docRef
-      .get()
-      .then((doc) => {
-        if (doc.exists) {
-          setUsers({
-            id: doc.id,
-            avatar: doc.data().avatar,
-            letterName: doc.data().letterName,
-            otherInfo: doc.data().otherInfo,
-            uid: doc.data().uid,
-          });
-        } else {
-          router.push("/login");
-          // console.log("No such document!");
-        }
-      })
-      .catch((error) => {
-        alert(error.message);
-      });
-  };
 
   const handleLogin = async () => {
     await auth
@@ -76,12 +39,9 @@ const login: React.FC = () => {
       .catch((error) => {
         alert(error.message);
       });
-    await currentLogin();
-    await findLoginId();
-    await setEmail("");
-    await setPassword("");
-    // setLogined(true);
-    // getLoginInfo();
+    currentLogin();
+    setEmail("");
+    setPassword("");
     router.push("/");
   };
 
@@ -94,8 +54,7 @@ const login: React.FC = () => {
       .catch((error) => {
         alert(error.message);
       });
-    await currentLogin();
-    // await getLoginInfo();
+    currentLogin();
     router.push("/");
   };
 
@@ -108,10 +67,7 @@ const login: React.FC = () => {
       .catch((error) => {
         alert(error.message);
       });
-    await currentLogin();
-    // setLogined(true);
-    await findLoginId();
-    // getLoginInfo();
+    currentLogin();
     router.push("/");
   };
 
@@ -137,15 +93,14 @@ const login: React.FC = () => {
               otherInfo: restData.otherInfo,
               uid: restData.uid,
             });
-            console.log(userIds, "userIdsのなかみ");
+            // console.log(userIds, "userIdsのなかみ");
             const loginIdNumber = userIds.findIndex(
               (userId) => userId.uid === authUid
             );
-            console.log(loginIdNumber, "loginナンバー出てる？");
+            // console.log(loginIdNumber, "loginナンバー出てる？");
             loginIdNumber !== -1 ? setLoginedId(userIds[loginIdNumber].id) : "";
           });
         })
-
         .catch((error) => {
           console.log("Error getting documents: ", error);
         });
@@ -154,10 +109,38 @@ const login: React.FC = () => {
     }
   };
 
+  useEffect(() => {
+    setTimeout(async () => {
+      const docRef = await db.collection("users").doc(loginedId);
+      docRef
+        .get()
+        .then((doc) => {
+          if (doc.exists) {
+            setUsers({
+              id: doc.id,
+              avatar: doc.data().avatar,
+              letterName: doc.data().letterName,
+              otherInfo: doc.data().otherInfo,
+              uid: doc.data().uid,
+            });
+          } else {
+            console.log("No such document!");
+          }
+        })
+        .catch((error) => {
+          alert(error.message);
+        });
+    }, 10000);
+  }, [loginedId]);
+
+  useEffect(() => {
+    setAvatarUrl(users.avatar);
+  }, [users]);
+
   // デバッグ用コード
   useEffect(() => {
-    console.log(loginedIdNumber, "出ていますか？");
-  }, [loginedIdNumber]);
+    console.log(loginedId, "出ていますか？");
+  }, [loginedId]);
 
   return (
     <Layout>

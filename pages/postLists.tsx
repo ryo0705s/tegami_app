@@ -13,10 +13,13 @@ const postLists = () => {
 
   const selectPost = (post) => {
     setClickedId(post.id);
+    clickedId !== "" ? router.push("/post") : "";
   };
-  useEffect(() => {
-    router.push("/post");
-  }, [selectPost]);
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     router.push("/post");
+  //   }, 5000);
+  // }, [clickedId]);
 
   useEffect(() => {
     db.collection("posts").onSnapshot((snapshot) =>
@@ -34,6 +37,11 @@ const postLists = () => {
     );
   }, []);
   console.log(posts);
+
+  // デバッグ用
+  useEffect(() => {
+    console.log(clickedId, "クリック証券");
+  }, [clickedId]);
   return (
     <Layout>
       <ul className={styles.posts}>
