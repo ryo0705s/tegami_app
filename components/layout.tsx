@@ -107,7 +107,7 @@ const Layout = ({ children }) => {
         </ul>
       </header>
       <main>
-        <div>{`${loginedId}さんこんにちは`}</div>
+        <div>{`${users.uid}さんこんにちは`}</div>
         <div>{children}</div>
       </main>
       <footer>
