@@ -25,6 +25,8 @@ const login: React.FC = () => {
     setLogined,
     users,
     setUsers,
+    authUserId,
+    setAuthUserId,
   } = useContext(AppContext);
 
   const router = useRouter();
@@ -93,12 +95,13 @@ const login: React.FC = () => {
               otherInfo: restData.otherInfo,
               uid: restData.uid,
             });
-            // console.log(userIds, "userIdsのなかみ");
+            console.log(authUser.uid, "authUidのなかみ");
             const loginIdNumber = userIds.findIndex(
               (userId) => userId.uid === authUid
             );
             // console.log(loginIdNumber, "loginナンバー出てる？");
             loginIdNumber !== -1 ? setLoginedId(userIds[loginIdNumber].id) : "";
+            setAuthUserId(authUid);
           });
         })
         .catch((error) => {
@@ -130,7 +133,7 @@ const login: React.FC = () => {
         .catch((error) => {
           alert(error.message);
         });
-    }, 10000);
+    }, 20000);
   }, [loginedId]);
 
   useEffect(() => {

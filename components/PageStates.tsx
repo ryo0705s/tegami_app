@@ -40,6 +40,7 @@ function PageStates({ children }): React.FC {
     otherInfo: "",
     uid: "",
   });
+  const [authUserId, setAuthUserId] = useState("");
   const value = {
     posts,
     setPosts,
@@ -75,6 +76,8 @@ function PageStates({ children }): React.FC {
     setLiked,
     likedUids,
     setLikedUids,
+    authUserId,
+    setAuthUserId,
   };
   return (
     <div>

@@ -12,6 +12,49 @@ import Layout from "../components/layout";
 
 const editProf: React.FC = () => {
   const router = useRouter();
+  // const createAvatar = (e) => {
+  //   setUsers({
+  //     id: users.id,
+  //     avatar: e.target.value,
+  //     letterName: users.letterName,
+  //     otherInfo: users.otherInfo,
+  //     uid: users.uid,
+  //   });
+  // };
+  const createLetterName = (e) => {
+    setUsers({
+      id: users.id,
+      avatar: users.avatar,
+      letterName: e.target.value,
+      otherInfo: users.otherInfo,
+      uid: users.uid,
+    });
+  };
+  const createOtherInfo = (e) => {
+    setUsers({
+      id: users.id,
+      avatar: users.avatar,
+      letterName: users.letterName,
+      otherInfo: e.target.value,
+      uid: users.uid,
+    });
+  };
+  const createProfile = () => {
+    db.collection("users").add({
+      avatar: users.avatar,
+      letterName: users.letterName,
+      otherInfo: users.otherInfo,
+      uid: authUserId,
+    });
+    setUsers({
+      id: users.id,
+      avatar: users.avatar,
+      letterName: users.letterName,
+      otherInfo: users.otherInfo,
+      uid: authUserId,
+    });
+    router.push("/");
+  };
   const editAvatar = (e) => {
     storage
       .ref()
@@ -57,12 +100,20 @@ const editProf: React.FC = () => {
     });
   };
   const editProfile = () => {
-    docRef.set({
-      avatar: users.avatar,
-      letterName: users.letterName,
-      otherInfo: users.otherInfo,
-      uid: users.uid,
-    });
+    db.collection("users")
+      .doc(loginedId)
+      .set({
+        avatar: users.avatar,
+        letterName: users.letterName,
+        otherInfo: users.otherInfo,
+        uid: users.uid,
+      })
+      .then((result) => {
+        return result;
+      })
+      .catch((error) => {
+        alert(error.message);
+      });
     router.push("/");
   };
   // const deleteProfile = () => {
@@ -82,38 +133,40 @@ const editProf: React.FC = () => {
     setAvatarUrl,
     loginedId,
     setLoginedId,
+    authUserId,
+    setAuthUserId,
   } = useContext(AppContext);
 
-  const docRef = db.collection("users").doc(loginedId);
-  useEffect(() => {
-    docRef
-      .get()
-      .then((doc) => {
-        if (doc.exists) {
-          setUsers({
-            id: doc.id,
-            avatar: doc.data().avatar,
-            letterName: doc.data().letterName,
-            otherInfo: doc.data().otherInfo,
-            uid: doc.data().uid,
-          });
-          setAvatarUrl(users.avatar);
-        } else {
-          // router.push("/login");
-          console.log("No such document!");
-        }
-      })
-      .catch((error) => {
-        alert(error.message);
-      });
-  }, []);
+  // const docRef = db.collection("users").doc(loginedId);
+  // useEffect(() => {
+  //   docRef
+  //     .get()
+  //     .then((doc) => {
+  //       if (doc.exists) {
+  //         setUsers({
+  //           id: doc.id,
+  //           avatar: doc.data().avatar,
+  //           letterName: doc.data().letterName,
+  //           otherInfo: doc.data().otherInfo,
+  //           uid: doc.data().uid,
+  //         });
+  //         setAvatarUrl(users.avatar);
+  //       } else {
+  //         // router.push("/login");
+  //         console.log("No such document!");
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       alert(error.message);
+  //     });
+  // }, []);
 
   // デバッグ用コード
   useEffect(() => {
     console.log(users, "お前誰？");
   }, [users]);
 
-  return (
+  return users.id ? (
     <Layout>
       <img src={users.avatar} width={100} height={100} />
       <IconButton>
@@ -137,8 +190,32 @@ const editProf: React.FC = () => {
         </Button>
       </p>
       {/* <Button variant="contained" color="secondary" onClick={deleteProfile}>
-        削除
-      </Button> */}
+      削除
+    </Button> */}
+    </Layout>
+  ) : (
+    <Layout>
+      <img src={users.avatar} width={100} height={100} />
+      <IconButton>
+        <label>
+          <PhotoCameraIcon />
+          <input type="file" className={styles.input} onChange={editAvatar} />
+        </label>
+      </IconButton>
+      <p>レターネーム</p>
+      <TextField value={users.letterName} onChange={createLetterName} />
+      <p>コメント</p>
+      <TextField
+        multiline
+        variant="outlined"
+        value={users.otherInfo}
+        onChange={createOtherInfo}
+      />
+      <p>
+        <Button variant="contained" color="primary" onClick={createProfile}>
+          作成
+        </Button>
+      </p>
     </Layout>
   );
 };
