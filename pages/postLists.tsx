@@ -8,12 +8,46 @@ import { useRouter } from "next/router";
 import { AppContext } from "../components/PageStates";
 
 const postLists = () => {
-  const { posts, setPosts, clickedId, setClickedId } = useContext(AppContext);
+  const {
+    posts,
+    setPosts,
+    clickedId,
+    setClickedId,
+    findPostAvatar,
+    setFindPostAvatar,
+    findPostUid,
+    setFindPostUid,
+  } = useContext(AppContext);
   const router = useRouter();
 
   const selectPost = (post) => {
     setClickedId(post.id);
-    clickedId !== "" ? router.push("/post") : "";
+    db.collection("users")
+      .get()
+      .then((querySnapshot) => {
+        let userLists = [];
+        querySnapshot.forEach((doc) => {
+          const restData = { ...doc.data() };
+          userLists.push({
+            id: doc.id,
+            avatar: restData.avatar,
+            letterName: restData.letterName,
+            otherInfo: restData.otherInfo,
+            uid: restData.uid,
+          });
+        });
+        console.log(userLists, "リスト");
+        const postNumber = userLists.findIndex(
+          (userList) => userList.uid === post.uid
+        );
+        const findPostElements = () => {
+          setFindPostAvatar(userLists[postNumber].avatar);
+          setFindPostUid(userLists[postNumber].uid);
+        };
+        postNumber !== -1 ? findPostElements() : "";
+        console.log(postNumber, "写真の人誰？");
+        clickedId !== "" ? router.push("/post") : "";
+      });
   };
   // useEffect(() => {
   //   setTimeout(() => {
