@@ -44,6 +44,7 @@ const login: React.FC = () => {
     currentLogin();
     setEmail("");
     setPassword("");
+    // router.push("/");
   };
 
   const googleLogin = async () => {
@@ -56,6 +57,7 @@ const login: React.FC = () => {
         alert(error.message);
       });
     currentLogin();
+    // router.push("/");
   };
 
   const anonymousLogin = async () => {
@@ -111,31 +113,31 @@ const login: React.FC = () => {
   };
 
   useEffect(() => {
-    if (loginedId) hoge();
+    if (loginedId)
+      (async () => {
+        const docRef = await db.collection("users").doc(loginedId);
+        docRef
+          .get()
+          .then((doc) => {
+            if (doc.exists) {
+              setUsers({
+                id: doc.id,
+                avatar: doc.data().avatar,
+                letterName: doc.data().letterName,
+                otherInfo: doc.data().otherInfo,
+                uid: doc.data().uid,
+              });
+              router.push("/");
+            } else {
+              console.log("No such document!");
+            }
+          })
+          .catch((error) => {
+            alert(error.message);
+          });
+      })();
   }, [loginedId]);
 
-  const hoge = async () => {
-    const docRef = await db.collection("users").doc(loginedId);
-    docRef
-      .get()
-      .then((doc) => {
-        if (doc.exists) {
-          setUsers({
-            id: doc.id,
-            avatar: doc.data().avatar,
-            letterName: doc.data().letterName,
-            otherInfo: doc.data().otherInfo,
-            uid: doc.data().uid,
-          });
-          router.push("/");
-        } else {
-          console.log("No such document!");
-        }
-      })
-      .catch((error) => {
-        alert(error.message);
-      });
-  };
   useEffect(() => {
     setAvatarUrl(users.avatar);
   }, [users]);
