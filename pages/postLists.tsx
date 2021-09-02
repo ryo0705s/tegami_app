@@ -46,14 +46,15 @@ const postLists = () => {
         };
         postNumber !== -1 ? findPostElements() : "";
         console.log(postNumber, "写真の人誰？");
-        clickedId !== "" ? router.push("/post") : "";
+        // clickedId !== "" ? router.push("/post") : "";
       });
   };
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     router.push("/post");
-  //   }, 5000);
-  // }, [clickedId]);
+  const pagePush = () => {
+    router.push("/post");
+  };
+  useEffect(() => {
+    if (clickedId) pagePush();
+  }, [clickedId]);
 
   useEffect(() => {
     db.collection("posts").onSnapshot((snapshot) =>

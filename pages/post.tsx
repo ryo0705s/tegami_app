@@ -309,37 +309,41 @@ const post: React.FC = () => {
     });
   }, [posts]);
 
-  const commentUids = comments.map((comment) => {
-    comment.commentUid;
-  });
-
-  // useEffect(() => {
-  //   db.collection("users")
-  //     .get()
-  //     .then((querySnapshot) => {
-  //       let userLists = [];
-  //       querySnapshot.forEach((doc) => {
-  //         const restData = { ...doc.data() };
-  //         userLists.push({
-  //           id: doc.id,
-  //           avatar: restData.avatar,
-  //           letterName: restData.letterName,
-  //           otherInfo: restData.otherInfo,
-  //           uid: restData.uid,
-  //         });
-  //         const commentNumber = userLists.findIndex(
-  //           (userList) => userList.uid === commentUids
-  //         );
-  //         // setFindCommentAvatar(userLists[commentNumber].avatar);
-  //         // console.log(userLists[commentNumber].avatar, "写真の人誰？");
-  //       });
-  //     });
-  // }, [comments]);
+  useEffect(() => {
+    const commentUids = comments.map((comment) => {
+      comment.commentUid;
+    });
+    console.log(commentUids, "コメント出てる？");
+    db.collection("users")
+      .get()
+      .then((querySnapshot) => {
+        let userLists = [];
+        querySnapshot.forEach((doc) => {
+          const restData = { ...doc.data() };
+          userLists.push({
+            id: doc.id,
+            avatar: restData.avatar,
+            letterName: restData.letterName,
+            otherInfo: restData.otherInfo,
+            uid: restData.uid,
+          });
+        });
+        const commentNumber = userLists.findIndex(
+          (userList) => userList.uid === commentUids
+        );
+        // console.log(userLists, "ユーザーリスト");→○
+        commentNumber !== -1
+          ? console.log(commentNumber, "コメントナンバー")
+          : "";
+        // setFindCommentAvatar(userLists[commentNumber].avatar);
+        // console.log(userLists[commentNumber].avatar, "写真の人誰？");
+      });
+  }, [comments]);
 
   // デバッグ用
-  useEffect(() => {
-    console.log(commentUids, "呼ばれてますか？");
-  }, [commentUids]);
+  // useEffect(() => {
+  //   console.log(commentUids, "呼ばれてますか？");
+  // }, [commentUids]);
   useEffect(() => {
     console.log(posts.likeCount, "ポストクラブ");
   }, [posts.likeCount]);

@@ -138,15 +138,15 @@ const userInfo: React.FC = () => {
             text: restData.text,
             uid: restData.uid,
           });
-          const yourPostContents = postLists.find((postList) => {
-            postList.uid === findPostUid;
-            // console.log(postList.uid, "ポストリスト出てる？");→○
-            // この結果がなぜか空配列になってしまう
-            // findPostsUidはYcOAazXArPZYnpXb4S4cietdfcq1が入ってます
-          });
-          yourPostContents !== "" ? setYourPosts(yourPostContents) : "";
         });
-        // console.log(yourPosts, "あはははは");
+        const yourPostContents = postLists.find((postList) => {
+          postList.uid === findPostUid;
+          // console.log(postList.uid, "ポストリスト出てる？");
+          // この結果がなぜか空配列になってしまう
+          // findPostsUidはYcOAazXArPZYnpXb4S4cietdfcq1が入ってます
+        });
+        if (yourPostContents) setYourPosts(yourPostContents);
+        console.log(postLists, "あはははは");
       })
       .catch((error) => {
         console.log("Error getting documents: ", error);
@@ -154,8 +154,8 @@ const userInfo: React.FC = () => {
   });
   // デバッグ用コード
   useEffect(() => {
-    console.log(yourPosts, "お前誰？");
-  }, [yourPosts]);
+    if (yourPosts) console.log(findPostUid, "お前誰？");
+  }, [findPostUid]);
 
   return (
     <Layout>
