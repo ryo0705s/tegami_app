@@ -214,6 +214,28 @@ const post: React.FC = () => {
         alert(error.message);
       });
   };
+  // const hoge = () => {
+  //   db.collection("users")
+  //     .get()
+  //     .then((querySnapshot) => {
+  //       let userLists = [];
+  //       querySnapshot.forEach((doc) => {
+  //         const restData = { ...doc.data() };
+  //         userLists.push({
+  //           id: doc.id,
+  //           avatar: restData.avatar,
+  //           letterName: restData.letterName,
+  //           otherInfo: restData.otherInfo,
+  //           uid: restData.uid,
+  //         });
+  //         const postNumber = userLists.findIndex(
+  //           (userList) => userList.uid === posts.uid
+  //         );
+  //         setFindPostAvatar(userLists[postNumber].avatar);
+  //         console.log(userLists[postNumber].avatar, "写真の人誰？");
+  //       });
+  //     });
+  // };
   const {
     message,
     setMessage,
@@ -237,6 +259,10 @@ const post: React.FC = () => {
     setUserId,
     users,
     setUsers,
+    findPostAvatar,
+    setFindPostAvatar,
+    findCommentAvatar,
+    setFindCommentAvatar,
   } = useContext(AppContext);
 
   const likesRef = db.collection("posts").doc(posts.id);
@@ -283,18 +309,54 @@ const post: React.FC = () => {
     });
   }, [posts]);
 
-  useEffect(() => {});
+  useEffect(() => {
+    const commentUids = comments.map((comment) => {
+      comment.commentUid;
+    });
+    console.log(commentUids, "コメント出てる？");
+    db.collection("users")
+      .get()
+      .then((querySnapshot) => {
+        let userLists = [];
+        querySnapshot.forEach((doc) => {
+          const restData = { ...doc.data() };
+          userLists.push({
+            id: doc.id,
+            avatar: restData.avatar,
+            letterName: restData.letterName,
+            otherInfo: restData.otherInfo,
+            uid: restData.uid,
+          });
+        });
+        const commentNumber = userLists.findIndex(
+          (userList) => userList.uid === commentUids
+        );
+        // console.log(userLists, "ユーザーリスト");→○
+        commentNumber !== -1
+          ? console.log(commentNumber, "コメントナンバー")
+          : "";
+        // setFindCommentAvatar(userLists[commentNumber].avatar);
+        // console.log(userLists[commentNumber].avatar, "写真の人誰？");
+      });
+  }, [comments]);
 
   // デバッグ用
-  useEffect(() => {
-    console.log(clickedId, "呼ばれてますか？");
-  }, [clickedId]);
+  // useEffect(() => {
+  //   console.log(commentUids, "呼ばれてますか？");
+  // }, [commentUids]);
   useEffect(() => {
     console.log(posts.likeCount, "ポストクラブ");
   }, [posts.likeCount]);
 
   return (
     <Layout>
+      <img
+        src={findPostAvatar}
+        alt="prof"
+        width="30"
+        height="30"
+        onClick={() => router.push("./userInfo")}
+      />
       <img src={posts.image} width="400" height="500" />
       <IconButton>
         <label>
@@ -361,6 +423,13 @@ const post: React.FC = () => {
           comments.map((comment, index) => {
             return (
               <li>
+                <img
+                  src={findCommentAvatar}
+                  alt="prof"
+                  width="30"
+                  height="30"
+                  onClick={() => router.push("./userInfo")}
+                />
                 <div>{comment.text}</div>
                 <Button
                   variant="contained"

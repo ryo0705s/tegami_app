@@ -18,6 +18,8 @@ const posting: React.FC = () => {
     setPictureUrl,
     userId,
     setUserId,
+    users,
+    setUsers,
   } = useContext(AppContext);
   const router = useRouter();
 
@@ -54,7 +56,7 @@ const posting: React.FC = () => {
       .add({
         image: pictureUrl,
         text: message,
-        uid: userId,
+        uid: users.uid,
       })
       .then((result) => {
         return result;

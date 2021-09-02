@@ -44,7 +44,7 @@ const login: React.FC = () => {
     currentLogin();
     setEmail("");
     setPassword("");
-    router.push("/");
+    // router.push("/");
   };
 
   const googleLogin = async () => {
@@ -57,7 +57,7 @@ const login: React.FC = () => {
         alert(error.message);
       });
     currentLogin();
-    router.push("/");
+    // router.push("/");
   };
 
   const anonymousLogin = async () => {
@@ -70,7 +70,6 @@ const login: React.FC = () => {
         alert(error.message);
       });
     currentLogin();
-    router.push("/");
   };
 
   const currentLogin = async () => {
@@ -81,6 +80,7 @@ const login: React.FC = () => {
       // const photoURL = authUser.photoURL;
       // const emailVerified = authUser.emailVerified;
       const authUid = authUser.uid;
+
       await db
         .collection("users")
         .get()
@@ -113,27 +113,29 @@ const login: React.FC = () => {
   };
 
   useEffect(() => {
-    setTimeout(async () => {
-      const docRef = await db.collection("users").doc(loginedId);
-      docRef
-        .get()
-        .then((doc) => {
-          if (doc.exists) {
-            setUsers({
-              id: doc.id,
-              avatar: doc.data().avatar,
-              letterName: doc.data().letterName,
-              otherInfo: doc.data().otherInfo,
-              uid: doc.data().uid,
-            });
-          } else {
-            console.log("No such document!");
-          }
-        })
-        .catch((error) => {
-          alert(error.message);
-        });
-    }, 20000);
+    if (loginedId)
+      (async () => {
+        const docRef = await db.collection("users").doc(loginedId);
+        docRef
+          .get()
+          .then((doc) => {
+            if (doc.exists) {
+              setUsers({
+                id: doc.id,
+                avatar: doc.data().avatar,
+                letterName: doc.data().letterName,
+                otherInfo: doc.data().otherInfo,
+                uid: doc.data().uid,
+              });
+              router.push("/");
+            } else {
+              console.log("No such document!");
+            }
+          })
+          .catch((error) => {
+            alert(error.message);
+          });
+      })();
   }, [loginedId]);
 
   useEffect(() => {

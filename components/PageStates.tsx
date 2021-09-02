@@ -41,6 +41,10 @@ function PageStates({ children }): React.FC {
     uid: "",
   });
   const [authUserId, setAuthUserId] = useState("");
+  const [findPostAvatar, setFindPostAvatar] = useState("");
+  const [findCommentAvatar, setFindCommentAvatar] = useState("");
+  const [findPostUid, setFindPostUid] = useState("");
+
   const value = {
     posts,
     setPosts,
@@ -78,6 +82,12 @@ function PageStates({ children }): React.FC {
     setLikedUids,
     authUserId,
     setAuthUserId,
+    findPostAvatar,
+    setFindPostAvatar,
+    findPostUid,
+    setFindPostUid,
+    findCommentAvatar,
+    setFindCommentAvatar,
   };
   return (
     <div>
