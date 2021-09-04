@@ -54,7 +54,7 @@ const post: React.FC = () => {
     liked: "",
     likedUid: "",
   });
-  const [clickedPostId, setClickedPostId] = useState("");
+  // const [clickedPostId, setClickedPostId] = useState("");
   const editText = (e) => {
     setMessage(e.target.value);
     setClickedPost([
@@ -70,12 +70,12 @@ const post: React.FC = () => {
     ]);
     console.log(posts.image, "写真読み込み");
     db.collection("posts")
-      .doc(clickedPostId)
+      .doc(clickedPost.id)
       .update({
         text: e.target.value,
       })
       .then((result) => {
-        const docRef = db.collection("posts").doc(clickedPostId);
+        const docRef = db.collection("posts").doc(clickedPost.id);
         docRef
           .get()
           .then((doc) => {
@@ -99,7 +99,7 @@ const post: React.FC = () => {
   };
   const handleDelete = () => {
     db.collection("posts")
-      .doc(clickedPostId)
+      .doc(clickedPost.id)
       .delete()
       .then(() => {
         router.push("/postLists");
@@ -137,7 +137,7 @@ const post: React.FC = () => {
     };
     const complete = function () {
       db.collection("posts")
-        .doc(clickedPostId)
+        .doc(clickedPost.id)
         .update({
           image: clickedPost.image,
         })
@@ -283,27 +283,28 @@ const post: React.FC = () => {
   //   .collection("comments");
 
   useEffect(() => {
-    db.collection("posts")
-      .doc(clickedId)
-      .get()
-      .then((doc) => {
-        setClickedPost({
-          id: doc.id,
-          image: doc.data().image,
-          text: doc.data().text,
-          uid: doc.data().uid,
-          likeCount: doc.data().likeCount,
-          liked: doc.data().liked,
-          likedUid: doc.data().likedUid,
+    if (clickedId)
+      db.collection("posts")
+        .doc(clickedId)
+        .get()
+        .then((doc) => {
+          setClickedPost({
+            id: doc.id,
+            image: doc.data().image,
+            text: doc.data().text,
+            uid: doc.data().uid,
+            likeCount: doc.data().likeCount,
+            liked: doc.data().liked,
+            likedUid: doc.data().likedUid,
+          });
+          // clickedId→clickedPostIdに渡すことによりバックボタンで前ページに戻れるようにした
+          // setClickedPostId(clickedId);
+          setClickedId("");
+        })
+        .catch((error) => {
+          alert(error.message);
         });
-        // clickedId→clickedPostIdに渡すことによりバックボタンで前ページに戻れるようにした
-        setClickedPostId(clickedId);
-        setClickedId("");
-      })
-      .catch((error) => {
-        alert(error.message);
-      });
-  }, []);
+  }, [clickedId]);
   // const hogege = () => {
   //   db.collection("posts")
   //     .doc(clickedPost.id)
