@@ -17,6 +17,7 @@ function PageStates({ children }): React.FC {
   const [pictures, setPictures] = useState([""]);
   const [clickedId, setClickedId] = useState("");
   const [edited, setEdited] = useState(false);
+  const [updated, setUpdated] = useState(false);
   const [message, setMessage] = useState("");
   const [pictureUrl, setPictureUrl] = useState("");
   const [userId, setUserId] = useState("");
@@ -54,6 +55,8 @@ function PageStates({ children }): React.FC {
     setClickedId,
     edited,
     setEdited,
+    updated,
+    setUpdated,
     message,
     setMessage,
     pictureUrl,

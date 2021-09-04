@@ -13,16 +13,6 @@ import styles from "../components/post.module.scss";
 import user from "./user";
 
 const post: React.FC = () => {
-  // function doReload() {
-  //   // reloadメソッドによりページをリロード
-  //   window.location.reload();
-  // }
-
-  // window.addEventListener("load", function () {
-  //   // ページ表示完了した5秒後にリロード
-  //   setTimeout(doReload, 5000);
-  // });
-
   const router = useRouter();
   const [comments, setComments] = useState([
     {
@@ -56,25 +46,31 @@ const post: React.FC = () => {
   });
   // const [clickedPostId, setClickedPostId] = useState("");
   const editText = (e) => {
-    setMessage(e.target.value);
-    setClickedPost([
-      {
-        id: posts.id,
-        image: posts.image,
-        text: message,
-        uid: posts.uid,
-        likeCount: posts.likeCount,
-        liked: posts.liked,
-        likedUid: posts.likedUid,
-      },
-    ]);
-    console.log(posts.image, "写真読み込み");
+    // setMessage(e.target.value);
+    setClickedPost({
+      id: clickedPost.id,
+      image: clickedPost.image,
+      text: e.target.value,
+      uid: clickedPost.uid,
+      likeCount: clickedPost.likeCount,
+      liked: clickedPost.liked,
+      likedUid: clickedPost.likedUid,
+    });
+    // console.log(posts.image, "写真読み込み");
+  };
+  const updateText = () => {
     db.collection("posts")
       .doc(clickedPost.id)
-      .update({
-        text: e.target.value,
+      .set({
+        id: clickedPost.id,
+        image: clickedPost.image,
+        text: clickedPost.text,
+        uid: clickedPost.uid,
+        likeCount: clickedPost.likeCount,
+        liked: clickedPost.liked,
+        likedUid: clickedPost.likedUid,
       })
-      .then((result) => {
+      .then(() => {
         const docRef = db.collection("posts").doc(clickedPost.id);
         docRef
           .get()
@@ -92,11 +88,11 @@ const post: React.FC = () => {
           .catch((error) => {
             alert(error.message);
           });
-      })
-      .catch((error) => {
-        alert(error.message);
       });
+    setEdited(!edited);
+    setUpdated(!updated);
   };
+
   const handleDelete = () => {
     db.collection("posts")
       .doc(clickedPost.id)
@@ -117,16 +113,16 @@ const post: React.FC = () => {
         .then(function (URL) {
           setPictureUrl(URL);
           setClickedPost({
-            id: posts.id,
+            id: clickedPost.id,
             image: URL,
-            text: posts.text,
-            uid: posts.uid,
-            likeCount: posts.likeCount,
-            liked: posts.liked,
-            likedUid: posts.likedUid,
+            text: clickedPost.text,
+            uid: clickedPost.uid,
+            likeCount: clickedPost.likeCount,
+            liked: clickedPost.liked,
+            likedUid: clickedPost.likedUid,
           });
           console.log(URL, "アドレス１");
-          console.log(posts.image, "アドレス1+");
+          // console.log(posts.image, "アドレス1+");
         })
         .catch(function (error) {
           alert(error.message);
@@ -205,7 +201,7 @@ const post: React.FC = () => {
         commented: true,
       });
     setCommentText({ comment: "", commented: true });
-    window.location.reload();
+    setClickedId(clickedPost.id);
   };
   const editComment = (comment, index) => {
     setUpdateCommentText({
@@ -228,7 +224,7 @@ const post: React.FC = () => {
       comment: "",
       edited: false,
     });
-    window.location.reload();
+    setClickedId(clickedPost.id);
   };
   const deleteComment = (comment, index) => {
     db.collection("posts")
@@ -237,7 +233,7 @@ const post: React.FC = () => {
       .doc(comment.id)
       .delete()
       .then(() => {
-        window.location.reload();
+        setClickedId(clickedPost.id);
       })
       .catch((error) => {
         alert(error.message);
@@ -253,6 +249,8 @@ const post: React.FC = () => {
     setClickedId,
     edited,
     setEdited,
+    updated,
+    setUpdated,
     pictureUrl,
     setPictureUrl,
     // likes,
@@ -385,7 +383,7 @@ const post: React.FC = () => {
   //   console.log(commentUids, "呼ばれてますか？");
   // }, [commentUids]);
   useEffect(() => {
-    console.log(clickedPost, "ポストクラブ");
+    console.log(clickedPost.id, "ポストクラブ");
   }, [clickedPost]);
 
   return (
@@ -426,16 +424,28 @@ const post: React.FC = () => {
           onChange={editText}
         />
       )}
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={() => setEdited(!edited)}
-      >
-        編集
-      </Button>
-      <Button variant="contained" color="secondary" onClick={handleDelete}>
-        削除
-      </Button>
+      {!updated ? (
+        <>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => {
+              setEdited(!edited);
+              setUpdated(!updated);
+            }}
+          >
+            編集
+          </Button>
+          <Button variant="contained" color="secondary" onClick={handleDelete}>
+            削除
+          </Button>
+        </>
+      ) : (
+        <Button variant="contained" color="primary" onClick={updateText}>
+          完了
+        </Button>
+      )}
+
       <br />
       {!commentText.commented ? (
         <>
