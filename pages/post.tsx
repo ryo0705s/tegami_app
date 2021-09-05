@@ -13,16 +13,6 @@ import styles from "../components/post.module.scss";
 import user from "./user";
 
 const post: React.FC = () => {
-  // function doReload() {
-  //   // reloadメソッドによりページをリロード
-  //   window.location.reload();
-  // }
-
-  // window.addEventListener("load", function () {
-  //   // ページ表示完了した5秒後にリロード
-  //   setTimeout(doReload, 5000);
-  // });
-
   const router = useRouter();
   const [comments, setComments] = useState([
     {
@@ -44,31 +34,48 @@ const post: React.FC = () => {
     comment: "",
     edited: false,
   });
+
+  const [clickedPost, setClickedPost] = useState({
+    id: "",
+    image: "",
+    text: "",
+    uid: "",
+    likeCount: "",
+    liked: "",
+    likedUid: "",
+  });
+  // const [clickedPostId, setClickedPostId] = useState("");
   const editText = (e) => {
-    setMessage(e.target.value);
-    setPosts([
-      {
-        id: posts.id,
-        image: posts.image,
-        text: message,
-        uid: posts.uid,
-        likeCount: posts.likeCount,
-        liked: posts.liked,
-        likedUid: posts.likedUid,
-      },
-    ]);
-    console.log(posts.image, "写真読み込み");
+    // setMessage(e.target.value);
+    setClickedPost({
+      id: clickedPost.id,
+      image: clickedPost.image,
+      text: e.target.value,
+      uid: clickedPost.uid,
+      likeCount: clickedPost.likeCount,
+      liked: clickedPost.liked,
+      likedUid: clickedPost.likedUid,
+    });
+    // console.log(posts.image, "写真読み込み");
+  };
+  const updateText = () => {
     db.collection("posts")
-      .doc(clickedId)
-      .update({
-        text: e.target.value,
+      .doc(clickedPost.id)
+      .set({
+        id: clickedPost.id,
+        image: clickedPost.image,
+        text: clickedPost.text,
+        uid: clickedPost.uid,
+        likeCount: clickedPost.likeCount,
+        liked: clickedPost.liked,
+        likedUid: clickedPost.likedUid,
       })
-      .then((result) => {
-        const docRef = db.collection("posts").doc(clickedId);
+      .then(() => {
+        const docRef = db.collection("posts").doc(clickedPost.id);
         docRef
           .get()
           .then((doc) => {
-            setPosts({
+            setClickedPost({
               id: doc.id,
               image: doc.data().image,
               text: doc.data().text,
@@ -81,14 +88,14 @@ const post: React.FC = () => {
           .catch((error) => {
             alert(error.message);
           });
-      })
-      .catch((error) => {
-        alert(error.message);
       });
+    setEdited(!edited);
+    setUpdated(!updated);
   };
+
   const handleDelete = () => {
     db.collection("posts")
-      .doc(clickedId)
+      .doc(clickedPost.id)
       .delete()
       .then(() => {
         router.push("/postLists");
@@ -97,92 +104,87 @@ const post: React.FC = () => {
         alert(error.message);
       });
   };
-  const handlePicture = (e: any) => {
-    const next = function () {
-      storage
-        .ref()
-        .child(`/images/${e.target.files[0].name}`)
-        .getDownloadURL()
-        .then(function (URL) {
-          setPictureUrl(URL);
-          setPosts({
-            id: posts.id,
-            image: URL,
-            text: posts.text,
-            uid: posts.uid,
-            likeCount: posts.likeCount,
-            liked: posts.liked,
-            likedUid: posts.likedUid,
-          });
-          console.log(URL, "アドレス１");
-          console.log(posts.image, "アドレス1+");
-        })
-        .catch(function (error) {
-          alert(error.message);
-        });
-    };
-    const error = function (error) {
-      alert(error.message);
-    };
-    const complete = function () {
-      db.collection("posts")
-        .doc(clickedId)
-        .update({
-          image: posts.image,
-        })
-        .catch((error) => {
-          alert(error.message);
-        });
-      console.log(posts.image, "アドレス２");
-    };
-    const uploadPicture = storage
+  const handlePicture = async (e: any) => {
+    // storageからURLを取得
+    await storage
       .ref(`/images/${e.target.files[0].name}`)
       .put(e.target.files[0]);
 
-    uploadPicture.on(
-      firebase.storage.TaskEvent.STATE_CHANGED,
-      next,
-      error,
-      complete
-    );
+    // storageから画像のURLを取得し、clickedPostに保存
+    const uploadPicture = await storage
+      .ref()
+      .child(`/images/${e.target.files[0].name}`)
+      .getDownloadURL();
+
+    setClickedPost({
+      id: clickedPost.id,
+      image: uploadPicture,
+      text: clickedPost.text,
+      uid: clickedPost.uid,
+      likeCount: clickedPost.likeCount,
+      liked: clickedPost.liked,
+      likedUid: clickedPost.likedUid,
+    });
+
+    // firebaseStorageに写真をアップロード
+    db.collection("posts")
+      .doc(clickedPost.id)
+      .update({
+        image: uploadPicture,
+      })
+      .catch((error) => {
+        alert(error.message);
+      });
   };
 
   const handleLike = () => {
-    likesRef.update({
-      likedUid: firebase.firestore.FieldValue.arrayUnion(users.uid),
-    });
+    db.collection("posts")
+      .doc(clickedPost.id)
+      .update({
+        likedUid: firebase.firestore.FieldValue.arrayUnion(users.uid),
+      });
 
-    likesRef.update({
-      likeCount: firebase.firestore.FieldValue.increment(1),
-    });
+    db.collection("posts")
+      .doc(clickedPost.id)
+      .update({
+        likeCount: firebase.firestore.FieldValue.increment(1),
+      });
     setLiked(!liked);
-    likesRef.update({
+    db.collection("posts").doc(clickedPost.id).update({
       liked: true,
     });
     // console.log(likes, "likeの状況教えて！");
   };
   const handleUnLike = () => {
-    likesRef.update({
-      likedUid: firebase.firestore.FieldValue.arrayRemove(users.uid),
-    });
+    db.collection("posts")
+      .doc(clickedPost.id)
+      .update({
+        likedUid: firebase.firestore.FieldValue.arrayRemove(users.uid),
+      });
 
-    likesRef.update({
-      likeCount: firebase.firestore.FieldValue.increment(-1),
-    });
+    db.collection("posts")
+      .doc(clickedPost.id)
+      .update({
+        likeCount: firebase.firestore.FieldValue.increment(-1),
+      });
     setLiked(!liked);
-    likesRef.update({
+    db.collection("posts").doc(clickedPost.id).update({
       liked: false,
     });
   };
 
   const createComment = () => {
-    commentRef.doc().set({
-      commentUid: users.uid,
-      text: commentText.comment,
-      commented: true,
-    });
+    db.collection("posts")
+      .doc(clickedPost.id)
+      .collection("comments")
+      .doc()
+      .set({
+        commentUid: users.uid,
+        text: commentText.comment,
+        commented: true,
+      });
     setCommentText({ comment: "", commented: true });
-    window.location.reload();
+    setClickedId(clickedPost.id);
   };
   const editComment = (comment, index) => {
     setUpdateCommentText({
@@ -193,49 +195,34 @@ const post: React.FC = () => {
   };
 
   const updateComment = () => {
-    commentRef.doc(updateCommentText.id).update({
-      text: updateCommentText.comment,
-    });
+    db.collection("posts")
+      .doc(clickedPost.id)
+      .collection("comments")
+      .doc(updateCommentText.id)
+      .update({
+        text: updateCommentText.comment,
+      });
     setUpdateCommentText({
       id: "",
       comment: "",
       edited: false,
     });
-    window.location.reload();
+    setClickedId(clickedPost.id);
   };
   const deleteComment = (comment, index) => {
-    commentRef
+    db.collection("posts")
+      .doc(clickedPost.id)
+      .collection("comments")
       .doc(comment.id)
       .delete()
       .then(() => {
-        window.location.reload();
+        setClickedId(clickedPost.id);
       })
       .catch((error) => {
         alert(error.message);
       });
   };
-  // const hoge = () => {
-  //   db.collection("users")
-  //     .get()
-  //     .then((querySnapshot) => {
-  //       let userLists = [];
-  //       querySnapshot.forEach((doc) => {
-  //         const restData = { ...doc.data() };
-  //         userLists.push({
-  //           id: doc.id,
-  //           avatar: restData.avatar,
-  //           letterName: restData.letterName,
-  //           otherInfo: restData.otherInfo,
-  //           uid: restData.uid,
-  //         });
-  //         const postNumber = userLists.findIndex(
-  //           (userList) => userList.uid === posts.uid
-  //         );
-  //         setFindPostAvatar(userLists[postNumber].avatar);
-  //         console.log(userLists[postNumber].avatar, "写真の人誰？");
-  //       });
-  //     });
-  // };
+
   const {
     message,
     setMessage,
@@ -245,8 +232,10 @@ const post: React.FC = () => {
     setClickedId,
     edited,
     setEdited,
-    pictureUrl,
-    setPictureUrl,
+    updated,
+    setUpdated,
+    // pictureUrl,
+    // setPictureUrl,
     // likes,
     // setLikes,
     likeCount,
@@ -265,49 +254,81 @@ const post: React.FC = () => {
     setFindCommentAvatar,
   } = useContext(AppContext);
 
-  const likesRef = db.collection("posts").doc(posts.id);
+  // const likesRef = db.collection("posts").doc(clickedPost.id);
   // .collection("likes")
   // .doc("djJtq6u4uNhQl3V2q6ns");
 
-  const commentRef = db
-    .collection("posts")
-    .doc(posts.id)
-    .collection("comments");
+  // const commentRef = db
+  //   .collection("posts")
+  //   .doc(clickedPost.id)
+  //   .collection("comments");
 
   useEffect(() => {
-    const docRef = db.collection("posts").doc(clickedId);
-    docRef
-      .get()
-      .then((doc) => {
-        setPosts({
-          id: doc.id,
-          image: doc.data().image,
-          text: doc.data().text,
-          uid: doc.data().uid,
-          likeCount: doc.data().likeCount,
-          liked: doc.data().liked,
-          likedUid: doc.data().likedUid,
+    if (clickedId)
+      db.collection("posts")
+        .doc(clickedId)
+        .get()
+        .then((doc) => {
+          setClickedPost({
+            id: doc.id,
+            image: doc.data().image,
+            text: doc.data().text,
+            uid: doc.data().uid,
+            likeCount: doc.data().likeCount,
+            liked: doc.data().liked,
+            likedUid: doc.data().likedUid,
+          });
+          // clickedId→clickedPostIdに渡すことによりバックボタンで前ページに戻れるようにした
+          // setClickedPostId(clickedId);
+          setClickedId("");
+        })
+        .catch((error) => {
+          alert(error.message);
         });
-      })
-      .catch((error) => {
-        alert(error.message);
-      });
-  }, []);
-
+  }, [clickedId]);
+  // const hogege = () => {
+  //   db.collection("posts")
+  //     .doc(clickedPost.id)
+  //     .collection("comments")
+  //     .get()
+  //     .then((querySnapshot) => {
+  //       let commentlists = [];
+  //       querySnapshot.forEach((doc) => {
+  //         commentlists.push({
+  //           id: doc.id,
+  //           commentUid: doc.data().commentUid,
+  //           commented: doc.data().commented,
+  //           text: doc.data().text,
+  //         });
+  //       });
+  //       setComments(commentlists);
+  //     });
+  // };
+  // useEffect(() => {
+  //   if (clickedPost.id) hogege();
+  // }, [clickedPost]);
   useEffect(() => {
-    commentRef.get().then((querySnapshot) => {
-      let commentlists = [];
-      querySnapshot.forEach((doc) => {
-        commentlists.push({
-          id: doc.id,
-          commentUid: doc.data().commentUid,
-          commented: doc.data().commented,
-          text: doc.data().text,
-        });
-      });
-      setComments(commentlists);
-    });
-  }, [posts]);
+    if (clickedPost.id)
+      (async () => {
+        await db
+          .collection("posts")
+          .doc(clickedPost.id)
+          .collection("comments")
+          .get()
+          .then((querySnapshot) => {
+            let commentlists = [];
+            querySnapshot.forEach((doc) => {
+              commentlists.push({
+                id: doc.id,
+                commentUid: doc.data().commentUid,
+                commented: doc.data().commented,
+                text: doc.data().text,
+              });
+            });
+            setComments(commentlists);
+          });
+      })();
+  }, [clickedPost]);
 
   useEffect(() => {
     const commentUids = comments.map((comment) => {
@@ -345,8 +366,8 @@ const post: React.FC = () => {
   //   console.log(commentUids, "呼ばれてますか？");
   // }, [commentUids]);
   useEffect(() => {
-    console.log(posts.likeCount, "ポストクラブ");
-  }, [posts.likeCount]);
+    console.log(clickedPost.image, "ポストクラブ");
+  }, [clickedPost]);
 
   return (
     <Layout>
@@ -357,7 +378,7 @@ const post: React.FC = () => {
         height="30"
         onClick={() => router.push("./userInfo")}
       />
-      <img src={posts.image} width="400" height="500" />
+      <img src={clickedPost.image} width="400" height="500" />
       <IconButton>
         <label>
           <PhotoCameraIcon />
@@ -373,29 +394,41 @@ const post: React.FC = () => {
           <ThumbUpAltIcon />
         </label>
       </IconButton>
-      <div>{posts.likeCount}</div>
+      <div>{clickedPost.likeCount}</div>
       <p>説明</p>
       {!edited ? (
-        <div>{posts.text}</div>
+        <div>{clickedPost.text}</div>
       ) : (
         <TextField
           multiline
           variant="outlined"
           fullWidth
-          value={posts.text}
+          value={clickedPost.text}
           onChange={editText}
         />
       )}
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={() => setEdited(!edited)}
-      >
-        編集
-      </Button>
-      <Button variant="contained" color="secondary" onClick={handleDelete}>
-        削除
-      </Button>
+      {!updated ? (
+        <>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => {
+              setEdited(!edited);
+              setUpdated(!updated);
+            }}
+          >
+            編集
+          </Button>
+          <Button variant="contained" color="secondary" onClick={handleDelete}>
+            削除
+          </Button>
+        </>
+      ) : (
+        <Button variant="contained" color="primary" onClick={updateText}>
+          完了
+        </Button>
+      )}
+
       <br />
       {!commentText.commented ? (
         <>
