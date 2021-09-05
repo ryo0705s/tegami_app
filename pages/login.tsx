@@ -30,8 +30,7 @@ const login: React.FC = () => {
   } = useContext(AppContext);
 
   const router = useRouter();
-  const [loginedIdNumber, setLoginedIdNumber] = useState(0);
-
+  const [forgotEmail, setForgotEmail] = useState("");
   const handleLogin = async () => {
     await auth
       .signInWithEmailAndPassword(email, password)
@@ -112,6 +111,19 @@ const login: React.FC = () => {
     }
   };
 
+  const forgotLoginInfo = () => {
+    firebase
+      .auth()
+      .sendPasswordResetEmail(forgotEmail)
+      .then(() => {
+        setLogined(!logined);
+      })
+      .catch((error) => {
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        // ..
+      });
+  };
   useEffect(() => {
     if (loginedId)
       (async () => {
@@ -179,7 +191,28 @@ const login: React.FC = () => {
         <br />
         <p onClick={anonymousLogin}>ゲストログイン</p>
         <br />
-        <p>パスワードを忘れた</p>
+        <p onClick={() => setLogined(!logined)}>パスワードを忘れた</p>
+        {logined ? (
+          <>
+            <span>メール</span>
+            <TextField
+              type="email"
+              onChange={(
+                e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+              ) => setForgotEmail(e.target.value)}
+            />
+            <Button
+              variant="contained"
+              color="primary"
+              value={forgotEmail}
+              onClick={forgotLoginInfo}
+            >
+              送信
+            </Button>
+          </>
+        ) : (
+          ""
+        )}
         <br />
         <p>
           <Link href="/loginUser">アカウントを作成する</Link>
