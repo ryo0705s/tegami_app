@@ -104,54 +104,37 @@ const post: React.FC = () => {
         alert(error.message);
       });
   };
-  const handlePicture = (e: any) => {
-    const next = function () {
-      storage
-        .ref()
-        .child(`/images/${e.target.files[0].name}`)
-        .getDownloadURL()
-        .then(function (URL) {
-          setPictureUrl(URL);
-          setClickedPost({
-            id: clickedPost.id,
-            image: URL,
-            text: clickedPost.text,
-            uid: clickedPost.uid,
-            likeCount: clickedPost.likeCount,
-            liked: clickedPost.liked,
-            likedUid: clickedPost.likedUid,
-          });
-          console.log(URL, "アドレス１");
-          // console.log(posts.image, "アドレス1+");
-        })
-        .catch(function (error) {
-          alert(error.message);
-        });
-    };
-    const error = function (error) {
-      alert(error.message);
-    };
-    const complete = function () {
-      db.collection("posts")
-        .doc(clickedPost.id)
-        .update({
-          image: clickedPost.image,
-        })
-        .catch((error) => {
-          alert(error.message);
-        });
-      console.log(clickedPost.image, "アドレス２");
-    };
-    const uploadPicture = storage
+  const handlePicture = async (e: any) => {
+    // storageからURLを取得
+    await storage
       .ref(`/images/${e.target.files[0].name}`)
       .put(e.target.files[0]);
 
-    uploadPicture.on(
-      firebase.storage.TaskEvent.STATE_CHANGED,
-      next,
-      error,
-      complete
-    );
+    // storageから画像のURLを取得し、clickedPostに保存
+    const uploadPicture = await storage
+      .ref()
+      .child(`/images/${e.target.files[0].name}`)
+      .getDownloadURL();
+
+    setClickedPost({
+      id: clickedPost.id,
+      image: uploadPicture,
+      text: clickedPost.text,
+      uid: clickedPost.uid,
+      likeCount: clickedPost.likeCount,
+      liked: clickedPost.liked,
+      likedUid: clickedPost.likedUid,
+    });
+
+    // firebaseStorageに写真をアップロード
+    db.collection("posts")
+      .doc(clickedPost.id)
+      .update({
+        image: uploadPicture,
+      })
+      .catch((error) => {
+        alert(error.message);
+      });
   };
 
   const handleLike = () => {
@@ -251,8 +234,8 @@ const post: React.FC = () => {
     setEdited,
     updated,
     setUpdated,
-    pictureUrl,
-    setPictureUrl,
+    // pictureUrl,
+    // setPictureUrl,
     // likes,
     // setLikes,
     likeCount,
@@ -383,7 +366,7 @@ const post: React.FC = () => {
   //   console.log(commentUids, "呼ばれてますか？");
   // }, [commentUids]);
   useEffect(() => {
-    console.log(clickedPost.id, "ポストクラブ");
+    console.log(clickedPost.image, "ポストクラブ");
   }, [clickedPost]);
 
   return (
