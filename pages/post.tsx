@@ -18,6 +18,7 @@ const post: React.FC = () => {
     {
       id: "",
       commentUid: "",
+      commentAvatar: "",
       commented: false,
       text: "",
     },
@@ -189,6 +190,7 @@ const post: React.FC = () => {
       .set({
         commentUid: users.uid,
         text: commentText.comment,
+        commentAvatar: users.avatar,
         commented: true,
       });
     setCommentText({ comment: "", commented: true });
@@ -330,6 +332,7 @@ const post: React.FC = () => {
                 id: doc.id,
                 commentUid: doc.data().commentUid,
                 commented: doc.data().commented,
+                commentAvatar: doc.data().commentAvatar,
                 text: doc.data().text,
               });
             });
@@ -342,36 +345,36 @@ const post: React.FC = () => {
   const commentUids: string[] = comments.map((comment) => {
     return comment.commentUid;
   });
-  useEffect(() => {
-    // ①ユーザーコレクションからドキュメント一覧を取得
-    db.collection("users")
-      .get()
-      .then((querySnapshot) => {
-        let userLists = [];
-        querySnapshot.forEach((doc) => {
-          const restData = { ...doc.data() };
-          userLists.push({
-            id: doc.id,
-            avatar: restData.avatar,
-            letterName: restData.letterName,
-            otherInfo: restData.otherInfo,
-            uid: restData.uid,
-          });
-        });
-        // ②コメント一覧とユーザー一覧のuidを照合させて、
-        // ユーザー一覧の何番目かを出力し、合致するアバターの写真を出力したい
-        const commentNumber = userLists.findIndex(
-          (userList) => userList.uid === commentUids
-        );
-        // console.log(userLists, "ユーザーリスト");→○
-        // console.log(commentNumber, "コメントナンバー");
-        commentNumber !== -1
-          ? setFindCommentAvatar(userLists[commentNumber].avatar)
-          : "";
+  // useEffect(() => {
+  //   // ①ユーザーコレクションからドキュメント一覧を取得
+  //   db.collection("users")
+  //     .get()
+  //     .then((querySnapshot) => {
+  //       let userLists = [];
+  //       querySnapshot.forEach((doc) => {
+  //         const restData = { ...doc.data() };
+  //         userLists.push({
+  //           id: doc.id,
+  //           avatar: restData.avatar,
+  //           letterName: restData.letterName,
+  //           otherInfo: restData.otherInfo,
+  //           uid: restData.uid,
+  //         });
+  //       });
+  //       // ②コメント一覧とユーザー一覧のuidを照合させて、
+  //       // ユーザー一覧の何番目かを出力し、合致するアバターの写真を出力したい
+  //       const commentNumber = userLists.findIndex(
+  //         (userList) => userList.uid === commentUids
+  //       );
+  //       // console.log(userLists, "ユーザーリスト");→○
+  //       // console.log(commentNumber, "コメントナンバー");
+  //       commentNumber !== -1
+  //         ? setFindCommentAvatar(userLists[commentNumber].avatar)
+  //         : "";
 
-        // console.log(userLists[commentNumber].avatar, "写真の人誰？");
-      });
-  }, [comments]);
+  //       // console.log(userLists[commentNumber].avatar, "写真の人誰？");
+  //     });
+  // }, [comments]);
 
   // デバッグ用
   // useEffect(() => {
@@ -475,7 +478,7 @@ const post: React.FC = () => {
             return (
               <li>
                 <img
-                  src={findCommentAvatar}
+                  src={comment.commentAvatar}
                   alt="prof"
                   width="30"
                   height="30"
