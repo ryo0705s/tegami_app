@@ -149,11 +149,19 @@ const post: React.FC = () => {
       .update({
         likeCount: firebase.firestore.FieldValue.increment(1),
       });
+    // db.collection("posts").doc(clickedPost.id).update({
+    //   liked: true,
+    // });
     setLiked(!liked);
-    db.collection("posts").doc(clickedPost.id).update({
-      liked: true,
+    setClickedPost({
+      id: clickedPost.id,
+      image: clickedPost.image,
+      text: clickedPost.text,
+      uid: clickedPost.uid,
+      likeCount: firebase.firestore.FieldValue.arrayUnion(users.uid),
+      liked: clickedPost.liked,
+      likedUid: firebase.firestore.FieldValue.arrayUnion(users.uid),
     });
-    // console.log(likes, "likeの状況教えて！");
   };
   const handleUnLike = () => {
     db.collection("posts")
@@ -167,10 +175,10 @@ const post: React.FC = () => {
       .update({
         likeCount: firebase.firestore.FieldValue.increment(-1),
       });
+    // db.collection("posts").doc(clickedPost.id).update({
+    //   liked: false,
+    // });
     setLiked(!liked);
-    db.collection("posts").doc(clickedPost.id).update({
-      liked: false,
-    });
   };
 
   const createComment = () => {
@@ -330,11 +338,12 @@ const post: React.FC = () => {
       })();
   }, [clickedPost]);
 
+  // コメント一覧をmapでレンダリング
+  const commentUids: string[] = comments.map((comment) => {
+    return comment.commentUid;
+  });
   useEffect(() => {
-    const commentUids = comments.map((comment) => {
-      comment.commentUid;
-    });
-    console.log(commentUids, "コメント出てる？");
+    // ①ユーザーコレクションからドキュメント一覧を取得
     db.collection("users")
       .get()
       .then((querySnapshot) => {
@@ -349,14 +358,17 @@ const post: React.FC = () => {
             uid: restData.uid,
           });
         });
+        // ②コメント一覧とユーザー一覧のuidを照合させて、
+        // ユーザー一覧の何番目かを出力し、合致するアバターの写真を出力したい
         const commentNumber = userLists.findIndex(
           (userList) => userList.uid === commentUids
         );
         // console.log(userLists, "ユーザーリスト");→○
+        // console.log(commentNumber, "コメントナンバー");
         commentNumber !== -1
-          ? console.log(commentNumber, "コメントナンバー")
+          ? setFindCommentAvatar(userLists[commentNumber].avatar)
           : "";
-        // setFindCommentAvatar(userLists[commentNumber].avatar);
+
         // console.log(userLists[commentNumber].avatar, "写真の人誰？");
       });
   }, [comments]);
@@ -371,6 +383,12 @@ const post: React.FC = () => {
 
   return (
     <Layout>
+      {/* <ul>
+        {commentUids &&
+          commentUids.map((commentUid) => {
+            return <li>{commentUid}</li>;
+          })}
+      </ul> */}
       <img
         src={findPostAvatar}
         alt="prof"

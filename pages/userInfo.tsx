@@ -13,7 +13,17 @@ import postLists from "./postLists";
 
 const userInfo: React.FC = () => {
   const router = useRouter();
-  const [yourPosts, setYourPosts] = useState([""]);
+  const [yourPosts, setYourPosts] = useState([
+    {
+      id: "",
+      image: "",
+      text: "",
+      uid: "",
+      likeCount: 0,
+      liked: false,
+      likedUid: [""],
+    },
+  ]);
   const createLetterName = (e) => {
     setUsers({
       id: users.id,
@@ -125,37 +135,55 @@ const userInfo: React.FC = () => {
   } = useContext(AppContext);
 
   useEffect(() => {
+    // ①postコレクションのドキュメント一覧をpostListsに配列で格納
     db.collection("posts")
-      // .where(posts.uid, "==", users.uid)
+      .where("uid", "==", findPostUid)
       .get()
       .then((querySnapshot) => {
         let postLists = [];
         querySnapshot.forEach((doc) => {
+          // postLists.push(doc);
           const restData = { ...doc.data() };
           postLists.push({
             id: doc.id,
             image: restData.image,
             text: restData.text,
             uid: restData.uid,
+            likeCount: restData.likeCount,
+            liked: restData.likedUid,
+            likedUid: restData.likedUid,
           });
+          // setYourPosts([
+          //   {
+          //     id: doc.id,
+          //     image: doc.data().image,
+          //     text: doc.data().text,
+          //     uid: doc.data().uid,
+          //     likeCount: doc.data().likeCount,
+          //     liked: doc.data().likedUid,
+          //     likedUid: doc.data().likedUid,
+          //   },
+          // ]);
         });
-        const yourPostContents = postLists.find((postList) => {
-          postList.uid === findPostUid;
-          // console.log(postList.uid, "ポストリスト出てる？");
-          // この結果がなぜか空配列になってしまう
-          // findPostsUidはYcOAazXArPZYnpXb4S4cietdfcq1が入ってます
-        });
-        if (yourPostContents) setYourPosts(yourPostContents);
-        console.log(postLists, "あはははは");
+        setYourPosts(postLists);
+        // ②postListsから現在選択されている投稿の投稿者（id=findPostUid）の投稿を全て見つけて表示させる
+        // const yourPostContents = postLists.filter((postList) => {
+        //   postList.uid === findPostUid;
+        //   // console.log(postList.uid, "ポストリスト出てる？");
+        //   // この結果がなぜか空配列になってしまう
+        //   // findPostsUidはYcOAazXArPZYnpXb4S4cietdfcq1が入ってます
+        // });
+        // if (yourPostContents) setYourPosts(yourPostContents);
+        // console.log(postLists, "あはははは");
       })
       .catch((error) => {
         console.log("Error getting documents: ", error);
       });
-  });
+  }, []);
   // デバッグ用コード
   useEffect(() => {
-    if (yourPosts) console.log(findPostUid, "お前誰？");
-  }, [findPostUid]);
+    console.log(yourPosts, "お前誰？");
+  }, [yourPosts]);
 
   return (
     <Layout>
@@ -175,10 +203,10 @@ const userInfo: React.FC = () => {
       <div>最近の投稿</div>
       <hr />
       <ul>
-        {/* <li>{yourPosts}</li> */}
+        {/* <li>{yourPosts.text}</li> */}
         {yourPosts &&
           yourPosts.map((yourpost) => {
-            return <li>{yourpost}</li>;
+            return <li>{yourpost.text}</li>;
           })}
       </ul>
     </Layout>
