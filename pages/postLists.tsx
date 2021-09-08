@@ -49,11 +49,14 @@ const postLists = () => {
         // clickedId !== "" ? router.push("/post") : "";
       });
   };
-  const pagePush = () => {
-    router.push("/post");
-  };
+  // const pagePush = () => {
+  //   router.push("/post");
+  // };
   useEffect(() => {
-    if (clickedId) pagePush();
+    if (clickedId)
+      (() => {
+        router.push("/post");
+      })();
   }, [clickedId]);
 
   useEffect(() => {
