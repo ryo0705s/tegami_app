@@ -18,6 +18,7 @@ const post: React.FC = () => {
     {
       id: "",
       commentUid: "",
+      commentAvatar: "",
       commented: false,
       text: "",
     },
@@ -42,7 +43,7 @@ const post: React.FC = () => {
     uid: "",
     likeCount: "",
     liked: "",
-    likedUid: "",
+    likedUid: [""],
   });
   // const [clickedPostId, setClickedPostId] = useState("");
   const editText = (e) => {
@@ -149,19 +150,19 @@ const post: React.FC = () => {
       .update({
         likeCount: firebase.firestore.FieldValue.increment(1),
       });
-    // db.collection("posts").doc(clickedPost.id).update({
-    //   liked: true,
-    // });
-    setLiked(!liked);
-    setClickedPost({
-      id: clickedPost.id,
-      image: clickedPost.image,
-      text: clickedPost.text,
-      uid: clickedPost.uid,
-      likeCount: firebase.firestore.FieldValue.arrayUnion(users.uid),
-      liked: clickedPost.liked,
-      likedUid: firebase.firestore.FieldValue.arrayUnion(users.uid),
+    db.collection("posts").doc(clickedPost.id).update({
+      liked: true,
     });
+    setLiked(!liked);
+    // setClickedPost({
+    //   id: clickedPost.id,
+    //   image: clickedPost.image,
+    //   text: clickedPost.text,
+    //   uid: clickedPost.uid,
+    //   likeCount: firebase.firestore.FieldValue.arrayUnion(users.uid),
+    //   liked: clickedPost.liked,
+    //   likedUid: firebase.firestore.FieldValue.arrayUnion(users.uid),
+    // });
   };
   const handleUnLike = () => {
     db.collection("posts")
@@ -175,12 +176,29 @@ const post: React.FC = () => {
       .update({
         likeCount: firebase.firestore.FieldValue.increment(-1),
       });
-    // db.collection("posts").doc(clickedPost.id).update({
-    //   liked: false,
-    // });
+    db.collection("posts").doc(clickedPost.id).update({
+      liked: false,
+    });
     setLiked(!liked);
   };
 
+  // const alreadyLiked = () => {
+  //   db.collection("posts")
+  //     .doc(clickedPost.id)
+  //     .update({
+  //       likedUid: firebase.firestore.FieldValue.arrayRemove(users.uid),
+  //     });
+
+  //   db.collection("posts")
+  //     .doc(clickedPost.id)
+  //     .update({
+  //       likeCount: firebase.firestore.FieldValue.increment(-1),
+  //     });
+  //   db.collection("posts").doc(clickedPost.id).update({
+  //     liked: false,
+  //   });
+  //   setLiked(liked);
+  // };
   const createComment = () => {
     db.collection("posts")
       .doc(clickedPost.id)
@@ -189,6 +207,7 @@ const post: React.FC = () => {
       .set({
         commentUid: users.uid,
         text: commentText.comment,
+        commentAvatar: users.avatar,
         commented: true,
       });
     setCommentText({ comment: "", commented: true });
@@ -294,27 +313,7 @@ const post: React.FC = () => {
           alert(error.message);
         });
   }, [clickedId]);
-  // const hogege = () => {
-  //   db.collection("posts")
-  //     .doc(clickedPost.id)
-  //     .collection("comments")
-  //     .get()
-  //     .then((querySnapshot) => {
-  //       let commentlists = [];
-  //       querySnapshot.forEach((doc) => {
-  //         commentlists.push({
-  //           id: doc.id,
-  //           commentUid: doc.data().commentUid,
-  //           commented: doc.data().commented,
-  //           text: doc.data().text,
-  //         });
-  //       });
-  //       setComments(commentlists);
-  //     });
-  // };
-  // useEffect(() => {
-  //   if (clickedPost.id) hogege();
-  // }, [clickedPost]);
+
   useEffect(() => {
     if (clickedPost.id)
       (async () => {
@@ -330,6 +329,7 @@ const post: React.FC = () => {
                 id: doc.id,
                 commentUid: doc.data().commentUid,
                 commented: doc.data().commented,
+                commentAvatar: doc.data().commentAvatar,
                 text: doc.data().text,
               });
             });
@@ -338,48 +338,39 @@ const post: React.FC = () => {
       })();
   }, [clickedPost]);
 
-  // コメント一覧をmapでレンダリング
-  const commentUids: string[] = comments.map((comment) => {
-    return comment.commentUid;
-  });
   useEffect(() => {
-    // ①ユーザーコレクションからドキュメント一覧を取得
-    db.collection("users")
-      .get()
-      .then((querySnapshot) => {
-        let userLists = [];
-        querySnapshot.forEach((doc) => {
-          const restData = { ...doc.data() };
-          userLists.push({
+    if (clickedPost.id)
+      db.collection("posts")
+        .doc(clickedPost.id)
+        .get()
+        .then((doc) => {
+          setClickedPost({
             id: doc.id,
-            avatar: restData.avatar,
-            letterName: restData.letterName,
-            otherInfo: restData.otherInfo,
-            uid: restData.uid,
+            image: doc.data().image,
+            text: doc.data().text,
+            uid: doc.data().uid,
+            likeCount: doc.data().likeCount,
+            liked: doc.data().liked,
+            likedUid: doc.data().likedUid,
           });
+        })
+        .catch((error) => {
+          alert(error.message);
         });
-        // ②コメント一覧とユーザー一覧のuidを照合させて、
-        // ユーザー一覧の何番目かを出力し、合致するアバターの写真を出力したい
-        const commentNumber = userLists.findIndex(
-          (userList) => userList.uid === commentUids
-        );
-        // console.log(userLists, "ユーザーリスト");→○
-        // console.log(commentNumber, "コメントナンバー");
-        commentNumber !== -1
-          ? setFindCommentAvatar(userLists[commentNumber].avatar)
-          : "";
-
-        // console.log(userLists[commentNumber].avatar, "写真の人誰？");
-      });
-  }, [comments]);
+  }, [liked]);
 
   // デバッグ用
-  // useEffect(() => {
-  //   console.log(commentUids, "呼ばれてますか？");
-  // }, [commentUids]);
   useEffect(() => {
-    console.log(clickedPost.image, "ポストクラブ");
+    console.log(liked, "呼ばれてますか？");
+  }, [liked]);
+  useEffect(() => {
+    console.log(clickedPost.likedUid, "ポストクラブ");
   }, [clickedPost]);
+
+  const targetUid = clickedPost.likedUid.find((hoge) => {
+    return hoge == users.uid;
+  });
+  console.log(targetUid, "タゲ");
 
   return (
     <Layout>
@@ -407,11 +398,21 @@ const post: React.FC = () => {
           />
         </label>
       </IconButton>
-      <IconButton onClick={!liked ? handleLike : handleUnLike}>
-        <label>
-          <ThumbUpAltIcon />
-        </label>
-      </IconButton>
+
+      {targetUid && clickedPost.liked ? (
+        <IconButton onClick={handleUnLike}>
+          {/* <IconButton onClick={alreadyLiked}> */}
+          <label>
+            <ThumbUpAltIcon />
+          </label>
+        </IconButton>
+      ) : (
+        <IconButton onClick={!liked ? handleLike : handleUnLike}>
+          <label>
+            <ThumbUpAltIcon />
+          </label>
+        </IconButton>
+      )}
       <div>{clickedPost.likeCount}</div>
       <p>説明</p>
       {!edited ? (
@@ -475,7 +476,7 @@ const post: React.FC = () => {
             return (
               <li>
                 <img
-                  src={findCommentAvatar}
+                  src={comment.commentAvatar}
                   alt="prof"
                   width="30"
                   height="30"
