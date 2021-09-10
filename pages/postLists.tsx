@@ -17,6 +17,8 @@ const postLists = () => {
     setFindPostAvatar,
     findPostUid,
     setFindPostUid,
+    liked,
+    setLiked,
   } = useContext(AppContext);
   const router = useRouter();
 
@@ -45,8 +47,7 @@ const postLists = () => {
           setFindPostUid(userLists[postNumber].uid);
         };
         postNumber !== -1 ? findPostElements() : "";
-        console.log(postNumber, "写真の人誰？");
-        // clickedId !== "" ? router.push("/post") : "";
+        setLiked(false);
       });
   };
   // const pagePush = () => {
@@ -80,6 +81,9 @@ const postLists = () => {
   useEffect(() => {
     console.log(clickedId, "クリック証券");
   }, [clickedId]);
+  useEffect(() => {
+    console.log(liked, "焼肉らいく");
+  }, [liked]);
   return (
     <Layout>
       <ul className={styles.posts}>
