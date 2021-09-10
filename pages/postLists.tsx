@@ -47,6 +47,7 @@ const postLists = () => {
           setFindPostUid(userLists[postNumber].uid);
         };
         postNumber !== -1 ? findPostElements() : "";
+        // いいねのロジックを正常に戻す
         setLiked(false);
       });
   };
