@@ -1,6 +1,5 @@
 import { Button, IconButton, TextField } from "@material-ui/core";
 import React, { useState, useEffect, useContext } from "react";
-import Image from "next/image";
 import Layout from "../components/layout";
 import PhotoCameraIcon from "@material-ui/icons/PhotoCamera";
 import styles from "../components/posting.module.scss";
@@ -20,7 +19,7 @@ const posting: React.FC = () => {
     setUserId,
     users,
     setUsers,
-  } = useContext(AppContext);
+  }: any = useContext(AppContext);
   const router = useRouter();
 
   const handlePicture = (e: any) => {
@@ -32,8 +31,6 @@ const posting: React.FC = () => {
         .child(`/images/${e.target.files[0].name}`)
         .getDownloadURL()
         .then(function (URL) {
-          // const img = document.getElementById("myimg");
-          // img.src = URL;
           setPictureUrl(URL);
         })
         .catch(function (error) {
@@ -58,7 +55,7 @@ const posting: React.FC = () => {
         text: message,
         uid: users.uid,
       })
-      .then((result) => {
+      .then((result: any) => {
         return result;
       })
       .catch((error) => {
@@ -86,7 +83,9 @@ const posting: React.FC = () => {
         multiline
         variant="outlined"
         fullWidth
-        onChange={(e) => setMessage(e.target.value)}
+        onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+          setMessage(e.target.value)
+        }
       />
       <p>
         <Button variant="contained" color="primary" onClick={handlePost}>

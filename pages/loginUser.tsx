@@ -6,8 +6,8 @@ import { auth } from "../firebase";
 import { useRouter } from "next/router";
 
 const loginUser: React.FC = (props: any) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
   const router = useRouter();
   const handleSubmit = () => {
     auth

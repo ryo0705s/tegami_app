@@ -1,6 +1,5 @@
 import { Button, IconButton, TextField } from "@material-ui/core";
 import React, { useState, useContext } from "react";
-import Image from "next/image";
 import Layout from "../components/layout";
 import PhotoCameraIcon from "@material-ui/icons/PhotoCamera";
 import styles from "../components/user.module.scss";
@@ -11,9 +10,8 @@ import { useRouter } from "next/router";
 
 const user: React.FC = () => {
   const { userId, setUserId, avatarUrl, setAvatarUrl } = useContext(AppContext);
-  const [avatar, setAvatar] = useState("");
-  const [letterName, setLetterName] = useState("");
-  const [otherInfo, setOtherInfo] = useState("");
+  const [letterName, setLetterName] = useState<string>("");
+  const [otherInfo, setOtherInfo] = useState<string>("");
   const router = useRouter();
 
   const handleAvatar = (e: any) => {
@@ -51,7 +49,7 @@ const user: React.FC = () => {
         otherInfo: otherInfo,
         uid: userId,
       })
-      .then((result) => {
+      .then((result: any) => {
         return result;
       })
       .catch((error) => {
@@ -74,7 +72,9 @@ const user: React.FC = () => {
       <TextField
         multiline
         variant="outlined"
-        onChange={(e) => setOtherInfo(e.target.value)}
+        onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+          setOtherInfo(e.target.value)
+        }
       />
       <p>
         <Button variant="contained" color="primary" onClick={createProfile}>

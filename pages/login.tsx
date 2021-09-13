@@ -27,10 +27,10 @@ const login: React.FC = () => {
     setUsers,
     authUserId,
     setAuthUserId,
-  } = useContext(AppContext);
+  }: any = useContext(AppContext);
 
   const router = useRouter();
-  const [forgotEmail, setForgotEmail] = useState("");
+  const [forgotEmail, setForgotEmail] = useState<string>("");
   const handleLogin = async () => {
     await auth
       .signInWithEmailAndPassword(email, password)
@@ -56,7 +56,6 @@ const login: React.FC = () => {
         alert(error.message);
       });
     currentLogin();
-    // router.push("/");
   };
 
   const anonymousLogin = async () => {
@@ -94,11 +93,9 @@ const login: React.FC = () => {
               otherInfo: restData.otherInfo,
               uid: restData.uid,
             });
-            console.log(authUser.uid, "authUidのなかみ");
-            const loginIdNumber = userIds.findIndex(
+            const loginIdNumber: number = userIds.findIndex(
               (userId) => userId.uid === authUid
             );
-            // console.log(loginIdNumber, "loginナンバー出てる？");
             loginIdNumber !== -1 ? setLoginedId(userIds[loginIdNumber].id) : "";
             setAuthUserId(authUid);
           });
@@ -124,6 +121,7 @@ const login: React.FC = () => {
         // ..
       });
   };
+
   useEffect(() => {
     if (loginedId)
       (async () => {

@@ -1,17 +1,18 @@
-import React, { useContext, useEffect } from "react";
+import React, { ReactNode, useContext, useEffect } from "react";
 import Head from "next/head";
 import Link from "next/link";
 import styles from "./layout.module.scss";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import { auth } from "../firebase";
-import { useRouter } from "next/router";
+import { NextRouter, useRouter } from "next/router";
 import { AppContext } from "./PageStates";
-import firebase from "firebase/app";
-import { db } from "../firebase";
-import { PostAddSharp } from "@material-ui/icons";
 
-const Layout = ({ children }) => {
-  const router = useRouter();
+interface Props {
+  children?: ReactNode;
+}
+
+const Layout: React.FC = ({ children }: Props) => {
+  const router: NextRouter = useRouter();
   const {
     userId,
     setUserId,
@@ -21,7 +22,7 @@ const Layout = ({ children }) => {
     setUsers,
     loginedId,
     setLoginedId,
-  } = useContext(AppContext);
+  }: any = useContext(AppContext);
 
   const handleLogout = () => {
     auth
@@ -43,30 +44,6 @@ const Layout = ({ children }) => {
     router.push("/login");
   };
 
-  // useEffect(() => {
-  //   const docRef = db.collection("users").doc(users.id);
-
-  //   docRef
-  //     .get()
-  //     .then((doc) => {
-  //       if (doc.exists) {
-  //         setUsers({
-  //           id: doc.id,
-  //           avatar: doc.data().avatar,
-  //           letterName: doc.data().letterName,
-  //           otherInfo: doc.data().otherInfo,
-  //           uid: doc.data().uid,
-  //         });
-  //       } else {
-  //         router.push("/login");
-  //         console.log("No such document!");
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       alert(error.message);
-  //     });
-  //   console.log(users);
-  // }, []);
   return (
     <>
       <Head>
@@ -74,6 +51,7 @@ const Layout = ({ children }) => {
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Letter From You &amp; Me</title>
       </Head>
+
       <header>
         <div>
           <h1>Letter From You &amp; Me(仮)</h1>
