@@ -1,9 +1,32 @@
 import React, { useState, useEffect, useContext, createContext } from "react";
 
-export const AppContext = createContext();
+export const AppContext = createContext<Partial<contextProps>>({});
 
-function PageStates({ children }): React.FC {
-  const [posts, setPosts] = useState([
+type Props = {
+  children?: React.ReactNode;
+};
+type contextProps = {
+  children?: React.ReactNode | React.ReactNode[];
+};
+type postProps = {
+  id: string;
+  image: string;
+  text: string;
+  uid: string;
+  likeCount: number;
+  liked: boolean;
+  likedUid: string[];
+};
+type userProps = {
+  id: string;
+  avatar: string;
+  letterName: string;
+  otherInfo: string;
+  uid: string;
+};
+
+function PageStates({ children }: Props): React.FC | JSX.Element {
+  const [posts, setPosts] = useState<Partial<postProps[]>>([
     {
       id: "",
       image: "",
@@ -14,39 +37,34 @@ function PageStates({ children }): React.FC {
       likedUid: [""],
     },
   ]);
-  const [pictures, setPictures] = useState([""]);
-  const [clickedId, setClickedId] = useState("");
-  const [edited, setEdited] = useState(false);
-  const [updated, setUpdated] = useState(false);
-  const [message, setMessage] = useState("");
-  const [pictureUrl, setPictureUrl] = useState("");
-  const [userId, setUserId] = useState("");
-  const [loginedId, setLoginedId] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [avatarUrl, setAvatarUrl] = useState("");
-  const [logined, setLogined] = useState(false);
-  // const [likes, setLikes] = useState({
-  //   likeCount: 0,
-  //   liked: false,
-  //   likedUid: [""],
-  // });
-  const [likeCount, setLikeCount] = useState(0);
-  const [liked, setLiked] = useState(false);
-  const [likedUids, setLikedUids] = useState("");
-  const [users, setUsers] = useState({
+  const [pictures, setPictures] = useState<string[]>([""]);
+  const [clickedId, setClickedId] = useState<string>("");
+  const [edited, setEdited] = useState<boolean>(false);
+  const [updated, setUpdated] = useState<boolean>(false);
+  const [message, setMessage] = useState<string>("");
+  const [pictureUrl, setPictureUrl] = useState<string>("");
+  const [userId, setUserId] = useState<string>("");
+  const [loginedId, setLoginedId] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [avatarUrl, setAvatarUrl] = useState<string>("");
+  const [logined, setLogined] = useState<boolean>(false);
+  const [likeCount, setLikeCount] = useState<number>(0);
+  const [liked, setLiked] = useState<boolean>(false);
+  const [likedUids, setLikedUids] = useState<string>("");
+  const [users, setUsers] = useState<Partial<userProps>>({
     id: "",
     avatar: "avatar.png",
     letterName: "",
     otherInfo: "",
     uid: "",
   });
-  const [authUserId, setAuthUserId] = useState("");
-  const [findPostAvatar, setFindPostAvatar] = useState("");
-  const [findCommentAvatar, setFindCommentAvatar] = useState("");
-  const [findPostUid, setFindPostUid] = useState("");
+  const [authUserId, setAuthUserId] = useState<string>("");
+  const [findPostAvatar, setFindPostAvatar] = useState<string>("");
+  const [findCommentAvatar, setFindCommentAvatar] = useState<string>("");
+  const [findPostUid, setFindPostUid] = useState<string>("");
 
-  const value = {
+  const value: any = {
     posts,
     setPosts,
     pictures,
@@ -92,6 +110,7 @@ function PageStates({ children }): React.FC {
     findCommentAvatar,
     setFindCommentAvatar,
   };
+
   return (
     <div>
       <AppContext.Provider value={value}>{children}</AppContext.Provider>

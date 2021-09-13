@@ -1,9 +1,6 @@
-import Link from "next/link";
-// import Layout from "../components/Layout1";
 import Layout from "../components/layout";
 import Image from "next/image";
 const IndexPage = () => (
-  // <Layout title="Home | Next.js + TypeScript Example">
   <Layout>
     <h2>サイトについて</h2>
     <Image src="/letter.jpg" width={300} height={400} />
@@ -17,9 +14,6 @@ const IndexPage = () => (
       そんな人たちの力になれたら嬉しいです。
       <br />
     </p>
-    <p>{/* <Link href="/about">
-        <a>About</a>
-      </Link> */}</p>
   </Layout>
 );
 

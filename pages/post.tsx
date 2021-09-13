@@ -2,7 +2,6 @@ import { Button, TextField, IconButton } from "@material-ui/core";
 import ThumbUpAltIcon from "@material-ui/icons/ThumbUpAlt";
 import PhotoCameraIcon from "@material-ui/icons/PhotoCamera";
 import React, { useState, useEffect, useContext } from "react";
-import Image from "next/image";
 import Layout from "../components/layout";
 import firebase from "firebase/app";
 import "firebase/firestore";
@@ -10,11 +9,35 @@ import { db, storage } from "../firebase";
 import { AppContext } from "../components/PageStates";
 import { useRouter } from "next/router";
 import styles from "../components/post.module.scss";
-import user from "./user";
 
+type commentProps = {
+  id: string;
+  commentUid: string;
+  commentAvatar: string;
+  commented: boolean;
+  text: string;
+};
+type commentTextProps = {
+  comment: string;
+  commented: boolean;
+};
+type updateCommentTextProps = {
+  id: string;
+  comment: string;
+  edited: boolean;
+};
+type clickedPostProps = {
+  id: string;
+  image: string;
+  text: string;
+  uid: string;
+  likeCount: number;
+  liked: boolean;
+  likedUid: string[];
+};
 const post: React.FC = () => {
   const router = useRouter();
-  const [comments, setComments] = useState([
+  const [comments, setComments] = useState<Partial<commentProps[]>>([
     {
       id: "",
       commentUid: "",
@@ -23,31 +46,32 @@ const post: React.FC = () => {
       text: "",
     },
   ]);
-  const [commented, setCommented] = useState(false);
-  const [commentEdited, setCommentEdited] = useState(false);
-  const [commentUid, setCommentUid] = useState("");
-  const [commentText, setCommentText] = useState({
+  const [commented, setCommented] = useState<boolean>(false);
+  const [commentEdited, setCommentEdited] = useState<boolean>(false);
+  const [commentUid, setCommentUid] = useState<string>("");
+  const [commentText, setCommentText] = useState<commentTextProps>({
     comment: "",
     commented: false,
   });
-  const [updateCommentText, setUpdateCommentText] = useState({
+  const [
+    updateCommentText,
+    setUpdateCommentText,
+  ] = useState<updateCommentTextProps>({
     id: "",
     comment: "",
     edited: false,
   });
 
-  const [clickedPost, setClickedPost] = useState({
+  const [clickedPost, setClickedPost] = useState<clickedPostProps>({
     id: "",
     image: "",
     text: "",
     uid: "",
-    likeCount: "",
-    liked: "",
+    likeCount: 0,
+    liked: false,
     likedUid: [""],
   });
-  // const [clickedPostId, setClickedPostId] = useState("");
-  const editText = (e) => {
-    // setMessage(e.target.value);
+  const editText = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setClickedPost({
       id: clickedPost.id,
       image: clickedPost.image,
@@ -57,7 +81,6 @@ const post: React.FC = () => {
       liked: clickedPost.liked,
       likedUid: clickedPost.likedUid,
     });
-    // console.log(posts.image, "写真読み込み");
   };
   const updateText = () => {
     db.collection("posts")
@@ -154,16 +177,8 @@ const post: React.FC = () => {
       liked: true,
     });
     setLiked(!liked);
-    // setClickedPost({
-    //   id: clickedPost.id,
-    //   image: clickedPost.image,
-    //   text: clickedPost.text,
-    //   uid: clickedPost.uid,
-    //   likeCount: firebase.firestore.FieldValue.arrayUnion(users.uid),
-    //   liked: clickedPost.liked,
-    //   likedUid: firebase.firestore.FieldValue.arrayUnion(users.uid),
-    // });
   };
+
   const handleUnLike = () => {
     db.collection("posts")
       .doc(clickedPost.id)
@@ -199,6 +214,7 @@ const post: React.FC = () => {
   //   });
   //   setLiked(liked);
   // };
+
   const createComment = () => {
     db.collection("posts")
       .doc(clickedPost.id)
@@ -213,7 +229,7 @@ const post: React.FC = () => {
     setCommentText({ comment: "", commented: true });
     setClickedId(clickedPost.id);
   };
-  const editComment = (comment, index) => {
+  const editComment = (comment) => {
     setUpdateCommentText({
       id: comment.id,
       comment: comment.text,
@@ -236,7 +252,8 @@ const post: React.FC = () => {
     });
     setClickedId(clickedPost.id);
   };
-  const deleteComment = (comment, index) => {
+
+  const deleteComment = (comment) => {
     db.collection("posts")
       .doc(clickedPost.id)
       .collection("comments")
@@ -261,10 +278,6 @@ const post: React.FC = () => {
     setEdited,
     updated,
     setUpdated,
-    // pictureUrl,
-    // setPictureUrl,
-    // likes,
-    // setLikes,
     likeCount,
     setLikeCount,
     liked,
@@ -279,7 +292,7 @@ const post: React.FC = () => {
     setFindPostAvatar,
     findCommentAvatar,
     setFindCommentAvatar,
-  } = useContext(AppContext);
+  }: any = useContext(AppContext);
 
   // const likesRef = db.collection("posts").doc(clickedPost.id);
   // .collection("likes")
@@ -367,19 +380,12 @@ const post: React.FC = () => {
     console.log(clickedPost.likedUid, "ポストクラブ");
   }, [clickedPost]);
 
-  const targetUid = clickedPost.likedUid.find((hoge) => {
-    return hoge == users.uid;
+  const targetUid: string = clickedPost.likedUid.find((clickedFoundUid) => {
+    return clickedFoundUid == users.uid;
   });
-  console.log(targetUid, "タゲ");
 
   return (
     <Layout>
-      {/* <ul>
-        {commentUids &&
-          commentUids.map((commentUid) => {
-            return <li>{commentUid}</li>;
-          })}
-      </ul> */}
       <img
         src={findPostAvatar}
         alt="prof"
@@ -457,7 +463,7 @@ const post: React.FC = () => {
             variant="outlined"
             fullWidth
             value={commentText.comment}
-            onChange={(e) =>
+            onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
               setCommentText({ comment: e.target.value, commented: false })
             }
           />
@@ -472,7 +478,7 @@ const post: React.FC = () => {
       <p>コメント</p>
       <ul>
         {comments &&
-          comments.map((comment, index) => {
+          comments.map((comment) => {
             return (
               <li>
                 <img
@@ -486,14 +492,14 @@ const post: React.FC = () => {
                 <Button
                   variant="contained"
                   color="primary"
-                  onClick={() => editComment(comment, index)}
+                  onClick={() => editComment(comment)}
                 >
                   編集
                 </Button>
                 <Button
                   variant="contained"
                   color="primary"
-                  onClick={() => deleteComment(comment, index)}
+                  onClick={() => deleteComment(comment)}
                 >
                   削除
                 </Button>
@@ -512,7 +518,7 @@ const post: React.FC = () => {
             variant="outlined"
             fullWidth
             value={updateCommentText.comment}
-            onChange={(e) =>
+            onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
               setUpdateCommentText({
                 id: updateCommentText.id,
                 comment: e.target.value,

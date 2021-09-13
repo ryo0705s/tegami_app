@@ -12,16 +12,10 @@ import Layout from "../components/layout";
 
 const editProf: React.FC = () => {
   const router = useRouter();
-  // const createAvatar = (e) => {
-  //   setUsers({
-  //     id: users.id,
-  //     avatar: e.target.value,
-  //     letterName: users.letterName,
-  //     otherInfo: users.otherInfo,
-  //     uid: users.uid,
-  //   });
-  // };
-  const createLetterName = (e) => {
+
+  const createLetterName = (
+    e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+  ) => {
     setUsers({
       id: users.id,
       avatar: users.avatar,
@@ -30,7 +24,9 @@ const editProf: React.FC = () => {
       uid: users.uid,
     });
   };
-  const createOtherInfo = (e) => {
+  const createOtherInfo = (
+    e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+  ) => {
     setUsers({
       id: users.id,
       avatar: users.avatar,
@@ -55,7 +51,7 @@ const editProf: React.FC = () => {
     });
     router.push("/");
   };
-  const editAvatar = (e) => {
+  const editAvatar = (e: any) => {
     storage
       .ref()
       .child(`/avatars/${e.target.files[0].name}`)
@@ -81,7 +77,9 @@ const editProf: React.FC = () => {
           });
       });
   };
-  const editLetterName = (e) => {
+  const editLetterName = (
+    e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+  ) => {
     setUsers({
       id: users.id,
       avatar: users.avatar,
@@ -90,7 +88,9 @@ const editProf: React.FC = () => {
       uid: users.uid,
     });
   };
-  const editOtherInfo = (e) => {
+  const editOtherInfo = (
+    e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+  ) => {
     setUsers({
       id: users.id,
       avatar: users.avatar,
@@ -135,31 +135,7 @@ const editProf: React.FC = () => {
     setLoginedId,
     authUserId,
     setAuthUserId,
-  } = useContext(AppContext);
-
-  // const docRef = db.collection("users").doc(loginedId);
-  // useEffect(() => {
-  //   docRef
-  //     .get()
-  //     .then((doc) => {
-  //       if (doc.exists) {
-  //         setUsers({
-  //           id: doc.id,
-  //           avatar: doc.data().avatar,
-  //           letterName: doc.data().letterName,
-  //           otherInfo: doc.data().otherInfo,
-  //           uid: doc.data().uid,
-  //         });
-  //         setAvatarUrl(users.avatar);
-  //       } else {
-  //         // router.push("/login");
-  //         console.log("No such document!");
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       alert(error.message);
-  //     });
-  // }, []);
+  }: any = useContext(AppContext);
 
   // デバッグ用コード
   useEffect(() => {

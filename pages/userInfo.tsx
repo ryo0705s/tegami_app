@@ -11,9 +11,19 @@ import user from "./user";
 import Layout from "../components/layout";
 import postLists from "./postLists";
 
+type yourPostProps = {
+  id: string;
+  image: string;
+  text: string;
+  uid: string;
+  likeCount: number;
+  liked: boolean;
+  likedUid: string[];
+};
+
 const userInfo: React.FC = () => {
   const router = useRouter();
-  const [yourPosts, setYourPosts] = useState([
+  const [yourPosts, setYourPosts] = useState<yourPostProps[]>([
     {
       id: "",
       image: "",
@@ -24,101 +34,7 @@ const userInfo: React.FC = () => {
       likedUid: [""],
     },
   ]);
-  const createLetterName = (e) => {
-    setUsers({
-      id: users.id,
-      avatar: users.avatar,
-      letterName: e.target.value,
-      otherInfo: users.otherInfo,
-      uid: users.uid,
-    });
-  };
-  const createOtherInfo = (e) => {
-    setUsers({
-      id: users.id,
-      avatar: users.avatar,
-      letterName: users.letterName,
-      otherInfo: e.target.value,
-      uid: users.uid,
-    });
-  };
-  const createProfile = () => {
-    db.collection("users").add({
-      avatar: users.avatar,
-      letterName: users.letterName,
-      otherInfo: users.otherInfo,
-      uid: authUserId,
-    });
-    setUsers({
-      id: users.id,
-      avatar: users.avatar,
-      letterName: users.letterName,
-      otherInfo: users.otherInfo,
-      uid: authUserId,
-    });
-    router.push("/");
-  };
-  const editAvatar = (e) => {
-    storage
-      .ref()
-      .child(`/avatars/${e.target.files[0].name}`)
-      .put(e.target.files[0])
-      .then(function (snapshot) {
-        console.log("Uploaded a blob or file!");
-        storage
-          .ref()
-          .child(`/avatars/${e.target.files[0].name}`)
-          .getDownloadURL()
-          .then(function (URL) {
-            setUsers({
-              id: users.id,
-              avatar: URL,
-              letterName: users.letterName,
-              otherInfo: users.otherInfo,
-              uid: users.uid,
-            });
-            console.log(URL, "アドレス教えて！");
-          })
-          .catch(function (error) {
-            // Handle any errors
-          });
-      });
-  };
-  const editLetterName = (e) => {
-    setUsers({
-      id: users.id,
-      avatar: users.avatar,
-      letterName: e.target.value,
-      otherInfo: users.otherInfo,
-      uid: users.uid,
-    });
-  };
-  const editOtherInfo = (e) => {
-    setUsers({
-      id: users.id,
-      avatar: users.avatar,
-      letterName: users.letterName,
-      otherInfo: e.target.value,
-      uid: users.uid,
-    });
-  };
-  const editProfile = () => {
-    db.collection("users")
-      .doc(loginedId)
-      .set({
-        avatar: users.avatar,
-        letterName: users.letterName,
-        otherInfo: users.otherInfo,
-        uid: users.uid,
-      })
-      .then((result) => {
-        return result;
-      })
-      .catch((error) => {
-        alert(error.message);
-      });
-    router.push("/");
-  };
+
   const {
     posts,
     setPosts,
@@ -132,7 +48,7 @@ const userInfo: React.FC = () => {
     setAuthUserId,
     findPostUid,
     setFindPostUid,
-  } = useContext(AppContext);
+  }: any = useContext(AppContext);
 
   useEffect(() => {
     db.collection("posts")
@@ -158,6 +74,7 @@ const userInfo: React.FC = () => {
         console.log("Error getting documents: ", error);
       });
   }, []);
+
   // デバッグ用コード
   useEffect(() => {
     console.log(yourPosts, "お前誰？");

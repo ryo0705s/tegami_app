@@ -1,13 +1,11 @@
 import React, { useState, useEffect, useContext } from "react";
-import Image from "next/image";
-import Link from "next/link";
 import Layout from "../components/layout";
 import styles from "../components/posts.module.scss";
 import { storage, db } from "../firebase";
 import { useRouter } from "next/router";
 import { AppContext } from "../components/PageStates";
 
-const postLists = () => {
+const postLists: React.FC = () => {
   const {
     posts,
     setPosts,
@@ -19,10 +17,10 @@ const postLists = () => {
     setFindPostUid,
     liked,
     setLiked,
-  } = useContext(AppContext);
+  }: any = useContext(AppContext);
   const router = useRouter();
 
-  const selectPost = (post) => {
+  const selectPost = (post: any) => {
     setClickedId(post.id);
     db.collection("users")
       .get()
@@ -38,8 +36,7 @@ const postLists = () => {
             uid: restData.uid,
           });
         });
-        console.log(userLists, "リスト");
-        const postNumber = userLists.findIndex(
+        const postNumber: number = userLists.findIndex(
           (userList) => userList.uid === post.uid
         );
         const findPostElements = () => {
@@ -85,6 +82,7 @@ const postLists = () => {
   useEffect(() => {
     console.log(liked, "焼肉らいく");
   }, [liked]);
+
   return (
     <Layout>
       <ul className={styles.posts}>
