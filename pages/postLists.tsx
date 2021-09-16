@@ -5,7 +5,7 @@ import { storage, db } from "../firebase";
 import { useRouter } from "next/router";
 import { AppContext } from "../components/PageStates";
 
-const postLists: React.FC = () => {
+const postLists = () => {
   const {
     posts,
     setPosts,

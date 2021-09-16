@@ -8,7 +8,7 @@ import { db, storage } from "../firebase";
 import { AppContext } from "../components/PageStates";
 import { useRouter } from "next/router";
 
-const user: React.FC = () => {
+const user = () => {
   const { userId, setUserId, avatarUrl, setAvatarUrl } = useContext(AppContext);
   const [letterName, setLetterName] = useState<string>("");
   const [otherInfo, setOtherInfo] = useState<string>("");
@@ -16,7 +16,7 @@ const user: React.FC = () => {
 
   const handleAvatar = (e: any) => {
     const next = function (snapshot) {};
-    const error = function (error) {};
+    const error = function (error: any) {};
     const complete = function () {
       storage
         .ref()
@@ -25,7 +25,7 @@ const user: React.FC = () => {
         .then(function (URL) {
           setAvatarUrl(URL);
         })
-        .catch(function (error) {
+        .catch(function (error: any) {
           alert(error.message);
         });
     };
@@ -52,7 +52,7 @@ const user: React.FC = () => {
       .then((result: any) => {
         return result;
       })
-      .catch((error) => {
+      .catch((error: any) => {
         alert(error.message);
       });
     router.push("/");

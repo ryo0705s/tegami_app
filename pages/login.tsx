@@ -9,7 +9,7 @@ import { useRouter } from "next/router";
 import { AppContext } from "../components/PageStates";
 import user from "./user";
 
-const login: React.FC = () => {
+const login = () => {
   const {
     email,
     setEmail,
@@ -37,7 +37,7 @@ const login: React.FC = () => {
       .then((result: any) => {
         return result;
       })
-      .catch((error) => {
+      .catch((error: any) => {
         alert(error.message);
       });
     currentLogin();
@@ -52,7 +52,7 @@ const login: React.FC = () => {
       .then((result: any) => {
         return result;
       })
-      .catch((error) => {
+      .catch((error: any) => {
         alert(error.message);
       });
     currentLogin();
@@ -64,7 +64,7 @@ const login: React.FC = () => {
       .then((result: any) => {
         return result;
       })
-      .catch((error) => {
+      .catch((error: any) => {
         alert(error.message);
       });
     currentLogin();
@@ -100,7 +100,7 @@ const login: React.FC = () => {
             setAuthUserId(authUid);
           });
         })
-        .catch((error) => {
+        .catch((error: any) => {
           console.log("Error getting documents: ", error);
         });
     } else {
@@ -115,7 +115,7 @@ const login: React.FC = () => {
       .then(() => {
         setLogined(!logined);
       })
-      .catch((error) => {
+      .catch((error: any) => {
         var errorCode = error.code;
         var errorMessage = error.message;
         // ..
@@ -142,7 +142,7 @@ const login: React.FC = () => {
               console.log("No such document!");
             }
           })
-          .catch((error) => {
+          .catch((error: any) => {
             alert(error.message);
           });
       })();

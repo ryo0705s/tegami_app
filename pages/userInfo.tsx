@@ -11,7 +11,7 @@ import user from "./user";
 import Layout from "../components/layout";
 import postLists from "./postLists";
 
-type yourPostProps = {
+interface yourPostProps {
   id: string;
   image: string;
   text: string;
@@ -19,9 +19,9 @@ type yourPostProps = {
   likeCount: number;
   liked: boolean;
   likedUid: string[];
-};
+}
 
-const userInfo: React.FC = () => {
+const userInfo = () => {
   const router = useRouter();
   const [yourPosts, setYourPosts] = useState<yourPostProps[]>([
     {
@@ -70,7 +70,7 @@ const userInfo: React.FC = () => {
         });
         setYourPosts(postLists);
       })
-      .catch((error) => {
+      .catch((error: any) => {
         console.log("Error getting documents: ", error);
       });
   }, []);

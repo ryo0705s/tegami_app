@@ -11,8 +11,8 @@ interface Props {
   children?: ReactNode;
 }
 
-const Layout: React.FC = ({ children }: Props) => {
-  const router: NextRouter = useRouter();
+const Layout = ({ children }: Props) => {
+  const router = useRouter();
   const {
     userId,
     setUserId,
@@ -27,10 +27,10 @@ const Layout: React.FC = ({ children }: Props) => {
   const handleLogout = () => {
     auth
       .signOut()
-      .then((result: any) => {
+      .then((result) => {
         return result;
       })
-      .catch((error) => {
+      .catch((error: any) => {
         alert(error.message);
       });
     setUsers({
@@ -49,19 +49,13 @@ const Layout: React.FC = ({ children }: Props) => {
       <Head>
         <meta charSet="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Letter From You &amp; Me</title>
+        <title>TEGAMI</title>
       </Head>
 
       <header>
         <div>
-          <h1>Letter From You &amp; Me(仮)</h1>
-          <img
-            src={users.avatar}
-            alt="prof"
-            width="50"
-            height="50"
-            onClick={() => router.push("./editProf")}
-          />
+          <h1>TEGAMI</h1>
+
           <div className={styles.svg} onClick={handleLogout}>
             <ExitToAppIcon fontSize="large" />
           </div>
@@ -85,6 +79,13 @@ const Layout: React.FC = ({ children }: Props) => {
         </ul>
       </header>
       <main>
+        <img
+          src={users.avatar}
+          alt="prof"
+          width="50"
+          height="50"
+          onClick={() => router.push("./editProf")}
+        />
         <div>{`${users.uid}さんこんにちは`}</div>
         <div>{children}</div>
       </main>
@@ -103,7 +104,7 @@ const Layout: React.FC = ({ children }: Props) => {
             <Link href="/postLists">みんなの投稿</Link>
           </li>
         </ul>
-        <div>&copy; 2021 Letter From You &amp; Me(仮) All Rights Reserved</div>
+        <div>&copy; 2021 TEGAMI All Rights Reserved</div>
       </footer>
     </>
   );

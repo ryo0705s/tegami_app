@@ -10,7 +10,7 @@ import { useRouter } from "next/router";
 import user from "./user";
 import Layout from "../components/layout";
 
-const editProf: React.FC = () => {
+const editProf = () => {
   const router = useRouter();
 
   const createLetterName = (
@@ -72,7 +72,7 @@ const editProf: React.FC = () => {
             });
             console.log(URL, "アドレス教えて！");
           })
-          .catch(function (error) {
+          .catch(function (error: error) {
             // Handle any errors
           });
       });
@@ -111,7 +111,7 @@ const editProf: React.FC = () => {
       .then((result) => {
         return result;
       })
-      .catch((error) => {
+      .catch((error: any) => {
         alert(error.message);
       });
     router.push("/");

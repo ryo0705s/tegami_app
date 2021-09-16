@@ -9,7 +9,7 @@ import firebase from "firebase/app";
 import { useRouter } from "next/router";
 import { AppContext } from "../components/PageStates";
 
-const posting: React.FC = () => {
+const posting = () => {
   const {
     message,
     setMessage,
@@ -24,7 +24,7 @@ const posting: React.FC = () => {
 
   const handlePicture = (e: any) => {
     const next = function (snapshot) {};
-    const error = function (error) {};
+    const error = function (error: any) {};
     const complete = function () {
       storage
         .ref()
@@ -33,7 +33,7 @@ const posting: React.FC = () => {
         .then(function (URL) {
           setPictureUrl(URL);
         })
-        .catch(function (error) {
+        .catch(function (error: any) {
           alert(error.message);
         });
     };
@@ -58,7 +58,7 @@ const posting: React.FC = () => {
       .then((result: any) => {
         return result;
       })
-      .catch((error) => {
+      .catch((error: any) => {
         alert(error.message);
       });
     router.push("/postLists");

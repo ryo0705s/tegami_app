@@ -10,23 +10,23 @@ import { AppContext } from "../components/PageStates";
 import { useRouter } from "next/router";
 import styles from "../components/post.module.scss";
 
-type commentProps = {
+interface commentProps {
   id: string;
   commentUid: string;
   commentAvatar: string;
   commented: boolean;
   text: string;
-};
-type commentTextProps = {
+}
+interface commentTextProps {
   comment: string;
   commented: boolean;
-};
-type updateCommentTextProps = {
+}
+interface updateCommentTextProps {
   id: string;
   comment: string;
   edited: boolean;
-};
-type clickedPostProps = {
+}
+interface clickedPostProps {
   id: string;
   image: string;
   text: string;
@@ -34,8 +34,8 @@ type clickedPostProps = {
   likeCount: number;
   liked: boolean;
   likedUid: string[];
-};
-const post: React.FC = () => {
+}
+const post = () => {
   const router = useRouter();
   const [comments, setComments] = useState<Partial<commentProps[]>>([
     {
@@ -109,7 +109,7 @@ const post: React.FC = () => {
               likedUid: doc.data().likedUid,
             });
           })
-          .catch((error) => {
+          .catch((error: any) => {
             alert(error.message);
           });
       });
@@ -124,7 +124,7 @@ const post: React.FC = () => {
       .then(() => {
         router.push("/postLists");
       })
-      .catch((error) => {
+      .catch((error: any) => {
         alert(error.message);
       });
   };
@@ -156,7 +156,7 @@ const post: React.FC = () => {
       .update({
         image: uploadPicture,
       })
-      .catch((error) => {
+      .catch((error: any) => {
         alert(error.message);
       });
   };
@@ -262,7 +262,7 @@ const post: React.FC = () => {
       .then(() => {
         setClickedId(clickedPost.id);
       })
-      .catch((error) => {
+      .catch((error: any) => {
         alert(error.message);
       });
   };
@@ -322,7 +322,7 @@ const post: React.FC = () => {
           // setClickedPostId(clickedId);
           setClickedId("");
         })
-        .catch((error) => {
+        .catch((error: any) => {
           alert(error.message);
         });
   }, [clickedId]);
@@ -367,7 +367,7 @@ const post: React.FC = () => {
             likedUid: doc.data().likedUid,
           });
         })
-        .catch((error) => {
+        .catch((error: any) => {
           alert(error.message);
         });
   }, [liked]);
