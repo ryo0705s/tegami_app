@@ -3,7 +3,7 @@ import Image from "next/image";
 const IndexPage = () => (
   <Layout>
     <h2>サイトについて</h2>
-    <Image src="/letter.jpg" width={300} height={400} />
+    {/* <Image src="/letter.jpg" width={300} height={400} /> */}
     <p>
       このサイトは”手紙を通じて心の安らぎを感じてほしい”そんな思いから生まれました。
       <br />

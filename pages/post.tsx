@@ -1,4 +1,6 @@
 import { Button, TextField, IconButton } from "@material-ui/core";
+import Stack from "@mui/material/Stack";
+import { makeStyles } from "@material-ui/core/styles";
 import ThumbUpAltIcon from "@material-ui/icons/ThumbUpAlt";
 import PhotoCameraIcon from "@material-ui/icons/PhotoCamera";
 import React, { useState, useEffect, useContext } from "react";
@@ -10,23 +12,23 @@ import { AppContext } from "../components/PageStates";
 import { useRouter } from "next/router";
 import styles from "../components/post.module.scss";
 
-type commentProps = {
+interface commentProps {
   id: string;
   commentUid: string;
   commentAvatar: string;
   commented: boolean;
   text: string;
-};
-type commentTextProps = {
+}
+interface commentTextProps {
   comment: string;
   commented: boolean;
-};
-type updateCommentTextProps = {
+}
+interface updateCommentTextProps {
   id: string;
   comment: string;
   edited: boolean;
-};
-type clickedPostProps = {
+}
+interface clickedPostProps {
   id: string;
   image: string;
   text: string;
@@ -34,8 +36,19 @@ type clickedPostProps = {
   likeCount: number;
   liked: boolean;
   likedUid: string[];
-};
-const post: React.FC = () => {
+}
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    "& .MuiTextField-root": {
+      margin: theme.spacing(1),
+      width: "25ch",
+    },
+  },
+}));
+
+const post = () => {
+  const classes = useStyles();
   const router = useRouter();
   const [comments, setComments] = useState<Partial<commentProps[]>>([
     {
@@ -109,7 +122,7 @@ const post: React.FC = () => {
               likedUid: doc.data().likedUid,
             });
           })
-          .catch((error) => {
+          .catch((error: any) => {
             alert(error.message);
           });
       });
@@ -124,7 +137,7 @@ const post: React.FC = () => {
       .then(() => {
         router.push("/postLists");
       })
-      .catch((error) => {
+      .catch((error: any) => {
         alert(error.message);
       });
   };
@@ -156,7 +169,7 @@ const post: React.FC = () => {
       .update({
         image: uploadPicture,
       })
-      .catch((error) => {
+      .catch((error: any) => {
         alert(error.message);
       });
   };
@@ -262,7 +275,7 @@ const post: React.FC = () => {
       .then(() => {
         setClickedId(clickedPost.id);
       })
-      .catch((error) => {
+      .catch((error: any) => {
         alert(error.message);
       });
   };
@@ -292,6 +305,8 @@ const post: React.FC = () => {
     setFindPostAvatar,
     findCommentAvatar,
     setFindCommentAvatar,
+    findPostLetterName,
+    setFindPostLetterName,
   }: any = useContext(AppContext);
 
   // const likesRef = db.collection("posts").doc(clickedPost.id);
@@ -322,7 +337,7 @@ const post: React.FC = () => {
           // setClickedPostId(clickedId);
           setClickedId("");
         })
-        .catch((error) => {
+        .catch((error: any) => {
           alert(error.message);
         });
   }, [clickedId]);
@@ -367,7 +382,7 @@ const post: React.FC = () => {
             likedUid: doc.data().likedUid,
           });
         })
-        .catch((error) => {
+        .catch((error: any) => {
           alert(error.message);
         });
   }, [liked]);
@@ -386,13 +401,8 @@ const post: React.FC = () => {
 
   return (
     <Layout>
-      <img
-        src={findPostAvatar}
-        alt="prof"
-        width="30"
-        height="30"
-        onClick={() => router.push("./userInfo")}
-      />
+      <br />
+
       <img src={clickedPost.image} width="400" height="500" />
       <IconButton>
         <label>
@@ -419,7 +429,18 @@ const post: React.FC = () => {
           </label>
         </IconButton>
       )}
-      <div>{clickedPost.likeCount}</div>
+      <span>{clickedPost.likeCount}</span>
+      <div>
+        <span>投稿者：{findPostLetterName} さん</span>
+        <img
+          src={findPostAvatar}
+          alt="prof"
+          width="30"
+          height="30"
+          onClick={() => router.push("./userInfo")}
+        />
+      </div>
+      <br />
       <p>説明</p>
       {!edited ? (
         <div>{clickedPost.text}</div>
@@ -434,19 +455,26 @@ const post: React.FC = () => {
       )}
       {!updated ? (
         <>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => {
-              setEdited(!edited);
-              setUpdated(!updated);
-            }}
-          >
-            編集
-          </Button>
-          <Button variant="contained" color="secondary" onClick={handleDelete}>
-            削除
-          </Button>
+          <br />
+          <Stack spacing={2} direction="row" justifyContent="center">
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => {
+                setEdited(!edited);
+                setUpdated(!updated);
+              }}
+            >
+              編集
+            </Button>
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={handleDelete}
+            >
+              削除
+            </Button>
+          </Stack>
         </>
       ) : (
         <Button variant="contained" color="primary" onClick={updateText}>
@@ -457,16 +485,23 @@ const post: React.FC = () => {
       <br />
       {!commentText.commented ? (
         <>
-          <div>コメントする</div>
-          <TextField
-            multiline
-            variant="outlined"
-            fullWidth
-            value={commentText.comment}
-            onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
-              setCommentText({ comment: e.target.value, commented: false })
-            }
-          />
+          <div className={styles.textField}>
+            <form className={classes.root} noValidate autoComplete="off">
+              <TextField
+                id="outlined-textarea"
+                label="コメント"
+                placeholder="コメントをしてみましょう"
+                multiline
+                variant="outlined"
+                fullWidth
+                value={commentText.comment}
+                onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+                  setCommentText({ comment: e.target.value, commented: false })
+                }
+              />
+            </form>
+          </div>
+          <br />
           <Button variant="contained" color="primary" onClick={createComment}>
             投稿
           </Button>
@@ -480,29 +515,35 @@ const post: React.FC = () => {
         {comments &&
           comments.map((comment) => {
             return (
-              <li>
-                <img
-                  src={comment.commentAvatar}
-                  alt="prof"
-                  width="30"
-                  height="30"
-                  onClick={() => router.push("./userInfo")}
-                />
+              <li className={styles.comment}>
+                <div>
+                  <img
+                    src={comment.commentAvatar}
+                    alt="prof"
+                    width="30"
+                    height="30"
+                    onClick={() => router.push("./userInfo")}
+                  />
+                </div>
                 <div>{comment.text}</div>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={() => editComment(comment)}
-                >
-                  編集
-                </Button>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={() => deleteComment(comment)}
-                >
-                  削除
-                </Button>
+                <div>
+                  <Stack spacing={1} direction="row" justifyContent="center">
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={() => editComment(comment)}
+                    >
+                      編集
+                    </Button>
+                    <Button
+                      variant="contained"
+                      color="secondary"
+                      onClick={() => deleteComment(comment)}
+                    >
+                      削除
+                    </Button>
+                  </Stack>
+                </div>
               </li>
             );
           })}
@@ -512,20 +553,27 @@ const post: React.FC = () => {
         <div></div>
       ) : (
         <>
-          <div>コメントを編集する</div>
-          <TextField
-            multiline
-            variant="outlined"
-            fullWidth
-            value={updateCommentText.comment}
-            onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
-              setUpdateCommentText({
-                id: updateCommentText.id,
-                comment: e.target.value,
-                edited: true,
-              })
-            }
-          />
+          {/* <div>コメントを編集する</div> */}
+          <div className={styles.textField}>
+            <form className={classes.root} noValidate autoComplete="off">
+              <TextField
+                id="outlined-textarea"
+                label="コメント編集"
+                placeholder="コメントを編集しましょう"
+                multiline
+                variant="outlined"
+                fullWidth
+                value={updateCommentText.comment}
+                onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+                  setUpdateCommentText({
+                    id: updateCommentText.id,
+                    comment: e.target.value,
+                    edited: true,
+                  })
+                }
+              />
+            </form>
+          </div>
           <Button variant="contained" color="primary" onClick={updateComment}>
             完了
           </Button>

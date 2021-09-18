@@ -1,24 +1,60 @@
-header,
-footer,
-main {
+body {
+  font-family: "りいてがき筆", "YuGothic", "游ゴシック体";
+  color: white;
+  width: 100%;
+  height: 100vh;
   margin: 0 auto;
+  padding: 0;
   text-align: center;
-  width: 80vw;
-  /* background: yellow; */
+  /* width: 80vw; */
+
+  background: linear-gradient(
+    45deg,
+    #1c04f5,
+    #4493b7,
+    #e5edee
+  ); /*グラデーションを定義*/
+  background-size: 200% 200%; /*サイズを大きくひきのばす*/
+  animation: bggradient 20s ease infinite;
 }
+
+@keyframes bggradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+a:visited {
+  color: white;
+}
+
 header,
 main {
   border-bottom: 1px solid #000;
 }
 main {
+  /* background-image: url(/background.jpg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 500px 700px; */
   height: 100%;
   margin-top: 5rem;
 }
+
 footer {
   margin-top: 2rem;
 }
 a {
   text-decoration: none;
+}
+ul {
+  margin-top: 0;
 }
 li {
   list-style: none;
