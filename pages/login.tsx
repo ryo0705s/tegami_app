@@ -77,7 +77,7 @@ const login = () => {
       .catch((error: any) => {
         alert(error.message);
       });
-    currentLogin();
+    onetimeLogin();
   };
 
   const currentLogin = async () => {
@@ -113,6 +113,26 @@ const login = () => {
         .catch((error: any) => {
           console.log("Error getting documents: ", error);
         });
+    } else {
+      // No user is signed in.
+    }
+  };
+
+  const onetimeLogin = () => {
+    const authUser = firebase.auth().currentUser;
+    if (authUser) {
+      const displayName = authUser.displayName;
+      const email = authUser.email;
+      // const photoURL = authUser.photoURL;
+      // const emailVerified = authUser.emailVerified;
+      const authUid = authUser.uid;
+      setUsers({
+        id: users.id,
+        avatar: users.avatar,
+        letterName: users.avatar,
+        otherInfo: users.otherInfo,
+        uid: authUid,
+      });
     } else {
       // No user is signed in.
     }
