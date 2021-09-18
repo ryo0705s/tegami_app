@@ -28,14 +28,14 @@ const Layout = ({ children }: Props) => {
     auth
       .signOut()
       .then((result) => {
-        return result;
+        window.confirm("ログアウトしました");
       })
       .catch((error: any) => {
         alert(error.message);
       });
     setUsers({
       id: "",
-      avatar: "",
+      avatar: "avatar.png",
       letterName: "",
       otherInfo: "",
       uid: "",
@@ -53,9 +53,9 @@ const Layout = ({ children }: Props) => {
       </Head>
 
       <header>
+        <br />
         <div>
           {/* <h1>TEGAMI</h1> */}
-
           <div className={styles.svg} onClick={handleLogout}>
             <ExitToAppIcon fontSize="large" />
           </div>
@@ -99,6 +99,9 @@ const Layout = ({ children }: Props) => {
           </li>
           <li>
             <Link href="/user">ユーザー作成</Link>
+          </li>
+          <li>
+            <Link href="/posting">投稿する</Link>
           </li>
           <li>
             <Link href="/postLists">みんなの投稿</Link>
