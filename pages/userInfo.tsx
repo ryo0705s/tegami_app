@@ -3,13 +3,10 @@ import React, { useState, useContext, useEffect } from "react";
 import Image from "next/image";
 import PhotoCameraIcon from "@material-ui/icons/PhotoCamera";
 import styles from "../components/user.module.scss";
-import firebase from "firebase/app";
 import { db, storage } from "../firebase";
 import { AppContext } from "../components/PageStates";
 import { useRouter } from "next/router";
-import user from "./user";
 import Layout from "../components/layout";
-import postLists from "./postLists";
 
 interface yourPostProps {
   id: string;
@@ -82,20 +79,23 @@ const userInfo = () => {
 
   return (
     <Layout>
-      <img src={users.avatar} width={100} height={100} />
-      <p>レターネーム</p>
-      <div>{users.letterName}</div>
-      <p>コメント</p>
-      <div>{users.otherInfo}</div>
       <br />
-      <div>最近の投稿</div>
-      <hr />
-      <ul>
-        {yourPosts &&
-          yourPosts.map((yourpost) => {
-            return <li>{yourpost.text}</li>;
-          })}
-      </ul>
+      <div className={styles.userInfo}>
+        <img src={users.avatar} width={100} height={100} />
+        <p>レターネーム</p>
+        <div>{users.letterName}</div>
+        <p>コメント</p>
+        <div>{users.otherInfo}</div>
+        <br />
+        <p>最近の投稿</p>
+        <hr />
+        <ul>
+          {yourPosts &&
+            yourPosts.map((yourpost) => {
+              return <li>{yourpost.text}</li>;
+            })}
+        </ul>
+      </div>
     </Layout>
   );
 };

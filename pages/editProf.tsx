@@ -7,10 +7,20 @@ import firebase from "firebase/app";
 import { db, storage } from "../firebase";
 import { AppContext } from "../components/PageStates";
 import { useRouter } from "next/router";
-import user from "./user";
 import Layout from "../components/layout";
+import { makeStyles } from "@material-ui/core/styles";
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    "& .MuiTextField-root": {
+      margin: theme.spacing(1),
+      width: "25ch",
+    },
+  },
+}));
 
 const editProf = () => {
+  const classes = useStyles();
   const router = useRouter();
 
   const createLetterName = (
@@ -72,7 +82,7 @@ const editProf = () => {
             });
             console.log(URL, "アドレス教えて！");
           })
-          .catch(function (error: error) {
+          .catch(function (error: any) {
             // Handle any errors
           });
       });
@@ -151,15 +161,27 @@ const editProf = () => {
           <input type="file" className={styles.input} onChange={editAvatar} />
         </label>
       </IconButton>
-      <p>レターネーム</p>
-      <TextField value={users.letterName} onChange={editLetterName} />
-      <p>コメント</p>
-      <TextField
-        multiline
-        variant="outlined"
-        value={users.otherInfo}
-        onChange={editOtherInfo}
-      />
+      <form className={classes.root} noValidate autoComplete="off">
+        <TextField
+          required
+          id="standard-required"
+          label="レターネーム"
+          value={users.letterName}
+          onChange={editLetterName}
+        />
+      </form>
+      <br />
+      <form className={classes.root} noValidate autoComplete="off">
+        <TextField
+          id="outlined-multiline-static"
+          label="コメント"
+          multiline
+          rows={4}
+          variant="outlined"
+          value={users.otherInfo}
+          onChange={editOtherInfo}
+        />
+      </form>
       <p>
         <Button variant="contained" color="primary" onClick={editProfile}>
           編集

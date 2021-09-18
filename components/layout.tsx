@@ -54,7 +54,7 @@ const Layout = ({ children }: Props) => {
 
       <header>
         <div>
-          <h1>TEGAMI</h1>
+          {/* <h1>TEGAMI</h1> */}
 
           <div className={styles.svg} onClick={handleLogout}>
             <ExitToAppIcon fontSize="large" />

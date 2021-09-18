@@ -15,6 +15,8 @@ const postLists = () => {
     setFindPostAvatar,
     findPostUid,
     setFindPostUid,
+    findPostLetterName,
+    setFindPostLetterName,
     liked,
     setLiked,
   }: any = useContext(AppContext);
@@ -42,6 +44,7 @@ const postLists = () => {
         const findPostElements = () => {
           setFindPostAvatar(userLists[postNumber].avatar);
           setFindPostUid(userLists[postNumber].uid);
+          setFindPostLetterName(userLists[postNumber].letterName);
         };
         postNumber !== -1 ? findPostElements() : "";
         // いいねのロジックを正常に戻す
@@ -85,21 +88,24 @@ const postLists = () => {
 
   return (
     <Layout>
-      <ul className={styles.posts}>
-        {posts &&
-          posts.map((post) => {
-            return (
-              <li>
-                <img
-                  src={post.image}
-                  width={100}
-                  height={100}
-                  onClick={() => selectPost(post)}
-                />
-              </li>
-            );
-          })}
-      </ul>
+      <br />
+      <div className={styles.postLists}>
+        <ul className={styles.posts}>
+          {posts &&
+            posts.map((post) => {
+              return (
+                <li>
+                  <img
+                    src={post.image}
+                    width={70}
+                    height={100}
+                    onClick={() => selectPost(post)}
+                  />
+                </li>
+              );
+            })}
+        </ul>
+      </div>
     </Layout>
   );
 };

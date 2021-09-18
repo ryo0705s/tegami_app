@@ -2,3 +2,15 @@
   display: none;
   border-style: none;
 }
+.textField {
+  padding: 0 10% 0;
+}
+.comment {
+  display: flex;
+  gap: 3rem;
+  // width: 128px;
+  // justify-content: flex-start;
+  img {
+    margin-bottom: 1rem;
+  }
+}

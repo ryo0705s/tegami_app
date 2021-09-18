@@ -7,9 +7,19 @@ import firebase from "firebase/app";
 import { auth, provider, db } from "../firebase";
 import { useRouter } from "next/router";
 import { AppContext } from "../components/PageStates";
-import user from "./user";
+import { makeStyles } from "@material-ui/core/styles";
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    "& .MuiTextField-root": {
+      margin: theme.spacing(1),
+      width: "25ch",
+    },
+  },
+}));
 
 const login = () => {
+  const classes = useStyles();
   const {
     email,
     setEmail,
@@ -159,62 +169,67 @@ const login = () => {
 
   return (
     <Layout>
-      <h2>ログイン</h2>
       <div className={styles.login}>
         <div>
-          <span>メール</span>
-          <TextField
-            type="email"
-            onChange={(
-              e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
-            ) => setEmail(e.target.value)}
-          />
+          <form className={classes.root} noValidate autoComplete="off">
+            <TextField
+              id="standard-password-input"
+              label="Email"
+              type="Email"
+              autoComplete="current-email"
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </form>
         </div>
         <br />
         <div>
-          <span>パスワード</span>
-          <TextField
-            type="password"
-            onChange={(
-              e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
-            ) => setPassword(e.target.value)}
-          />
+          <form className={classes.root} noValidate autoComplete="off">
+            <TextField
+              id="standard-password-input"
+              label="Password"
+              type="Password"
+              autoComplete="current-password"
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </form>
         </div>
         <br />
         <Button variant="contained" color="primary" onClick={handleLogin}>
           ログイン
         </Button>
         <br />
-        <p onClick={googleLogin}>グーグルアカウントでログイン</p>
+        <div className={styles.otherLogin}>
+          <p onClick={googleLogin}>グーグルアカウントでログイン</p>
+          <br />
+          <p onClick={anonymousLogin}>ゲストログイン</p>
+        </div>
         <br />
-        <p onClick={anonymousLogin}>ゲストログイン</p>
-        <br />
-        <p onClick={() => setLogined(!logined)}>パスワードを忘れた</p>
-        {logined ? (
-          <>
-            <span>メール</span>
-            <TextField
-              type="email"
-              onChange={(
-                e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
-              ) => setForgotEmail(e.target.value)}
-            />
-            <Button
-              variant="contained"
-              color="primary"
-              value={forgotEmail}
-              onClick={forgotLoginInfo}
-            >
-              送信
-            </Button>
-          </>
-        ) : (
-          ""
-        )}
-        <br />
-        <p>
-          <Link href="/loginUser">アカウントを作成する</Link>
-        </p>
+        <div className={styles.forLogin}>
+          <p onClick={() => setLogined(!logined)}>パスワードを忘れた</p>
+          {logined ? (
+            <>
+              <span>メール</span>
+              <TextField
+                type="email"
+                onChange={(e) => setForgotEmail(e.target.value)}
+              />
+              <Button
+                variant="contained"
+                color="primary"
+                value={forgotEmail}
+                onClick={forgotLoginInfo}
+              >
+                送信
+              </Button>
+            </>
+          ) : (
+            ""
+          )}
+          <br />
+          <p>
+            <Link href="/loginUser">アカウントを作成する</Link>
+          </p>
+        </div>
       </div>
     </Layout>
   );

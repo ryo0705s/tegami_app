@@ -1,4 +1,5 @@
 import { Button, IconButton, TextField } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 import React, { useState, useEffect, useContext } from "react";
 import Layout from "../components/layout";
 import PhotoCameraIcon from "@material-ui/icons/PhotoCamera";
@@ -9,7 +10,18 @@ import firebase from "firebase/app";
 import { useRouter } from "next/router";
 import { AppContext } from "../components/PageStates";
 
+const useStyles = makeStyles((theme) => ({
+  root: {
+    "& .MuiTextField-root": {
+      margin: theme.spacing(1),
+      width: "25ch",
+    },
+  },
+}));
+
 const posting = () => {
+  const classes = useStyles();
+
   const {
     message,
     setMessage,
@@ -64,10 +76,14 @@ const posting = () => {
     router.push("/postLists");
     setPictureUrl("");
   };
+  useEffect(() => {
+    setPictureUrl("uploadYourPicture.jpg");
+  }, []);
 
   return (
     <Layout>
-      <img src={pictureUrl} width="400" height="500" />
+      <br />
+      <img src={pictureUrl} width="400" height="500" className={styles.img} />
       <IconButton>
         <label>
           <PhotoCameraIcon />
@@ -78,15 +94,22 @@ const posting = () => {
           />
         </label>
       </IconButton>
-      <p>説明</p>
-      <TextField
-        multiline
-        variant="outlined"
-        fullWidth
-        onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
-          setMessage(e.target.value)
-        }
-      />
+      {/* <p>説明</p> */}
+      <div className={styles.textField}>
+        <form className={classes.root} noValidate autoComplete="off">
+          <TextField
+            id="outlined-textarea"
+            label="説明"
+            placeholder="手紙の説明をしてみましょう"
+            multiline
+            variant="outlined"
+            fullWidth
+            onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+              setMessage(e.target.value)
+            }
+          />
+        </form>
+      </div>
       <p>
         <Button variant="contained" color="primary" onClick={handlePost}>
           作成

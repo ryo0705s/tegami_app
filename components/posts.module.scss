@@ -1,11 +1,21 @@
 .posts {
+  // position: absolute;
+  // top: 1rem;
+
   display: flex;
   flex-wrap: wrap;
   // justify-content: space-between;
   &:hover {
     cursor: pointer;
   }
+
   li {
-    margin-right: 5rem;
+    margin: 3rem 5rem 0.7rem 2rem;
   }
+}
+.postLists {
+  // position: relative;
+  background-image: url(/letterPinch.png);
+  background-size: 35rem;
+  height: 50rem;
 }
