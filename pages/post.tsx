@@ -442,44 +442,50 @@ const post = () => {
       </div>
       <br />
       <p>説明</p>
-      {!edited ? (
-        <div>{clickedPost.text}</div>
-      ) : (
-        <TextField
-          multiline
-          variant="outlined"
-          fullWidth
-          value={clickedPost.text}
-          onChange={editText}
-        />
-      )}
-      {!updated ? (
+      {clickedPost.uid === users.uid ? (
         <>
-          <br />
-          <Stack spacing={2} direction="row" justifyContent="center">
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={() => {
-                setEdited(!edited);
-                setUpdated(!updated);
-              }}
-            >
-              編集
+          {!edited ? (
+            <div>{clickedPost.text}</div>
+          ) : (
+            <TextField
+              multiline
+              variant="outlined"
+              fullWidth
+              value={clickedPost.text}
+              onChange={editText}
+            />
+          )}
+          {!updated ? (
+            <>
+              <br />
+              <Stack spacing={2} direction="row" justifyContent="center">
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={() => {
+                    setEdited(!edited);
+                    setUpdated(!updated);
+                  }}
+                >
+                  編集
+                </Button>
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  onClick={handleDelete}
+                >
+                  削除
+                </Button>
+              </Stack>
+            </>
+          ) : (
+            <Button variant="contained" color="primary" onClick={updateText}>
+              完了
             </Button>
-            <Button
-              variant="contained"
-              color="secondary"
-              onClick={handleDelete}
-            >
-              削除
-            </Button>
-          </Stack>
+          )}
         </>
       ) : (
-        <Button variant="contained" color="primary" onClick={updateText}>
-          完了
-        </Button>
+        <div>{clickedPost.text}</div>
       )}
 
       <br />
@@ -526,24 +532,28 @@ const post = () => {
                   />
                 </div>
                 <div>{comment.text}</div>
-                <div>
-                  <Stack spacing={1} direction="row" justifyContent="center">
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      onClick={() => editComment(comment)}
-                    >
-                      編集
-                    </Button>
-                    <Button
-                      variant="contained"
-                      color="secondary"
-                      onClick={() => deleteComment(comment)}
-                    >
-                      削除
-                    </Button>
-                  </Stack>
-                </div>
+                {comment.commentUid === users.uid ? (
+                  <div>
+                    <Stack spacing={1} direction="row" justifyContent="center">
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={() => editComment(comment)}
+                      >
+                        編集
+                      </Button>
+                      <Button
+                        variant="contained"
+                        color="secondary"
+                        onClick={() => deleteComment(comment)}
+                      >
+                        削除
+                      </Button>
+                    </Stack>
+                  </div>
+                ) : (
+                  ""
+                )}
               </li>
             );
           })}
