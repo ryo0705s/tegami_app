@@ -19,6 +19,8 @@ const postLists = () => {
     setFindPostLetterName,
     liked,
     setLiked,
+    users,
+    setUsers,
   }: any = useContext(AppContext);
   const router = useRouter();
 
@@ -89,23 +91,43 @@ const postLists = () => {
   return (
     <Layout>
       <br />
-      <div className={styles.postLists}>
-        <ul className={styles.posts}>
-          {posts &&
-            posts.map((post) => {
-              return (
-                <li>
-                  <img
-                    src={post.image}
-                    width={70}
-                    height={100}
-                    onClick={() => selectPost(post)}
-                  />
-                </li>
-              );
-            })}
-        </ul>
-      </div>
+      {users.uid ? (
+        <div className={styles.postLists}>
+          <ul className={styles.posts}>
+            {posts &&
+              posts.map((post) => {
+                return (
+                  <li>
+                    <img
+                      src={post.image}
+                      width={70}
+                      height={100}
+                      onClick={() => selectPost(post)}
+                    />
+                  </li>
+                );
+              })}
+          </ul>
+        </div>
+      ) : (
+        <div className={styles.postLists}>
+          <ul className={styles.posts}>
+            {posts &&
+              posts.map((post) => {
+                return (
+                  <li>
+                    <img
+                      src={post.image}
+                      width={70}
+                      height={100}
+                      onClick={() => window.confirm("ログインしてください")}
+                    />
+                  </li>
+                );
+              })}
+          </ul>
+        </div>
+      )}
     </Layout>
   );
 };
