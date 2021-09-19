@@ -4,7 +4,7 @@ import PageStates from "../components/PageStates";
 export default function App({ Component, pageProps }) {
   return (
     <PageStates>
-      <Component {...pageProps} />;
+      <Component {...pageProps} />
     </PageStates>
   );
 }

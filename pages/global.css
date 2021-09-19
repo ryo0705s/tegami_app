@@ -43,7 +43,7 @@ main {
   background-position: center;
   background-repeat: no-repeat;
   background-size: 500px 700px; */
-  height: 100%;
+  height: 100vh;
   margin-top: 5rem;
 }
 
