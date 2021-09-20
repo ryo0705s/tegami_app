@@ -62,6 +62,7 @@ function PageStates({ children }: Props) {
   const [findCommentAvatar, setFindCommentAvatar] = useState("");
   const [findPostUid, setFindPostUid] = useState("");
   const [findPostLetterName, setFindPostLetterName] = useState("");
+  const [guestLogined, setGuestLogined] = useState(false);
 
   const value = {
     posts,
@@ -110,6 +111,8 @@ function PageStates({ children }: Props) {
     setFindCommentAvatar,
     findPostLetterName,
     setFindPostLetterName,
+    guestLogined,
+    setGuestLogined,
   };
 
   return (

@@ -22,6 +22,8 @@ const Layout = ({ children }: Props) => {
     setUsers,
     loginedId,
     setLoginedId,
+    guestLogined,
+    setGuestLogined,
   }: any = useContext(AppContext);
 
   const handleLogout = () => {
@@ -40,7 +42,7 @@ const Layout = ({ children }: Props) => {
       otherInfo: "",
       uid: "",
     });
-    console.log(users);
+    setGuestLogined(!guestLogined);
     router.push("/login");
   };
 
@@ -73,7 +75,7 @@ const Layout = ({ children }: Props) => {
                 <Link href="/user">プロフィールを作成する</Link>
               </li>
             ) : (
-              <li>プロフィールを作成する</li>
+              <li className={styles.createProf}>プロフィールを作成する</li>
             )}
             <li>
               <Link href="/posting">投稿する</Link>
