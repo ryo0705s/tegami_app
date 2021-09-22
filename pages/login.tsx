@@ -37,10 +37,13 @@ const login = () => {
     setUsers,
     authUserId,
     setAuthUserId,
+    guestLogined,
+    setGuestLogined,
   }: any = useContext(AppContext);
 
   const router = useRouter();
-  const [forgotEmail, setForgotEmail] = useState<string>("");
+  const [forgotEmail, setForgotEmail] = useState("");
+
   const handleLogin = async () => {
     await auth
       .signInWithEmailAndPassword(email, password)
@@ -55,6 +58,36 @@ const login = () => {
     setPassword("");
     // router.push("/");
   };
+
+  // const noNameLogin = async () => {
+  //   await auth
+  //     .signInWithEmailAndPassword(email, password)
+  //     .then((result: any) => {
+  //       return result;
+  //     })
+  //     .catch((error: any) => {
+  //       alert(error.message);
+  //     });
+  //   const authUser = firebase.auth().currentUser;
+  //   if (authUser) {
+  //     const displayName = authUser.displayName;
+  //     const email = authUser.email;
+  //     // const photoURL = authUser.photoURL;
+  //     // const emailVerified = authUser.emailVerified;
+  //     const authUid = authUser.uid;
+  //     setUsers({
+  //       id: users.id,
+  //       avatar: users.avatar,
+  //       letterName: users.letterName,
+  //       otherInfo: users.otherInfo,
+  //       uid: authUid,
+  //     });
+  //     setAuthUserId(authUid);
+  //     router.push("/");
+  //   } else {
+  //     // No user is signed in.
+  //   }
+  // };
 
   const googleLogin = async () => {
     await auth
@@ -88,7 +121,7 @@ const login = () => {
       // const photoURL = authUser.photoURL;
       // const emailVerified = authUser.emailVerified;
       const authUid = authUser.uid;
-
+      console.log(authUid, "いる？");
       await db
         .collection("users")
         .get()
@@ -106,7 +139,18 @@ const login = () => {
             const loginIdNumber: number = userIds.findIndex(
               (userId) => userId.uid === authUid
             );
-            loginIdNumber !== -1 ? setLoginedId(userIds[loginIdNumber].id) : "";
+            console.log(loginIdNumber, "ロングマン");
+            loginIdNumber !== -1
+              ? setLoginedId(userIds[loginIdNumber].id)
+              : setUsers({
+                  id: users.id,
+                  avatar: users.avatar,
+                  letterName: users.letterName,
+                  otherInfo: users.otherInfo,
+                  uid: authUid,
+                });
+            setAuthUserId(authUid);
+            router.push("/");
             setAuthUserId(authUid);
           });
         })
@@ -129,10 +173,12 @@ const login = () => {
       setUsers({
         id: users.id,
         avatar: users.avatar,
-        letterName: users.avatar,
+        letterName: users.letterName,
         otherInfo: users.otherInfo,
         uid: authUid,
       });
+      setGuestLogined(!guestLogined);
+      router.push("/");
     } else {
       // No user is signed in.
     }
@@ -179,13 +225,13 @@ const login = () => {
   }, [loginedId]);
 
   useEffect(() => {
-    setAvatarUrl(users.avatar);
+    console.log(users.letterName, "レタス");
   }, [users]);
 
   // デバッグ用コード
   useEffect(() => {
-    console.log(loginedId, "出ていますか？");
-  }, [loginedId]);
+    console.log(guestLogined, "出ていますか？");
+  }, [guestLogined]);
 
   return (
     <Layout>
@@ -214,9 +260,15 @@ const login = () => {
           </form>
         </div>
         <br />
+        {/* {users.letterName ? ( */}
         <Button variant="contained" color="primary" onClick={handleLogin}>
           ログイン
         </Button>
+        {/* ) : (
+          <Button variant="contained" color="primary" onClick={noNameLogin}>
+            ログイン
+          </Button>
+        )} */}
         <br />
         <div className={styles.otherLogin}>
           <p onClick={googleLogin}>グーグルアカウントでログイン</p>
