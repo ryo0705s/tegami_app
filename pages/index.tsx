@@ -42,11 +42,22 @@ const IndexPage = () => {
               p: 4,
             }}
           >
-            <Typography id="modal-modal-title" variant="h6" component="h2">
+            <img
+              src="tegamiLogo.png"
+              alt="tegami"
+              className={styles.titleLogo}
+            />
+            {/* <Typography id="modal-modal-title" variant="h6" component="h2">
               Text in a modal
-            </Typography>
+            </Typography> */}
             <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+              <div className={styles.topMessage}>
+                <p>このサイトは”手紙を通じて心の安らぎを感じてほしい”</p>
+                <p>そんな思いから生まれました。</p>
+                <p>コロナにより人々の生活は大きく変わりました</p>
+                <p>日々不安や悩みを感じる事が多くなったように思います</p>
+                <p>そんな人たちの力になれたら嬉しいです。</p>
+              </div>
             </Typography>
           </Box>
         </Modal>

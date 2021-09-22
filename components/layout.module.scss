@@ -24,3 +24,32 @@
 .createProf {
   opacity: 0.5;
 }
+.topMessage {
+  font-family: "りいてがき筆", "YuGothic", "游ゴシック体";
+  color: rgba($color: #000000, $alpha: 0.7);
+  font-size: 1.5rem;
+  text-align: left;
+  transform: rotate(-10deg);
+  position: absolute;
+  top: 50%;
+  left: 18%;
+  p {
+    border-bottom: dotted #000;
+  }
+}
+.titleLogo {
+  transform: rotate(-10deg);
+  position: absolute;
+  top: 2%;
+  left: 2%;
+  width: 50rem;
+  height: 15rem;
+}
+.topLogo {
+  // transform: rotate(-10deg);
+  // position: absolute;
+  // top: 2%;
+  // left: 2%;
+  width: 10rem;
+  height: 5rem;
+}

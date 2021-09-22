@@ -62,6 +62,7 @@ const Layout = ({ children }: Props) => {
               <ExitToAppIcon fontSize="large" />
             </div>
           </div>
+          <img src="tegamiLogo.png" alt="tegami" className={styles.topLogo} />
           <ul className={styles.loginedListStyle}>
             <li>
               <Link href="/">トップ</Link>
