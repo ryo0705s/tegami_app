@@ -100,7 +100,7 @@ const IndexPage = () => {
           <p>投稿してみましょう</p>
         </Grid>
         <Grid item xs={4}>
-          <p>コメンtのしてみましょう</p>
+          <p>コメントしてみましょう</p>
         </Grid>
         <Grid item xs={8}>
           <img src="post.png" alt="登録方法" width={90} height={100} />

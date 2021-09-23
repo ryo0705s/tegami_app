@@ -66,6 +66,9 @@ const posting = () => {
         image: pictureUrl,
         text: message,
         uid: users.uid,
+        likeCount: 0,
+        liked: false,
+        likedUid: [""],
       })
       .then((result: any) => {
         return result;

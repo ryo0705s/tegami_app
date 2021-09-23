@@ -6,7 +6,7 @@ interface Props {
   children?: React.ReactNode;
 }
 
-interface postProps {
+export interface postProps {
   id: string;
   image: string;
   text: string;
@@ -15,7 +15,7 @@ interface postProps {
   liked: boolean;
   likedUid: string[];
 }
-interface userProps {
+export interface userProps {
   id: string;
   avatar: string;
   letterName: string;
