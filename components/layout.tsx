@@ -55,15 +55,20 @@ const Layout = ({ children }: Props) => {
       </Head>
       {users.uid ? (
         <header>
-          <br />
           <div>
             {/* <h1>TEGAMI</h1> */}
             <div className={styles.svg} onClick={handleLogout}>
               <ExitToAppIcon fontSize="large" />
             </div>
           </div>
-          <img src="tegamiLogo.png" alt="tegami" className={styles.topLogo} />
           <ul className={styles.loginedListStyle}>
+            <li>
+              <img
+                src="tegamiLogo.png"
+                alt="tegami"
+                className={styles.topLogo}
+              />
+            </li>
             <li>
               <Link href="/">トップ</Link>
             </li>
