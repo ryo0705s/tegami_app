@@ -66,13 +66,13 @@ const IndexPage = () => {
       <h2>TEGAMIとは</h2>
       <Grid container spacing={0}>
         <Grid item xs={4}>
-          <p>手紙を共有できるアプリです</p>
+          <p>TEGAMIは手紙を共有できるアプリです</p>
         </Grid>
         <Grid item xs={8}>
-          <img src="post.png" alt="登録方法" width={90} height={100} />
+          <img src="tegamiShere.jpg" alt="登録方法" width={300} height={250} />
         </Grid>
         <Grid item xs={8}>
-          <img src="post.png" alt="登録方法" width={90} height={100} />
+          <img src="tegamiShere2.jpg" alt="登録方法" width={250} height={300} />
         </Grid>
         <Grid item xs={4}>
           <p>引き出しの奥にある手紙を共有してみませんか？</p>
@@ -81,7 +81,7 @@ const IndexPage = () => {
           <p>嬉しい気持ちを共有しよう！</p>
         </Grid>
         <Grid item xs={8}>
-          <img src="post.png" alt="登録方法" width={90} height={100} />
+          <img src="shereHappy.jpg" alt="登録方法" width={250} height={300} />
         </Grid>
       </Grid>
 
@@ -91,10 +91,10 @@ const IndexPage = () => {
           <p>登録しましょう</p>
         </Grid>
         <Grid item xs={8}>
-          <img src="post.png" alt="登録方法" width={90} height={100} />
+          <img src="post.png" alt="登録方法" width={250} height={300} />
         </Grid>
         <Grid item xs={8}>
-          <img src="post.png" alt="登録方法" width={90} height={100} />
+          <img src="post.png" alt="登録方法" width={250} height={300} />
         </Grid>
         <Grid item xs={4}>
           <p>投稿してみましょう</p>
@@ -103,7 +103,7 @@ const IndexPage = () => {
           <p>コメントしてみましょう</p>
         </Grid>
         <Grid item xs={8}>
-          <img src="post.png" alt="登録方法" width={90} height={100} />
+          <img src="post.png" alt="登録方法" width={250} height={300} />
         </Grid>
       </Grid>
       <h2>最後に</h2>
