@@ -14,6 +14,7 @@ import { auth, provider, db } from "../firebase";
 import { useRouter } from "next/router";
 import { AppContext } from "../components/PageStates";
 import { makeStyles } from "@material-ui/core/styles";
+import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,10 +24,6 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
-
-const saveLoginState = () => {
-  auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
-};
 
 const login = () => {
   const classes = useStyles();
@@ -73,7 +70,8 @@ const login = () => {
     await auth
       .signInWithPopup(provider)
       .then((result: any) => {
-        return result;
+        // return result;
+        console.log(result, "パスワードでろ！");
       })
       .catch((error: any) => {
         alert(error.message);
@@ -121,7 +119,7 @@ const login = () => {
             const loginIdNumber: number = userIds.findIndex(
               (userId) => userId.uid === authUid
             );
-            console.log(loginIdNumber, "ロングマン");
+            // console.log(loginIdNumber, "ロングマン");
             loginIdNumber !== -1
               ? setLoginedId(userIds[loginIdNumber].id)
               : setUsers({
@@ -132,9 +130,9 @@ const login = () => {
                   uid: authUid,
                 });
             setAuthUserId(authUid);
-            router.push("/");
+            // router.push("/");
             setAuthUserId(authUid);
-            saveLoginState();
+            // saveLoginState();
           });
         })
         .catch((error: any) => {
@@ -180,6 +178,43 @@ const login = () => {
         // ..
       });
   };
+
+  const saveLoginState = () => {
+    // auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+    const state = {
+      isSignUp: true,
+      token: null,
+      error: "",
+    };
+    // 認証データ
+    const authDate = {
+      email: "",
+      password: "",
+      returnSecureToken: true,
+    };
+    // signIn用のAPIキー
+    let url =
+      "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=[AIzaSyCNOWL6WQRN0GEVJq7E0cV6TnHsr4PjOSQ]";
+    // signUp用のAPIキー
+    if (users) {
+      url =
+        "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=[AIzaSyCNOWL6WQRN0GEVJq7E0cV6TnHsr4PjOSQ]";
+    }
+    axios
+      .post(url, authDate)
+      .then((response) => {
+        // 返ってきたトークンをローカルストレージに格納する
+        localStorage.setItem("token", response.data.idToken);
+      })
+      .catch((error) => {
+        // Firebase側で用意されているエラーメッセージが格納される
+        alert({ error: error.response.data.error.message });
+      });
+  };
+
+  // useEffect(() => {
+  //   currentLogin();
+  // }, []);
 
   useEffect(() => {
     if (loginedId)

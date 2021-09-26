@@ -72,7 +72,7 @@ const IndexPage = () => {
           <img src="tegamiShere.jpg" alt="登録方法" width={300} height={250} />
         </Grid>
         <Grid item xs={8}>
-          <img src="tegamiShere2.jpg" alt="登録方法" width={250} height={300} />
+          <img src="tegamiMemory.jpg" alt="登録方法" width={300} height={250} />
         </Grid>
         <Grid item xs={4}>
           <p>引き出しの奥にある手紙を共有してみませんか？</p>
@@ -81,7 +81,12 @@ const IndexPage = () => {
           <p>嬉しい気持ちを共有しよう！</p>
         </Grid>
         <Grid item xs={8}>
-          <img src="shereHappy.jpg" alt="登録方法" width={250} height={300} />
+          <img
+            src="shereYourFeeling.jpg"
+            alt="登録方法"
+            width={300}
+            height={200}
+          />
         </Grid>
       </Grid>
 
