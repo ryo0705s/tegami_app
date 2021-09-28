@@ -4,6 +4,7 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
+import Grid from "@mui/material/Grid";
 import styles from "../components/layout.module.scss";
 import { AppContext } from "../components/PageStates";
 
@@ -62,18 +63,59 @@ const IndexPage = () => {
           </Box>
         </Modal>
       </div>
-      <h2>サイトについて</h2>
-      {/* <Image src="/letter.jpg" width={300} height={400} /> */}
-      <p>
-        このサイトは”手紙を通じて心の安らぎを感じてほしい”そんな思いから生まれました。
-        <br />
-        コロナにより人々の生活は大きく変わりました。
-        <br />
-        日々不安や悩みを感じる事が多くなったように思います。
-        <br />
-        そんな人たちの力になれたら嬉しいです。
-        <br />
-      </p>
+      <h2>TEGAMIとは</h2>
+      <Grid container spacing={0}>
+        <Grid item xs={4}>
+          <p>TEGAMIは手紙を共有できるアプリです</p>
+        </Grid>
+        <Grid item xs={8}>
+          <img src="tegamiShere.jpg" alt="登録方法" width={300} height={250} />
+        </Grid>
+        <Grid item xs={8}>
+          <img src="tegamiMemory.jpg" alt="登録方法" width={300} height={250} />
+        </Grid>
+        <Grid item xs={4}>
+          <p>引き出しの奥にある手紙を共有してみませんか？</p>
+        </Grid>
+        <Grid item xs={4}>
+          <p>嬉しい気持ちを共有しよう！</p>
+        </Grid>
+        <Grid item xs={8}>
+          <img
+            src="shereYourFeeling.jpg"
+            alt="登録方法"
+            width={300}
+            height={200}
+          />
+        </Grid>
+      </Grid>
+
+      <h2>TEGAMIの利用方法</h2>
+      <Grid container spacing={0}>
+        <Grid item xs={4}>
+          <p>登録しましょう</p>
+        </Grid>
+        <Grid item xs={8}>
+          <img src="post.png" alt="登録方法" width={250} height={300} />
+        </Grid>
+        <Grid item xs={8}>
+          <img src="post.png" alt="登録方法" width={250} height={300} />
+        </Grid>
+        <Grid item xs={4}>
+          <p>投稿してみましょう</p>
+        </Grid>
+        <Grid item xs={4}>
+          <p>コメントしてみましょう</p>
+        </Grid>
+        <Grid item xs={8}>
+          <img src="post.png" alt="登録方法" width={250} height={300} />
+        </Grid>
+      </Grid>
+      <h2>最後に</h2>
+      <p>コロナによりオンラインでのやりとりが増えました。</p>
+      <p>だからこそオフラインの価値が高まっていると思います。</p>
+      <p>手紙はその中間をいくようなものだと思います。</p>
+      <p>このTEGAMIをきっかけに大事な人に手紙を出してみてはどうでしょうか？</p>
     </Layout>
   );
 };

@@ -5,7 +5,7 @@ import PhotoCameraIcon from "@material-ui/icons/PhotoCamera";
 import styles from "../components/user.module.scss";
 import firebase from "firebase/app";
 import { db, storage } from "../firebase";
-import { AppContext } from "../components/PageStates";
+import { AppContext, userProps, postProps } from "../components/PageStates";
 import { useRouter } from "next/router";
 import Layout from "../components/layout";
 import { makeStyles } from "@material-ui/core/styles";
@@ -61,7 +61,7 @@ const editProf = () => {
     });
     router.push("/");
   };
-  const editAvatar = (e: any) => {
+  const editAvatar = (e) => {
     storage
       .ref()
       .child(`/avatars/${e.target.files[0].name}`)

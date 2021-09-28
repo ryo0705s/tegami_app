@@ -6,7 +6,7 @@ interface Props {
   children?: React.ReactNode;
 }
 
-interface postProps {
+export interface postProps {
   id: string;
   image: string;
   text: string;
@@ -15,15 +15,59 @@ interface postProps {
   liked: boolean;
   likedUid: string[];
 }
-interface userProps {
-  id: string;
-  avatar: string;
-  letterName: string;
-  otherInfo: string;
-  uid: string;
-}
+
+// // UserContext が保持する値の型
+// export interface UserContextType {
+//   gitHubToken: string;
+//   setGitHubToken: (token: string) => void;
+// }
+// // ローカルストレージ用のキー
+// const TEGAMI_KEY = "tegamiKey";
 
 function PageStates({ children }: Props) {
+  // const useLocalStorage = (key, initialValue) => {
+  //   // State to store our value
+  //   // Pass initial state function to useState so logic is only executed once
+  //   const [storedValue, setStoredValue] = useState(() => {
+  //     try {
+  //       // Get from local storage by key
+  //       const item = window.localStorage.getItem(key);
+  //       // Parse stored json or if none return initialValue
+  //       return item ? JSON.parse(item) : initialValue;
+  //     } catch (error) {
+  //       // If error also return initialValue
+  //       console.log(error);
+  //       return initialValue;
+  //     }
+  //   });
+  //   // Return a wrapped version of useState's setter function that ...
+  //   // ... persists the new value to localStorage.
+  //   const setValue = (value) => {
+  //     try {
+  //       // Allow value to be a function so we have same API as useState
+  //       const valueToStore =
+  //         value instanceof Function ? value(storedValue) : value;
+  //       // Save state
+  //       setStoredValue(valueToStore);
+  //       // Save to local storage
+  //       window.localStorage.setItem(key, JSON.stringify(valueToStore));
+  //     } catch (error) {
+  //       // A more advanced implementation would handle the error case
+  //       console.log(error);
+  //     }
+  //   };
+  //   return [storedValue, setValue];
+  // };
+  // const getToken = (token) => {
+  //   localStorage.getItem(TEGAMI_KEY, token);
+  //   setGitHubToken(token);
+  // };
+  // const [gitHubToken, setGitHubToken] = useState("");
+  // const setToken = (token) => {
+  //   localStorage.setItem(TEGAMI_KEY, token);
+  //   setGitHubToken(token);
+  // };
+
   const [posts, setPosts] = useState<Partial<postProps[]>>([
     {
       id: "",
@@ -113,6 +157,7 @@ function PageStates({ children }: Props) {
     setFindPostLetterName,
     guestLogined,
     setGuestLogined,
+    // useLocalStorage,
   };
 
   return (

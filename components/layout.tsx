@@ -1,9 +1,10 @@
-import React, { ReactNode, useContext, useEffect } from "react";
+import React, { ReactNode, useContext, useEffect, useState } from "react";
 import Head from "next/head";
 import Link from "next/link";
 import styles from "./layout.module.scss";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
-import { auth } from "../firebase";
+import firebase from "firebase/app";
+import { auth, db } from "../firebase";
 import { NextRouter, useRouter } from "next/router";
 import { AppContext } from "./PageStates";
 
@@ -13,6 +14,7 @@ interface Props {
 
 const Layout = ({ children }: Props) => {
   const router = useRouter();
+  const [authId, setAuthId] = useState("");
   const {
     userId,
     setUserId,
@@ -20,10 +22,10 @@ const Layout = ({ children }: Props) => {
     setAvatarUrl,
     users,
     setUsers,
-    loginedId,
-    setLoginedId,
     guestLogined,
     setGuestLogined,
+    authUserId,
+    setAuthUserId,
   }: any = useContext(AppContext);
 
   const handleLogout = () => {
@@ -46,6 +48,78 @@ const Layout = ({ children }: Props) => {
     router.push("/login");
   };
 
+  const authLogin = () => {
+    firebase.auth().onAuthStateChanged(async (user) => {
+      if (user) {
+        const authUid = user.uid;
+        await db
+          .collection("users")
+          .get()
+          .then((querySnapshot) => {
+            let userIds = [];
+            querySnapshot.forEach((doc) => {
+              const restData = { ...doc.data() };
+              userIds.push({
+                id: doc.id,
+                avatar: restData.avatar,
+                letterName: restData.letterName,
+                otherInfo: restData.otherInfo,
+                uid: restData.uid,
+              });
+              const loginIdNumber: number = userIds.findIndex(
+                (userId) => userId.uid === authUid
+              );
+              // console.log(loginIdNumber, "ロングマン");
+              loginIdNumber !== -1
+                ? setAuthId(userIds[loginIdNumber].id)
+                : setUsers({
+                    id: users.id,
+                    avatar: users.avatar,
+                    letterName: users.letterName,
+                    otherInfo: users.otherInfo,
+                    uid: authUid,
+                  });
+              setAuthUserId(authUid);
+              // saveLoginState();
+            });
+          })
+          .catch((error: any) => {
+            console.log("Error getting documents: ", error);
+          });
+      } else {
+        console.log("誰もいない夏");
+      }
+    });
+  };
+
+  useEffect(() => {
+    authLogin();
+  }, []);
+
+  useEffect(() => {
+    if (authId)
+      (async () => {
+        const docRef = await db.collection("users").doc(authId);
+        docRef
+          .get()
+          .then((doc) => {
+            if (doc.exists) {
+              setUsers({
+                id: doc.id,
+                avatar: doc.data().avatar,
+                letterName: doc.data().letterName,
+                otherInfo: doc.data().otherInfo,
+                uid: doc.data().uid,
+              });
+            } else {
+              console.log("No such document!");
+            }
+          })
+          .catch((error: any) => {
+            alert(error.message);
+          });
+      })();
+  }, [authId]);
   return (
     <>
       <Head>
@@ -55,15 +129,20 @@ const Layout = ({ children }: Props) => {
       </Head>
       {users.uid ? (
         <header>
-          <br />
           <div>
             {/* <h1>TEGAMI</h1> */}
             <div className={styles.svg} onClick={handleLogout}>
               <ExitToAppIcon fontSize="large" />
             </div>
           </div>
-          <img src="tegamiLogo.png" alt="tegami" className={styles.topLogo} />
           <ul className={styles.loginedListStyle}>
+            <li>
+              <img
+                src="tegamiLogo.png"
+                alt="tegami"
+                className={styles.topLogo}
+              />
+            </li>
             <li>
               <Link href="/">トップ</Link>
             </li>
