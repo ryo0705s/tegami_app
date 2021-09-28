@@ -63,6 +63,7 @@ const login = () => {
     currentLogin();
     setEmail("");
     setPassword("");
+    // saveLoginState();
     // router.push("/");
   };
 
@@ -131,7 +132,6 @@ const login = () => {
                 });
             setAuthUserId(authUid);
             // router.push("/");
-            setAuthUserId(authUid);
             // saveLoginState();
           });
         })
@@ -139,7 +139,7 @@ const login = () => {
           console.log("Error getting documents: ", error);
         });
     } else {
-      // No user is signed in.
+      console.log("誰もいない");
     }
   };
 
@@ -179,42 +179,43 @@ const login = () => {
       });
   };
 
-  const saveLoginState = () => {
-    // auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
-    const state = {
-      isSignUp: true,
-      token: null,
-      error: "",
-    };
-    // 認証データ
-    const authDate = {
-      email: "",
-      password: "",
-      returnSecureToken: true,
-    };
-    // signIn用のAPIキー
-    let url =
-      "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=[AIzaSyCNOWL6WQRN0GEVJq7E0cV6TnHsr4PjOSQ]";
-    // signUp用のAPIキー
-    if (users) {
-      url =
-        "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=[AIzaSyCNOWL6WQRN0GEVJq7E0cV6TnHsr4PjOSQ]";
-    }
-    axios
-      .post(url, authDate)
-      .then((response) => {
-        // 返ってきたトークンをローカルストレージに格納する
-        localStorage.setItem("token", response.data.idToken);
-      })
-      .catch((error) => {
-        // Firebase側で用意されているエラーメッセージが格納される
-        alert({ error: error.response.data.error.message });
-      });
-  };
-
-  // useEffect(() => {
-  //   currentLogin();
-  // }, []);
+  // 登録済みのメールとパスワードを元に、axiosでfirebaseと通信し、tokenを取得し、
+  // localstorageに保管
+  // const saveLoginState = () => {
+  //   // auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+  //   // const state = {
+  //   //   isSignUp: true,
+  //   //   token: null,
+  //   //   error: "",
+  //   // };
+  //   // 認証データ
+  //   const authDate = {
+  //     email: email,
+  //     password: password,
+  //     returnSecureToken: true,
+  //   };
+  //   // signUp用のAPIキー
+  //   let url =
+  //     "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=[AIzaSyCNOWL6WQRN0GEVJq7E0cV6TnHsr4PjOSQ]";
+  //   // signIn用のAPIキー
+  //   if (users) {
+  //     url =
+  //       "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=[AIzaSyCNOWL6WQRN0GEVJq7E0cV6TnHsr4PjOSQ]";
+  //     if (email && password) {
+  //       axios
+  //         .post(url, authDate)
+  //         .then((response) => {
+  //           // 返ってきたトークンをローカルストレージに格納する
+  //           localStorage.setItem("token", response.data.idToken);
+  //         })
+  //         .catch((error) => {
+  //           // Firebase側で用意されているエラーメッセージが格納される
+  //           alert(error);
+  //         });
+  //     }
+  //   }
+  // };
+  // リロードしたらfirebase.auth().onAuthStateChangedが走るようにする
 
   useEffect(() => {
     if (loginedId)
@@ -242,11 +243,11 @@ const login = () => {
       })();
   }, [loginedId]);
 
+  // デバッグ用コード
   useEffect(() => {
     console.log(users.letterName, "レタス");
   }, [users]);
 
-  // デバッグ用コード
   useEffect(() => {
     console.log(guestLogined, "出ていますか？");
   }, [guestLogined]);
