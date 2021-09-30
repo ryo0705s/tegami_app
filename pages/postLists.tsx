@@ -59,7 +59,7 @@ const postLists = () => {
   useEffect(() => {
     if (clickedId)
       (() => {
-        router.push("/post");
+        router.push(`/${clickedId}`);
       })();
   }, [clickedId]);
 
@@ -82,8 +82,8 @@ const postLists = () => {
 
   // デバッグ用
   useEffect(() => {
-    console.log(clickedId, "クリック証券");
-  }, [clickedId]);
+    console.log(findPostUid, "呼ばれてる？");
+  }, [findPostUid]);
   useEffect(() => {
     console.log(liked, "焼肉らいく");
   }, [liked]);
