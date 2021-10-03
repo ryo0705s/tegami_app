@@ -555,7 +555,9 @@ const post = () => {
                     alt="prof"
                     width="30"
                     height="30"
-                    onClick={() => router.push("./userInfo")}
+                    onClick={() =>
+                      router.push(`/posts/${selectedId}/${comment.id}`)
+                    }
                   />
                 </div>
                 <div>{comment.text}</div>

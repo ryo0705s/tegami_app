@@ -82,8 +82,8 @@ const postLists = () => {
 
   // デバッグ用
   useEffect(() => {
-    console.log(findPostUid, "呼ばれてる？");
-  }, [findPostUid]);
+    console.log(router.query, "呼ばれてる？");
+  }, []);
   useEffect(() => {
     console.log(liked, "焼肉らいく");
   }, [liked]);
