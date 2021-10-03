@@ -4,13 +4,13 @@ import { makeStyles } from "@material-ui/core/styles";
 import ThumbUpAltIcon from "@material-ui/icons/ThumbUpAlt";
 import PhotoCameraIcon from "@material-ui/icons/PhotoCamera";
 import React, { useState, useEffect, useContext } from "react";
-import Layout from "../components/layout";
+import Layout from "../../../components/layout";
 import firebase from "firebase/app";
 import "firebase/firestore";
-import { db, storage } from "../firebase";
-import { AppContext } from "../components/PageStates";
+import { db, storage } from "../../../firebase";
+import { AppContext } from "../../../components/PageStates";
 import { useRouter } from "next/router";
-import styles from "../components/post.module.scss";
+import styles from "../../../components/post.module.scss";
 
 interface commentProps {
   id: string;
@@ -28,15 +28,6 @@ interface updateCommentTextProps {
   comment: string;
   edited: boolean;
 }
-interface clickedPostProps {
-  id: string;
-  image: string;
-  text: string;
-  uid: string;
-  likeCount: number;
-  liked: boolean;
-  likedUid: string[];
-}
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -50,7 +41,6 @@ const useStyles = makeStyles((theme) => ({
 const post = () => {
   const classes = useStyles();
   const router = useRouter();
-  const [selectedId, setSelectedId] = useState("");
   const [comments, setComments] = useState<Partial<commentProps[]>>([
     {
       id: "",
@@ -76,15 +66,6 @@ const post = () => {
     edited: false,
   });
 
-  const [clickedPost, setClickedPost] = useState<clickedPostProps>({
-    id: "",
-    image: "",
-    text: "",
-    uid: "",
-    likeCount: 0,
-    liked: false,
-    likedUid: [""],
-  });
   const editText = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setClickedPost({
       id: clickedPost.id,
@@ -310,6 +291,10 @@ const post = () => {
     setFindPostLetterName,
     findPostUid,
     setFindPostUid,
+    selectedId,
+    setSelectedId,
+    clickedPost,
+    setClickedPost,
   }: any = useContext(AppContext);
 
   const selectedPost = () => {
@@ -373,7 +358,7 @@ const post = () => {
   //   .collection("comments");
 
   useEffect(() => {
-    const targetUrl = location.pathname.split("/")[1];
+    const targetUrl = location.pathname.split("/")[2];
     setSelectedId(targetUrl);
   }, []);
 
@@ -432,9 +417,11 @@ const post = () => {
     console.log(findPostUid, "呼ばれてますか？");
   }, [findPostUid]);
   useEffect(() => {
-    console.log(selectedId, "モンドセレクション");
-  }, [selectedId]);
-
+    console.log(clickedPost, "モンドセレクション");
+  }, [clickedPost]);
+  useEffect(() => {
+    console.log(location.pathname.split("/")[2], "クエっクエ");
+  }, []);
   const targetUid: string = clickedPost.likedUid.find((clickedFoundUid) => {
     return clickedFoundUid == users.uid;
   });
@@ -477,7 +464,7 @@ const post = () => {
           alt="prof"
           width="30"
           height="30"
-          onClick={() => router.push("./userInfo")}
+          onClick={() => router.push(`/posts/${selectedId}/postInfo`)}
         />
       </div>
       <br />

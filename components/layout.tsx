@@ -158,10 +158,10 @@ const Layout = ({ children }: Props) => {
               <li className={styles.createProf}>プロフィールを作成する</li>
             )}
             <li>
-              <Link href="/posting">投稿する</Link>
+              <Link href="/posts/posting">投稿する</Link>
             </li>
             <li>
-              <Link href="/postLists">みんなの投稿</Link>
+              <Link href="/posts/postLists">みんなの投稿</Link>
             </li>
           </ul>
         </header>
@@ -178,7 +178,7 @@ const Layout = ({ children }: Props) => {
             <li>ユーザー作成</li>
             <li>投稿する</li>
             <li>
-              <Link href="/postLists">みんなの投稿</Link>
+              <Link href="/posts/postLists">みんなの投稿</Link>
             </li>
           </ul>
         </header>
@@ -219,10 +219,10 @@ const Layout = ({ children }: Props) => {
               <li>プロフィールを作成する</li>
             )}
             <li>
-              <Link href="/posting">投稿する</Link>
+              <Link href="/posts/posting">投稿する</Link>
             </li>
             <li>
-              <Link href="/postLists">みんなの投稿</Link>
+              <Link href="/posts/postLists">みんなの投稿</Link>
             </li>
           </ul>
         </footer>
@@ -239,7 +239,7 @@ const Layout = ({ children }: Props) => {
             <li>ユーザー作成</li>
             <li>投稿する</li>
             <li>
-              <Link href="/postLists">みんなの投稿</Link>
+              <Link href="/posts/postLists">みんなの投稿</Link>
             </li>
           </ul>
           <div>&copy; 2021 TEGAMI All Rights Reserved</div>

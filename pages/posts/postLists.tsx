@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useContext } from "react";
-import Layout from "../components/layout";
-import styles from "../components/posts.module.scss";
-import { storage, db } from "../firebase";
+import Layout from "../../components/layout";
+import styles from "../../components/posts.module.scss";
+import { storage, db } from "../../firebase";
 import { useRouter } from "next/router";
-import { AppContext } from "../components/PageStates";
+import { AppContext } from "../../components/PageStates";
 
 const postLists = () => {
   const {
@@ -59,7 +59,7 @@ const postLists = () => {
   useEffect(() => {
     if (clickedId)
       (() => {
-        router.push(`/${clickedId}`);
+        router.push(`/posts/${clickedId}/post`);
       })();
   }, [clickedId]);
 

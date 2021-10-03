@@ -145,6 +145,8 @@ const editProf = () => {
     setLoginedId,
     authUserId,
     setAuthUserId,
+    clickedPost,
+    setClickedPost,
   }: any = useContext(AppContext);
 
   // デバッグ用コード
