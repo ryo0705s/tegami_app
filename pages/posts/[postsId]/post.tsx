@@ -117,7 +117,7 @@ const post = () => {
       .doc(clickedPost.id)
       .delete()
       .then(() => {
-        router.push("/postLists");
+        router.push("/posts/postLists");
       })
       .catch((error: any) => {
         alert(error.message);

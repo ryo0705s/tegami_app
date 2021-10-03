@@ -152,7 +152,7 @@ const Layout = ({ children }: Props) => {
             </li>
             {!users.letterName ? (
               <li>
-                <Link href="/user">プロフィールを作成する</Link>
+                <Link href="/users/user">プロフィールを作成する</Link>
               </li>
             ) : (
               <li className={styles.createProf}>プロフィールを作成する</li>
@@ -189,7 +189,7 @@ const Layout = ({ children }: Props) => {
           alt="prof"
           width="50"
           height="50"
-          onClick={() => router.push("./editProf")}
+          onClick={() => router.push("/users/editProf")}
         />
         <div>{`${users.uid}さんこんにちは`}</div>
         <div>{children}</div>
@@ -213,7 +213,7 @@ const Layout = ({ children }: Props) => {
             </li>
             {!users.letterName ? (
               <li>
-                <Link href="/user">プロフィールを作成する</Link>
+                <Link href="/users/user">プロフィールを作成する</Link>
               </li>
             ) : (
               <li>プロフィールを作成する</li>
