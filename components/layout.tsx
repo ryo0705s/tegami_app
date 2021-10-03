@@ -45,7 +45,7 @@ const Layout = ({ children }: Props) => {
       uid: "",
     });
     setGuestLogined(!guestLogined);
-    router.push("/login");
+    router.push("/auth/login");
   };
 
   const authLogin = () => {
@@ -234,7 +234,7 @@ const Layout = ({ children }: Props) => {
               <Link href="/">トップ</Link>
             </li>
             <li>
-              <Link href="/login">ログイン</Link>
+              <Link href="/auth/login">ログイン</Link>
             </li>
             <li>ユーザー作成</li>
             <li>投稿する</li>
