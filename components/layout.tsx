@@ -45,7 +45,7 @@ const Layout = ({ children }: Props) => {
       uid: "",
     });
     setGuestLogined(!guestLogined);
-    router.push("/login");
+    router.push("/auth/login");
   };
 
   const authLogin = () => {
@@ -152,16 +152,16 @@ const Layout = ({ children }: Props) => {
             </li>
             {!users.letterName ? (
               <li>
-                <Link href="/user">プロフィールを作成する</Link>
+                <Link href="/users/user">プロフィールを作成する</Link>
               </li>
             ) : (
               <li className={styles.createProf}>プロフィールを作成する</li>
             )}
             <li>
-              <Link href="/posting">投稿する</Link>
+              <Link href="/posts/posting">投稿する</Link>
             </li>
             <li>
-              <Link href="/postLists">みんなの投稿</Link>
+              <Link href="/posts/postLists">みんなの投稿</Link>
             </li>
           </ul>
         </header>
@@ -173,12 +173,12 @@ const Layout = ({ children }: Props) => {
               <Link href="/">トップ</Link>
             </li>
             <li>
-              <Link href="/login">ログイン</Link>
+              <Link href="/auth/login">ログイン</Link>
             </li>
             <li>ユーザー作成</li>
             <li>投稿する</li>
             <li>
-              <Link href="/postLists">みんなの投稿</Link>
+              <Link href="/posts/postLists">みんなの投稿</Link>
             </li>
           </ul>
         </header>
@@ -189,7 +189,7 @@ const Layout = ({ children }: Props) => {
           alt="prof"
           width="50"
           height="50"
-          onClick={() => router.push("./editProf")}
+          onClick={() => router.push("/users/editProf")}
         />
         <div>{`${users.uid}さんこんにちは`}</div>
         <div>{children}</div>
@@ -213,16 +213,16 @@ const Layout = ({ children }: Props) => {
             </li>
             {!users.letterName ? (
               <li>
-                <Link href="/user">プロフィールを作成する</Link>
+                <Link href="/users/user">プロフィールを作成する</Link>
               </li>
             ) : (
               <li>プロフィールを作成する</li>
             )}
             <li>
-              <Link href="/posting">投稿する</Link>
+              <Link href="/posts/posting">投稿する</Link>
             </li>
             <li>
-              <Link href="/postLists">みんなの投稿</Link>
+              <Link href="/posts/postLists">みんなの投稿</Link>
             </li>
           </ul>
         </footer>
@@ -234,12 +234,12 @@ const Layout = ({ children }: Props) => {
               <Link href="/">トップ</Link>
             </li>
             <li>
-              <Link href="/login">ログイン</Link>
+              <Link href="/auth/login">ログイン</Link>
             </li>
             <li>ユーザー作成</li>
             <li>投稿する</li>
             <li>
-              <Link href="/postLists">みんなの投稿</Link>
+              <Link href="/posts/postLists">みんなの投稿</Link>
             </li>
           </ul>
           <div>&copy; 2021 TEGAMI All Rights Reserved</div>

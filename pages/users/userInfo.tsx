@@ -2,11 +2,11 @@ import { Button, IconButton, TextField } from "@material-ui/core";
 import React, { useState, useContext, useEffect } from "react";
 import Image from "next/image";
 import PhotoCameraIcon from "@material-ui/icons/PhotoCamera";
-import styles from "../components/user.module.scss";
-import { db, storage } from "../firebase";
-import { AppContext } from "../components/PageStates";
+import styles from "../../components/user.module.scss";
+import { db, storage } from "../../firebase";
+import { AppContext } from "../../components/PageStates";
 import { useRouter } from "next/router";
-import Layout from "../components/layout";
+import Layout from "../../components/layout";
 
 interface yourPostProps {
   id: string;

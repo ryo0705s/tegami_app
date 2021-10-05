@@ -1,10 +1,10 @@
 import { Button, TextField } from "@material-ui/core";
 import Link from "next/link";
 import React, { useState, useContext, useEffect } from "react";
-import Layout from "../components/layout";
-import styles from "../components/login.module.scss";
+import Layout from "../../components/layout";
+import styles from "../../components/login.module.scss";
 import firebase from "firebase/app";
-import { auth, provider, db } from "../firebase";
+import { auth, provider, db } from "../../firebase";
 // import {
 //   getAuth,
 //   setPersistence,
@@ -12,7 +12,7 @@ import { auth, provider, db } from "../firebase";
 //   browserSessionPersistence,
 // } from "firebase/auth";
 import { useRouter } from "next/router";
-import { AppContext } from "../components/PageStates";
+import { AppContext } from "../../components/PageStates";
 import { makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
 
@@ -318,7 +318,7 @@ const login = () => {
           )}
           <br />
           <p>
-            <Link href="/loginUser">アカウントを作成する</Link>
+            <Link href="/auth/loginUser">アカウントを作成する</Link>
           </p>
         </div>
       </div>

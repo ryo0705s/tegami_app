@@ -1,14 +1,14 @@
 import { Button, IconButton, TextField } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import React, { useState, useEffect, useContext } from "react";
-import Layout from "../components/layout";
+import Layout from "../../components/layout";
 import PhotoCameraIcon from "@material-ui/icons/PhotoCamera";
-import styles from "../components/posting.module.scss";
-import { storage, db } from "../firebase";
+import styles from "../../components/posting.module.scss";
+import { storage, db } from "../../firebase";
 import "firebase/storage";
 import firebase from "firebase/app";
 import { useRouter } from "next/router";
-import { AppContext } from "../components/PageStates";
+import { AppContext } from "../../components/PageStates";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -76,7 +76,7 @@ const posting = () => {
       .catch((error: any) => {
         alert(error.message);
       });
-    router.push("/postLists");
+    router.push("/posts/postLists");
     setPictureUrl("");
   };
   useEffect(() => {

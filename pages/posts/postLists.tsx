@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useContext } from "react";
-import Layout from "../components/layout";
-import styles from "../components/posts.module.scss";
-import { storage, db } from "../firebase";
+import Layout from "../../components/layout";
+import styles from "../../components/posts.module.scss";
+import { storage, db } from "../../firebase";
 import { useRouter } from "next/router";
-import { AppContext } from "../components/PageStates";
+import { AppContext } from "../../components/PageStates";
 
 const postLists = () => {
   const {
@@ -59,7 +59,7 @@ const postLists = () => {
   useEffect(() => {
     if (clickedId)
       (() => {
-        router.push(`/${clickedId}`);
+        router.push(`/posts/${clickedId}/post`);
       })();
   }, [clickedId]);
 
@@ -82,8 +82,8 @@ const postLists = () => {
 
   // デバッグ用
   useEffect(() => {
-    console.log(findPostUid, "呼ばれてる？");
-  }, [findPostUid]);
+    console.log(router.query, "呼ばれてる？");
+  }, []);
   useEffect(() => {
     console.log(liked, "焼肉らいく");
   }, [liked]);
