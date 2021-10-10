@@ -130,15 +130,14 @@ const Layout = ({ children }: Props) => {
       {users.uid ? (
         <header>
           <div>
-            {/* <h1>TEGAMI</h1> */}
             <div className={styles.svg} onClick={handleLogout}>
               <ExitToAppIcon fontSize="large" />
             </div>
           </div>
-          <ul className={styles.loginedListStyle}>
+          <ul className={styles.loginedListStyle_header}>
             <li>
               <img
-                src="tegamiLogo.png"
+                src="/tegamiLogo.png"
                 alt="tegami"
                 className={styles.topLogo}
               />
@@ -147,15 +146,16 @@ const Layout = ({ children }: Props) => {
               <Link href="/">トップ</Link>
             </li>
             <li>
-              ログイン
-              {/* <Link href="/login">ログイン</Link> */}
+              <a>ログイン</a>
             </li>
             {!users.letterName ? (
               <li>
                 <Link href="/users/user">プロフィールを作成する</Link>
               </li>
             ) : (
-              <li className={styles.createProf}>プロフィールを作成する</li>
+              <li className={styles.createProf}>
+                <a>プロフィールを作成する</a>
+              </li>
             )}
             <li>
               <Link href="/posts/posting">投稿する</Link>
@@ -167,16 +167,26 @@ const Layout = ({ children }: Props) => {
         </header>
       ) : (
         <header>
-          <br />
-          <ul className={styles.listStyle}>
+          <ul className={styles.listStyle_header}>
+            <li>
+              <img
+                src="/tegamiLogo.png"
+                alt="tegami"
+                className={styles.topLogo}
+              />
+            </li>
             <li>
               <Link href="/">トップ</Link>
             </li>
             <li>
               <Link href="/auth/login">ログイン</Link>
             </li>
-            <li>ユーザー作成</li>
-            <li>投稿する</li>
+            <li>
+              <a>ユーザー作成</a>
+            </li>
+            <li>
+              <a>投稿する</a>
+            </li>
             <li>
               <Link href="/posts/postLists">みんなの投稿</Link>
             </li>
@@ -189,9 +199,10 @@ const Layout = ({ children }: Props) => {
           alt="prof"
           width="50"
           height="50"
+          className={styles.avatarImage}
           onClick={() => router.push("/users/editProf")}
         />
-        <div>{`${users.uid}さんこんにちは`}</div>
+        <p className={styles.hello}>{`${users.uid}さんこんにちは`}</p>
         <div>{children}</div>
       </main>
       {users.uid ? (
@@ -203,20 +214,21 @@ const Layout = ({ children }: Props) => {
               <ExitToAppIcon fontSize="large" />
             </div>
           </div>
-          <ul className={styles.loginedListStyle}>
+          <ul className={styles.loginedListStyle_footer}>
             <li>
               <Link href="/">トップ</Link>
             </li>
             <li>
-              ログイン
-              {/* <Link href="/login">ログイン</Link> */}
+              <a>ログイン</a>
             </li>
             {!users.letterName ? (
               <li>
                 <Link href="/users/user">プロフィールを作成する</Link>
               </li>
             ) : (
-              <li>プロフィールを作成する</li>
+              <li>
+                <a>プロフィールを作成する</a>
+              </li>
             )}
             <li>
               <Link href="/posts/posting">投稿する</Link>
@@ -225,24 +237,31 @@ const Layout = ({ children }: Props) => {
               <Link href="/posts/postLists">みんなの投稿</Link>
             </li>
           </ul>
+          <br />
+          <p>&copy; 2021 TEGAMI All Rights Reserved</p>
         </footer>
       ) : (
         <footer>
           <br />
-          <ul className={styles.listStyle}>
+          <ul className={styles.listStyle_footer}>
             <li>
               <Link href="/">トップ</Link>
             </li>
             <li>
               <Link href="/auth/login">ログイン</Link>
             </li>
-            <li>ユーザー作成</li>
-            <li>投稿する</li>
+            <li>
+              <a>ユーザー作成</a>
+            </li>
+            <li>
+              <a>投稿する</a>
+            </li>
             <li>
               <Link href="/posts/postLists">みんなの投稿</Link>
             </li>
           </ul>
-          <div>&copy; 2021 TEGAMI All Rights Reserved</div>
+          <br />
+          <p>&copy; 2021 TEGAMI All Rights Reserved</p>
         </footer>
       )}
     </>

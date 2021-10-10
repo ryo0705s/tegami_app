@@ -4,8 +4,17 @@
 .login input {
   margin-left: 1rem;
 }
-.forLogin,
+.loginButton {
+  margin-top: 2rem;
+  button {
+    font-family: "りいてがき筆", "YuGothic", "游ゴシック体";
+  }
+}
 .otherLogin {
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
+  button {
+    margin: 1rem;
+    font-family: "りいてがき筆", "YuGothic", "游ゴシック体";
+  }
 }

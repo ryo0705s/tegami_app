@@ -1,17 +1,71 @@
-.loginedListStyle {
+.loginedListStyle_header {
   display: flex;
   justify-content: space-between;
-  margin: 0 auto;
+  margin: 0 4rem;
   padding: 0;
+  a {
+    display: block;
+    margin-top: 1rem;
+  }
+  li:nth-child(1) {
+    background-image: url(/suisaiTegamiLogo.png);
+    background-size: cover;
+  }
+  li:nth-child(3) {
+    opacity: 0.5;
+  }
+}
 
+.listStyle_header {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 4rem;
+  padding: 0;
+  a {
+    display: block;
+    margin-top: 1rem;
+  }
+  li:nth-child(1) {
+    background-image: url(/suisaiTegamiLogo.png);
+    background-size: cover;
+  }
+  li:nth-child(n + 4):nth-child(-n + 5) {
+    opacity: 0.5;
+  }
+}
+.loginedListStyle_footer {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 4rem;
+  padding: 0;
+  a {
+    display: block;
+    margin-top: 1rem;
+  }
   li:nth-child(2) {
     opacity: 0.5;
   }
 }
 
-.listStyle {
+.listStyle_footer {
   display: flex;
   justify-content: space-between;
+  margin: 0 4rem;
+  padding: 0;
+  a {
+    display: block;
+    margin-top: 1rem;
+  }
+  // ul {
+  //   margin: 0;
+  //   padding: 0;
+  // }
+  // li {
+  //   background-image: url(/suisaiTegamiLogo.png);
+  //   background-size: cover;
+  //   // background-position: left center;
+  //   // background-repeat: no-repeat;
+  // }
   li:nth-child(n + 3):nth-child(-n + 4) {
     opacity: 0.5;
   }
@@ -51,4 +105,24 @@
 .topLogo {
   width: 7rem;
   height: 3rem;
+}
+
+.gridItemRight {
+  p {
+    float: right;
+  }
+}
+.gridItemLeft {
+  p {
+    float: left;
+  }
+}
+.hello {
+  margin-bottom: 10rem;
+}
+.avatarImage {
+  margin-top: 5rem;
+}
+.photo {
+  border: dashed rgb(250, 243, 250);
 }

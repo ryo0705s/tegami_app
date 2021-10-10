@@ -18,7 +18,7 @@ export interface postProps {
 
 export interface userProps {
   id: "";
-  avatar: "avatar.png";
+  avatar: "/avatar.png";
   letterName: "";
   otherInfo: "";
   uid: "";
@@ -69,7 +69,7 @@ function PageStates({ children }: Props) {
   const [likedUids, setLikedUids] = useState("");
   const [users, setUsers] = useState<Partial<userProps>>({
     id: "",
-    avatar: "avatar.png",
+    avatar: "/avatar.png",
     letterName: "",
     otherInfo: "",
     uid: "",

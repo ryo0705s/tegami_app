@@ -7,6 +7,7 @@ import Modal from "@mui/material/Modal";
 import Grid from "@mui/material/Grid";
 import styles from "../components/layout.module.scss";
 import { AppContext } from "../components/PageStates";
+import Image from "next/image";
 
 const IndexPage = () => {
   const [open, setOpen] = useState(false);
@@ -44,7 +45,7 @@ const IndexPage = () => {
             }}
           >
             <img
-              src="tegamiLogo.png"
+              src="/tegamiLogo.png"
               alt="tegami"
               className={styles.titleLogo}
             />
@@ -64,53 +65,77 @@ const IndexPage = () => {
         </Modal>
       </div>
       <h2>TEGAMIとは</h2>
-      <Grid container spacing={0}>
-        <Grid item xs={4}>
+      <Grid container spacing={12}>
+        <Grid item xs={6} className={styles.gridItemRight}>
           <p>TEGAMIは手紙を共有できるアプリです</p>
         </Grid>
-        <Grid item xs={8}>
-          <img src="tegamiShere.jpg" alt="登録方法" width={300} height={250} />
+        <Grid item xs={6} className={styles.gridItemLeft}>
+          <p className={styles.photo}>
+            <Image
+              src="/tegamiShere.jpg"
+              alt="登録方法"
+              width={300}
+              height={250}
+            />
+          </p>
         </Grid>
-        <Grid item xs={8}>
-          <img src="tegamiMemory.jpg" alt="登録方法" width={300} height={250} />
+        <Grid item xs={6} className={styles.gridItemRight}>
+          <p className={styles.photo}>
+            <Image
+              src="/tegamiMemory.jpg"
+              alt="登録方法"
+              width={300}
+              height={250}
+            />
+          </p>
         </Grid>
-        <Grid item xs={4}>
+        <Grid item xs={6} className={styles.gridItemLeft}>
           <p>引き出しの奥にある手紙を共有してみませんか？</p>
         </Grid>
-        <Grid item xs={4}>
+        <Grid item xs={6} className={styles.gridItemRight}>
           <p>嬉しい気持ちを共有しよう！</p>
         </Grid>
-        <Grid item xs={8}>
-          <img
-            src="shereYourFeeling.jpg"
-            alt="登録方法"
-            width={300}
-            height={200}
-          />
+        <Grid item xs={6} className={styles.gridItemLeft}>
+          <p className={styles.photo}>
+            <Image
+              src="/shereYourFeeling.jpg"
+              alt="登録方法"
+              width={300}
+              height={200}
+            />
+          </p>
         </Grid>
       </Grid>
 
       <h2>TEGAMIの利用方法</h2>
-      <Grid container spacing={0}>
-        <Grid item xs={4}>
+      <br />
+      <Grid container spacing={12}>
+        <Grid item xs={6} className={styles.gridItemRight}>
           <p>登録しましょう</p>
         </Grid>
-        <Grid item xs={8}>
-          <img src="post.png" alt="登録方法" width={250} height={300} />
+        <Grid item xs={6} className={styles.gridItemLeft}>
+          <p>
+            <Image src="/post.png" alt="登録方法" width={250} height={300} />
+          </p>
         </Grid>
-        <Grid item xs={8}>
-          <img src="post.png" alt="登録方法" width={250} height={300} />
+        <Grid item xs={6} className={styles.gridItemRight}>
+          <p>
+            <Image src="/post.png" alt="登録方法" width={250} height={300} />
+          </p>
         </Grid>
-        <Grid item xs={4}>
+        <Grid item xs={6} className={styles.gridItemLeft}>
           <p>投稿してみましょう</p>
         </Grid>
-        <Grid item xs={4}>
+        <Grid item xs={6} className={styles.gridItemRight}>
           <p>コメントしてみましょう</p>
         </Grid>
-        <Grid item xs={8}>
-          <img src="post.png" alt="登録方法" width={250} height={300} />
+        <Grid item xs={6} className={styles.gridItemLeft}>
+          <p>
+            <Image src="/post.png" alt="登録方法" width={250} height={300} />
+          </p>
         </Grid>
       </Grid>
+      <br />
       <h2>最後に</h2>
       <p>コロナによりオンラインでのやりとりが増えました。</p>
       <p>だからこそオフラインの価値が高まっていると思います。</p>

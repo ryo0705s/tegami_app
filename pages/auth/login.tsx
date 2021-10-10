@@ -280,9 +280,11 @@ const login = () => {
         </div>
         <br />
         {/* {users.letterName ? ( */}
-        <Button variant="contained" color="primary" onClick={handleLogin}>
-          ログイン
-        </Button>
+        <p className={styles.loginButton}>
+          <Button variant="contained" color="primary" onClick={handleLogin}>
+            ログイン
+          </Button>
+        </p>
         {/* ) : (
           <Button variant="contained" color="primary" onClick={noNameLogin}>
             ログイン
@@ -290,9 +292,23 @@ const login = () => {
         )} */}
         <br />
         <div className={styles.otherLogin}>
-          <p onClick={googleLogin}>グーグルアカウントでログイン</p>
+          <Button
+            variant="contained"
+            color="primary"
+            size="small"
+            onClick={googleLogin}
+          >
+            Googleログイン
+          </Button>
           <br />
-          <p onClick={anonymousLogin}>ゲストログイン</p>
+          <Button
+            variant="contained"
+            color="primary"
+            size="small"
+            onClick={anonymousLogin}
+          >
+            ゲストログイン
+          </Button>
         </div>
         <br />
         <div className={styles.forLogin}>
