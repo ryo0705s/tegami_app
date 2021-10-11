@@ -1,11 +1,21 @@
+.login {
+  button {
+    font-family: "りいてがき筆", "YuGothic", "游ゴシック体";
+  }
+}
 .login p:hover {
   cursor: pointer;
 }
 .login input {
   margin-left: 1rem;
 }
-.forLogin,
+.loginButton .createAccount {
+  margin-top: 2rem;
+}
 .otherLogin {
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
+  button {
+    margin: 1rem;
+  }
 }

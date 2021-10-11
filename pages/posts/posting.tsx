@@ -80,7 +80,7 @@ const posting = () => {
     setPictureUrl("");
   };
   useEffect(() => {
-    setPictureUrl("uploadYourPicture.jpg");
+    setPictureUrl("/uploadYourPicture.jpg");
   }, []);
 
   return (
@@ -97,9 +97,8 @@ const posting = () => {
           />
         </label>
       </IconButton>
-      {/* <p>説明</p> */}
       <div className={styles.textField}>
-        <form className={classes.root} noValidate autoComplete="off">
+        <form className={classes.root}>
           <TextField
             id="outlined-textarea"
             label="説明"
@@ -113,7 +112,7 @@ const posting = () => {
           />
         </form>
       </div>
-      <p>
+      <p className={styles.createButton}>
         <Button variant="contained" color="primary" onClick={handlePost}>
           作成
         </Button>

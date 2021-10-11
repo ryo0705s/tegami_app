@@ -10,11 +10,11 @@ body {
 
   background: linear-gradient(
     45deg,
-    #1c04f5,
-    #4493b7,
-    #e5edee
+    #ffb6c1,
+    #87cefa,
+    #83c99e
   ); /*グラデーションを定義*/
-  background-size: 200% 200%; /*サイズを大きくひきのばす*/
+  background-size: 10000% 10000%; /*サイズを大きくひきのばす*/
   animation: bggradient 20s ease infinite;
 }
 
@@ -34,10 +34,10 @@ a:visited {
   color: white;
 }
 
-header,
+/* header,
 main {
   border-bottom: 1px solid #000;
-}
+} */
 main {
   /* background-image: url(/background.jpg);
   background-position: center;
@@ -46,15 +46,24 @@ main {
   height: 100%;
   margin-top: 5rem;
 }
-
 footer {
-  margin-top: 2rem;
+  margin-top: 30rem;
 }
+/* header {
+  margin-top: 2rem;
+  background-image: url(/suisaiTegamiHeader.png);
+  background-size: cover;
+} */
+/* footer {
+  margin-top: 2rem;
+  background-image: url(/suisaiTegamiFooter.png);
+  background-size: cover;
+} */
 a {
   text-decoration: none;
 }
 ul {
-  margin-top: 0;
+  margin: 0 auto;
 }
 li {
   list-style: none;

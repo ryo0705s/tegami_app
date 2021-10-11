@@ -428,196 +428,212 @@ const post = () => {
 
   return (
     <Layout>
-      <br />
-
-      <img src={clickedPost.image} width="400" height="500" />
-      <IconButton>
-        <label>
-          <PhotoCameraIcon />
-          <input
-            type="file"
-            className={styles.input}
-            onChange={handlePicture}
-          />
-        </label>
-      </IconButton>
-
-      {targetUid && clickedPost.liked ? (
-        <IconButton onClick={handleUnLike}>
-          {/* <IconButton onClick={alreadyLiked}> */}
-          <label>
-            <ThumbUpAltIcon />
-          </label>
-        </IconButton>
-      ) : (
-        <IconButton onClick={!liked ? handleLike : handleUnLike}>
-          <label>
-            <ThumbUpAltIcon />
-          </label>
-        </IconButton>
-      )}
-      <span>{clickedPost.likeCount}</span>
-      <div>
-        <span>投稿者：{findPostLetterName} さん</span>
+      <div className={styles.post}>
         <img
-          src={findPostAvatar}
-          alt="prof"
-          width="30"
-          height="30"
-          onClick={() => router.push(`/posts/${selectedId}/postInfo`)}
+          src={clickedPost.image}
+          width="400"
+          height="500"
+          className={styles.postImage}
         />
-      </div>
-      <br />
-      <p>説明</p>
-      {clickedPost.uid === users.uid ? (
-        <>
-          {!edited ? (
-            <div>{clickedPost.text}</div>
-          ) : (
-            <TextField
-              multiline
-              variant="outlined"
-              fullWidth
-              value={clickedPost.text}
-              onChange={editText}
+        <IconButton>
+          <label>
+            <PhotoCameraIcon />
+            <input
+              type="file"
+              className={styles.input}
+              onChange={handlePicture}
             />
-          )}
-          {!updated ? (
-            <>
-              <br />
-              <Stack spacing={2} direction="row" justifyContent="center">
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={() => {
-                    setEdited(!edited);
-                    setUpdated(!updated);
-                  }}
-                >
-                  編集
-                </Button>
-                <Button
-                  variant="contained"
-                  color="secondary"
-                  onClick={handleDelete}
-                >
-                  削除
-                </Button>
-              </Stack>
-            </>
-          ) : (
-            <Button variant="contained" color="primary" onClick={updateText}>
+          </label>
+        </IconButton>
+
+        {targetUid && clickedPost.liked ? (
+          <IconButton onClick={handleUnLike}>
+            {/* <IconButton onClick={alreadyLiked}> */}
+            <label>
+              <ThumbUpAltIcon />
+            </label>
+          </IconButton>
+        ) : (
+          <IconButton onClick={!liked ? handleLike : handleUnLike}>
+            <label>
+              <ThumbUpAltIcon />
+            </label>
+          </IconButton>
+        )}
+        <span>{clickedPost.likeCount}</span>
+        <div>
+          <span>投稿者：{findPostLetterName} さん</span>
+          <img
+            src={findPostAvatar}
+            alt="prof"
+            width="30"
+            height="30"
+            className={styles.postAvatar}
+            onClick={() => router.push(`/posts/${selectedId}/postInfo`)}
+          />
+        </div>
+        <br />
+        <h2>説明</h2>
+        {clickedPost.uid === users.uid ? (
+          <>
+            {!edited ? (
+              <div>{clickedPost.text}</div>
+            ) : (
+              <TextField
+                multiline
+                variant="outlined"
+                fullWidth
+                value={clickedPost.text}
+                onChange={editText}
+              />
+            )}
+            {!updated ? (
+              <>
+                <br />
+                <Stack spacing={2} direction="row" justifyContent="center">
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    size="small"
+                    onClick={() => {
+                      setEdited(!edited);
+                      setUpdated(!updated);
+                    }}
+                  >
+                    編集
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    size="small"
+                    onClick={handleDelete}
+                  >
+                    削除
+                  </Button>
+                </Stack>
+              </>
+            ) : (
+              <Button variant="contained" color="primary" onClick={updateText}>
+                完了
+              </Button>
+            )}
+          </>
+        ) : (
+          <div>{clickedPost.text}</div>
+        )}
+
+        <br />
+        {!commentText.commented ? (
+          <>
+            <div className={styles.textField}>
+              <h2>コメント</h2>
+              <form className={classes.root} noValidate autoComplete="off">
+                <TextField
+                  id="outlined-textarea"
+                  label="コメント"
+                  placeholder="コメントをしてみましょう"
+                  multiline
+                  variant="outlined"
+                  fullWidth
+                  value={commentText.comment}
+                  onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+                    setCommentText({
+                      comment: e.target.value,
+                      commented: false,
+                    })
+                  }
+                />
+              </form>
+            </div>
+            <br />
+            <Button variant="contained" color="primary" onClick={createComment}>
+              投稿
+            </Button>
+          </>
+        ) : (
+          <div></div>
+        )}
+        <ul className={styles.comments}>
+          {comments &&
+            comments.map((comment) => {
+              return (
+                <li className={styles.comment}>
+                  <div>
+                    <img
+                      src={comment.commentAvatar}
+                      alt="prof"
+                      width="30"
+                      height="30"
+                      onClick={() =>
+                        router.push(`/posts/${selectedId}/${comment.id}`)
+                      }
+                    />
+                  </div>
+                  <div>{comment.text}</div>
+                  {comment.commentUid === users.uid ? (
+                    <div>
+                      <Stack
+                        spacing={1}
+                        direction="row"
+                        justifyContent="center"
+                      >
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          size="small"
+                          onClick={() => editComment(comment)}
+                        >
+                          編集
+                        </Button>
+                        <Button
+                          variant="contained"
+                          color="secondary"
+                          size="small"
+                          onClick={() => deleteComment(comment)}
+                        >
+                          削除
+                        </Button>
+                      </Stack>
+                    </div>
+                  ) : (
+                    ""
+                  )}
+                </li>
+              );
+            })}
+        </ul>
+        <br />
+        {!updateCommentText.edited ? (
+          <div></div>
+        ) : (
+          <>
+            {/* <div>コメントを編集する</div> */}
+            <div className={styles.textField}>
+              <form className={classes.root} noValidate autoComplete="off">
+                <TextField
+                  id="outlined-textarea"
+                  label="コメント編集"
+                  placeholder="コメントを編集しましょう"
+                  multiline
+                  variant="outlined"
+                  fullWidth
+                  value={updateCommentText.comment}
+                  onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+                    setUpdateCommentText({
+                      id: updateCommentText.id,
+                      comment: e.target.value,
+                      edited: true,
+                    })
+                  }
+                />
+              </form>
+            </div>
+            <Button variant="contained" color="primary" onClick={updateComment}>
               完了
             </Button>
-          )}
-        </>
-      ) : (
-        <div>{clickedPost.text}</div>
-      )}
-
-      <br />
-      {!commentText.commented ? (
-        <>
-          <div className={styles.textField}>
-            <form className={classes.root} noValidate autoComplete="off">
-              <TextField
-                id="outlined-textarea"
-                label="コメント"
-                placeholder="コメントをしてみましょう"
-                multiline
-                variant="outlined"
-                fullWidth
-                value={commentText.comment}
-                onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
-                  setCommentText({ comment: e.target.value, commented: false })
-                }
-              />
-            </form>
-          </div>
-          <br />
-          <Button variant="contained" color="primary" onClick={createComment}>
-            投稿
-          </Button>
-        </>
-      ) : (
-        <div></div>
-      )}
-      <br />
-      <p>コメント</p>
-      <ul>
-        {comments &&
-          comments.map((comment) => {
-            return (
-              <li className={styles.comment}>
-                <div>
-                  <img
-                    src={comment.commentAvatar}
-                    alt="prof"
-                    width="30"
-                    height="30"
-                    onClick={() =>
-                      router.push(`/posts/${selectedId}/${comment.id}`)
-                    }
-                  />
-                </div>
-                <div>{comment.text}</div>
-                {comment.commentUid === users.uid ? (
-                  <div>
-                    <Stack spacing={1} direction="row" justifyContent="center">
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={() => editComment(comment)}
-                      >
-                        編集
-                      </Button>
-                      <Button
-                        variant="contained"
-                        color="secondary"
-                        onClick={() => deleteComment(comment)}
-                      >
-                        削除
-                      </Button>
-                    </Stack>
-                  </div>
-                ) : (
-                  ""
-                )}
-              </li>
-            );
-          })}
-      </ul>
-      <br />
-      {!updateCommentText.edited ? (
-        <div></div>
-      ) : (
-        <>
-          {/* <div>コメントを編集する</div> */}
-          <div className={styles.textField}>
-            <form className={classes.root} noValidate autoComplete="off">
-              <TextField
-                id="outlined-textarea"
-                label="コメント編集"
-                placeholder="コメントを編集しましょう"
-                multiline
-                variant="outlined"
-                fullWidth
-                value={updateCommentText.comment}
-                onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
-                  setUpdateCommentText({
-                    id: updateCommentText.id,
-                    comment: e.target.value,
-                    edited: true,
-                  })
-                }
-              />
-            </form>
-          </div>
-          <Button variant="contained" color="primary" onClick={updateComment}>
-            完了
-          </Button>
-        </>
-      )}
+          </>
+        )}
+      </div>
     </Layout>
   );
 };
