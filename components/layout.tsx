@@ -39,7 +39,7 @@ const Layout = ({ children }: Props) => {
       });
     setUsers({
       id: "",
-      avatar: "avatar.png",
+      avatar: "/avatar.png",
       letterName: "",
       otherInfo: "",
       uid: "",

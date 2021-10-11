@@ -5,16 +5,9 @@ import Layout from "../../components/layout";
 import styles from "../../components/login.module.scss";
 import firebase from "firebase/app";
 import { auth, provider, db } from "../../firebase";
-// import {
-//   getAuth,
-//   setPersistence,
-//   signInWithEmailAndPassword,
-//   browserSessionPersistence,
-// } from "firebase/auth";
 import { useRouter } from "next/router";
 import { AppContext } from "../../components/PageStates";
 import { makeStyles } from "@material-ui/core/styles";
-import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -178,44 +171,6 @@ const login = () => {
         // ..
       });
   };
-
-  // 登録済みのメールとパスワードを元に、axiosでfirebaseと通信し、tokenを取得し、
-  // localstorageに保管
-  // const saveLoginState = () => {
-  //   // auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
-  //   // const state = {
-  //   //   isSignUp: true,
-  //   //   token: null,
-  //   //   error: "",
-  //   // };
-  //   // 認証データ
-  //   const authDate = {
-  //     email: email,
-  //     password: password,
-  //     returnSecureToken: true,
-  //   };
-  //   // signUp用のAPIキー
-  //   let url =
-  //     "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=[AIzaSyCNOWL6WQRN0GEVJq7E0cV6TnHsr4PjOSQ]";
-  //   // signIn用のAPIキー
-  //   if (users) {
-  //     url =
-  //       "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=[AIzaSyCNOWL6WQRN0GEVJq7E0cV6TnHsr4PjOSQ]";
-  //     if (email && password) {
-  //       axios
-  //         .post(url, authDate)
-  //         .then((response) => {
-  //           // 返ってきたトークンをローカルストレージに格納する
-  //           localStorage.setItem("token", response.data.idToken);
-  //         })
-  //         .catch((error) => {
-  //           // Firebase側で用意されているエラーメッセージが格納される
-  //           alert(error);
-  //         });
-  //     }
-  //   }
-  // };
-  // リロードしたらfirebase.auth().onAuthStateChangedが走るようにする
 
   useEffect(() => {
     if (loginedId)

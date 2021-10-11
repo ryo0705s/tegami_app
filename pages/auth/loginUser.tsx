@@ -4,8 +4,19 @@ import Layout from "../../components/layout";
 import styles from "../../components/login.module.scss";
 import { auth } from "../../firebase";
 import { useRouter } from "next/router";
+import { makeStyles } from "@material-ui/core/styles";
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    "& .MuiTextField-root": {
+      margin: theme.spacing(1),
+      width: "25ch",
+    },
+  },
+}));
 
 const loginUser = (props: any) => {
+  const classes = useStyles();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const router = useRouter();
@@ -24,33 +35,40 @@ const loginUser = (props: any) => {
   };
   return (
     <Layout>
-      <h2>ユーザーを作成する</h2>
       <div className={styles.login}>
         <div>
-          <span>メール</span>
-          <TextField
-            type="email"
-            value={email}
-            onChange={(
-              e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
-            ) => setEmail(e.target.value)}
-          />
+          <form className={classes.root} noValidate autoComplete="off">
+            <TextField
+              id="standard-password-input"
+              label="Email"
+              type="Email"
+              autoComplete="current-email"
+              onChange={(
+                e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+              ) => setEmail(e.target.value)}
+            />
+          </form>
         </div>
         <br />
         <div>
-          <span>パスワード</span>
-          <TextField
-            type="password"
-            value={password}
-            onChange={(
-              e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
-            ) => setPassword(e.target.value)}
-          />
+          <form className={classes.root} noValidate autoComplete="off">
+            <TextField
+              id="standard-password-input"
+              label="Password"
+              type="Password"
+              autoComplete="current-password"
+              onChange={(
+                e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+              ) => setPassword(e.target.value)}
+            />
+          </form>
         </div>
         <br />
-        <Button variant="contained" color="primary" onClick={handleSubmit}>
-          登録する
-        </Button>
+        <p className={styles.createAccount}>
+          <Button variant="contained" color="primary" onClick={handleSubmit}>
+            登録する
+          </Button>
+        </p>
       </div>
     </Layout>
   );

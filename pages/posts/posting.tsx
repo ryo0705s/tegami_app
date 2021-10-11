@@ -97,7 +97,6 @@ const posting = () => {
           />
         </label>
       </IconButton>
-      {/* <p>説明</p> */}
       <div className={styles.textField}>
         <form className={classes.root}>
           <TextField
@@ -113,7 +112,7 @@ const posting = () => {
           />
         </form>
       </div>
-      <p>
+      <p className={styles.createButton}>
         <Button variant="contained" color="primary" onClick={handlePost}>
           作成
         </Button>

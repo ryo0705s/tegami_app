@@ -1,9 +1,18 @@
+.post {
+  button {
+    font-family: "りいてがき筆", "YuGothic", "游ゴシック体";
+  }
+  h2 {
+    margin: 5rem 0 2rem;
+  }
+}
 .input {
   display: none;
   border-style: none;
 }
 .textField {
   padding: 0 10% 0;
+  margin: 6rem 0 1rem;
 }
 .comment {
   display: flex;
@@ -13,4 +22,13 @@
   img {
     margin-bottom: 1rem;
   }
+}
+.comments {
+  margin: 5rem 10rem 0;
+}
+.postImage {
+  margin-left: 8rem;
+}
+.postAvatar {
+  margin-left: 1rem;
 }
