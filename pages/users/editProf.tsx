@@ -156,7 +156,7 @@ const editProf = () => {
 
   return users.id ? (
     <Layout>
-      <img src={users.avatar} width={100} height={100} />
+      <img src={users.avatar} className={styles.editImg} />
       <IconButton>
         <label>
           <PhotoCameraIcon />
@@ -195,7 +195,7 @@ const editProf = () => {
     </Layout>
   ) : (
     <Layout>
-      <img src={users.avatar} width={100} height={100} />
+      <img src={users.avatar} className={styles.editImg} />
       <IconButton>
         <label>
           <PhotoCameraIcon />

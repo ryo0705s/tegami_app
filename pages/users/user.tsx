@@ -116,7 +116,7 @@ const user = () => {
 
   return (
     <Layout>
-      <img src={users.avatar} width={100} height={100} />
+      <img src={users.avatar} className={styles.editImg} />
       <IconButton>
         <label>
           <PhotoCameraIcon />

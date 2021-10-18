@@ -86,7 +86,7 @@ const posting = () => {
   return (
     <Layout>
       <br />
-      <img src={pictureUrl} width="400" height="500" className={styles.img} />
+      <img src={pictureUrl} className={styles.img} />
       <IconButton>
         <label>
           <PhotoCameraIcon />

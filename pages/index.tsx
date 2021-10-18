@@ -35,8 +35,8 @@ const IndexPage = () => {
               top: "50%",
               left: "50%",
               transform: "translate(-50%, -50%)",
-              width: 1,
-              height: 1,
+              // width: 1,
+              // height: 1,
               bgcolor: "background.paper",
               // background-image: url(/background.jpg),
               border: "2px solid #000",
@@ -64,7 +64,7 @@ const IndexPage = () => {
           </Box>
         </Modal>
       </div>
-      <h2>TEGAMIとは</h2>
+      <div className={styles.what}>TEGAMIとは</div>
       <Grid container spacing={12}>
         <Grid item xs={6} className={styles.gridItemRight}>
           <p>TEGAMIは手紙を共有できるアプリです</p>
@@ -90,10 +90,11 @@ const IndexPage = () => {
           </p>
         </Grid>
         <Grid item xs={6} className={styles.gridItemLeft}>
-          <p>引き出しの奥にある手紙を共有してみませんか？</p>
+          <p>大切にしまってある手紙やメッセージを</p>
+          <p>共有してみませんか？</p>
         </Grid>
         <Grid item xs={6} className={styles.gridItemRight}>
-          <p>嬉しい気持ちを共有しよう！</p>
+          <p>その時感じた気持ちを共有してみましょう♪</p>
         </Grid>
         <Grid item xs={6} className={styles.gridItemLeft}>
           <p className={styles.photo}>
@@ -106,41 +107,59 @@ const IndexPage = () => {
           </p>
         </Grid>
       </Grid>
-
-      <h2>TEGAMIの利用方法</h2>
+      <div className={styles.how}>TEGAMIの利用方法</div>
       <br />
       <Grid container spacing={12}>
         <Grid item xs={6} className={styles.gridItemRight}>
-          <p>登録しましょう</p>
+          <p>アカウントを作成しましょう</p>
         </Grid>
         <Grid item xs={6} className={styles.gridItemLeft}>
-          <p>
-            <Image src="/post.png" alt="登録方法" width={250} height={300} />
+          <p className={styles.letter}>
+            <Image
+              src="/createAccount.png"
+              alt="登録方法"
+              width={250}
+              height={300}
+            />
           </p>
         </Grid>
         <Grid item xs={6} className={styles.gridItemRight}>
-          <p>
-            <Image src="/post.png" alt="登録方法" width={250} height={300} />
+          <p className={styles.letter}>
+            <Image
+              src="/uploadLetter.png"
+              alt="投稿方法"
+              width={250}
+              height={300}
+            />
           </p>
         </Grid>
         <Grid item xs={6} className={styles.gridItemLeft}>
-          <p>投稿してみましょう</p>
+          <p>撮影した写真やメッセージを投稿してみましょう</p>
         </Grid>
         <Grid item xs={6} className={styles.gridItemRight}>
-          <p>コメントしてみましょう</p>
+          <p>気になった投稿にコメントしてみましょう</p>
         </Grid>
         <Grid item xs={6} className={styles.gridItemLeft}>
-          <p>
-            <Image src="/post.png" alt="登録方法" width={250} height={300} />
+          <p className={styles.letter}>
+            <Image
+              src="/commentForPost.png"
+              alt="コメント方法"
+              width={250}
+              height={300}
+            />
           </p>
         </Grid>
       </Grid>
-      <br />
-      <h2>最後に</h2>
-      <p>コロナによりオンラインでのやりとりが増えました。</p>
-      <p>だからこそオフラインの価値が高まっていると思います。</p>
-      <p>手紙はその中間をいくようなものだと思います。</p>
-      <p>このTEGAMIをきっかけに大事な人に手紙を出してみてはどうでしょうか？</p>
+      <div className={styles.authMessage}>
+        <h1>製作者から一言</h1>
+        <br />
+        <p>コロナによりオンラインでのやりとりが増えました。</p>
+        <p>だからこそオフラインの価値が高まっていると思います。</p>
+        <p>手紙はその中間をいくようなものだと思います。</p>
+        <p>
+          このTEGAMIをきっかけに大事な人に手紙を出してみてはどうでしょうか？
+        </p>
+      </div>
     </Layout>
   );
 };
