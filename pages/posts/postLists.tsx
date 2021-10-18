@@ -97,13 +97,8 @@ const postLists = () => {
             {posts &&
               posts.map((post) => {
                 return (
-                  <li>
-                    <img
-                      src={post.image}
-                      width={70}
-                      height={100}
-                      onClick={() => selectPost(post)}
-                    />
+                  <li className={styles.postImage}>
+                    <img src={post.image} onClick={() => selectPost(post)} />
                   </li>
                 );
               })}

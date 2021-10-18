@@ -7,6 +7,7 @@ import firebase from "firebase/app";
 import { auth, db } from "../firebase";
 import { NextRouter, useRouter } from "next/router";
 import { AppContext } from "./PageStates";
+import MenuIcon from "@mui/icons-material/Menu";
 
 interface Props {
   children?: ReactNode;
@@ -15,6 +16,7 @@ interface Props {
 const Layout = ({ children }: Props) => {
   const router = useRouter();
   const [authId, setAuthId] = useState("");
+  const [menuWindow, setMenuWindow] = useState(false);
   const {
     userId,
     setUserId,
@@ -120,6 +122,7 @@ const Layout = ({ children }: Props) => {
           });
       })();
   }, [authId]);
+
   return (
     <>
       <Head>
@@ -131,66 +134,124 @@ const Layout = ({ children }: Props) => {
         <header>
           <div>
             <div className={styles.svg} onClick={handleLogout}>
-              <ExitToAppIcon fontSize="large" />
+              <ExitToAppIcon />
+              <span className={styles.logout}>ログアウトします</span>
             </div>
           </div>
           <ul className={styles.loginedListStyle_header}>
-            <li>
-              <img
-                src="/tegamiLogo.png"
-                alt="tegami"
-                className={styles.topLogo}
-              />
+            <li className={styles.topLogo} onClick={() => router.push("/")}>
+              <img src="/tegamiLogo.png" alt="tegami" />
             </li>
-            <li>
-              <Link href="/">トップ</Link>
-            </li>
-            <li>
-              <a>ログイン</a>
-            </li>
-            {!users.letterName ? (
+            <div className={styles.menuList}>
               <li>
-                <Link href="/users/user">プロフィールを作成する</Link>
+                <Link href="/">トップ</Link>
               </li>
-            ) : (
-              <li className={styles.createProf}>
-                <a>プロフィールを作成する</a>
+              <li>
+                <a>ログイン</a>
               </li>
-            )}
-            <li>
-              <Link href="/posts/posting">投稿する</Link>
-            </li>
-            <li>
-              <Link href="/posts/postLists">みんなの投稿</Link>
-            </li>
+              {!users.letterName ? (
+                <li>
+                  <Link href="/users/user">プロフィールを作成する</Link>
+                </li>
+              ) : (
+                <li className={styles.createProf}>
+                  <a>プロフィールを作成する</a>
+                </li>
+              )}
+              <li>
+                <Link href="/posts/posting">投稿する</Link>
+              </li>
+              <li>
+                <Link href="/posts/postLists">みんなの投稿</Link>
+              </li>
+            </div>
           </ul>
+
+          <div
+            className={styles.menuIcon}
+            onClick={() => setMenuWindow(!menuWindow)}
+          >
+            <MenuIcon />
+          </div>
+          {menuWindow ? (
+            <ul className={styles.menuButton}>
+              <li>
+                <Link href="/">トップ</Link>
+              </li>
+              <li>
+                <a>ログイン</a>
+              </li>
+              {!users.letterName ? (
+                <li>
+                  <Link href="/users/user">プロフィールを作成する</Link>
+                </li>
+              ) : (
+                <li className={styles.createProf}>
+                  <a>プロフィールを作成する</a>
+                </li>
+              )}
+              <li>
+                <Link href="/posts/posting">投稿する</Link>
+              </li>
+              <li>
+                <Link href="/posts/postLists">みんなの投稿</Link>
+              </li>
+            </ul>
+          ) : (
+            ""
+          )}
         </header>
       ) : (
         <header>
           <ul className={styles.listStyle_header}>
-            <li>
-              <img
-                src="/tegamiLogo.png"
-                alt="tegami"
-                className={styles.topLogo}
-              />
+            <li className={styles.topLogo} onClick={() => router.push("/")}>
+              <img src="/tegamiLogo.png" alt="tegami" />
             </li>
-            <li>
-              <Link href="/">トップ</Link>
-            </li>
-            <li>
-              <Link href="/auth/login">ログイン</Link>
-            </li>
-            <li>
-              <a>ユーザー作成</a>
-            </li>
-            <li>
-              <a>投稿する</a>
-            </li>
-            <li>
-              <Link href="/posts/postLists">みんなの投稿</Link>
-            </li>
+            <div className={styles.menuList}>
+              <li>
+                <Link href="/">トップ</Link>
+              </li>
+              <li>
+                <Link href="/auth/login">ログイン</Link>
+              </li>
+              <li>
+                <a>ユーザー作成</a>
+              </li>
+              <li>
+                <a>投稿する</a>
+              </li>
+              <li>
+                <Link href="/posts/postLists">みんなの投稿</Link>
+              </li>
+            </div>
           </ul>
+          <div
+            className={styles.menuIcon}
+            onClick={() => setMenuWindow(!menuWindow)}
+          >
+            <MenuIcon />
+          </div>
+          {menuWindow ? (
+            <ul className={styles.menuButton}>
+              <li>
+                <Link href="/">トップ</Link>
+              </li>
+              <li>
+                <Link href="/auth/login">ログイン</Link>
+              </li>
+              <li>
+                <a>ユーザー作成</a>
+              </li>
+              <li>
+                <a>投稿する</a>
+              </li>
+              <li>
+                <Link href="/posts/postLists">みんなの投稿</Link>
+              </li>
+            </ul>
+          ) : (
+            ""
+          )}
         </header>
       )}
       <main>
@@ -210,9 +271,10 @@ const Layout = ({ children }: Props) => {
           <br />
           <div>
             {/* <h1>TEGAMI</h1> */}
-            <div className={styles.svg} onClick={handleLogout}>
-              <ExitToAppIcon fontSize="large" />
-            </div>
+            {/* <div className={styles.svg} onClick={handleLogout}>
+              <ExitToAppIcon />
+              <span className={styles.logout}>ログアウトします</span>
+            </div> */}
           </div>
           <ul className={styles.loginedListStyle_footer}>
             <li>

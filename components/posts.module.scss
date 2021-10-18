@@ -1,22 +1,39 @@
 .posts {
-  // position: absolute;
-  // top: 1rem;
-
   display: flex;
   flex-wrap: wrap;
-  // justify-content: space-between;
   &:hover {
     cursor: pointer;
-  }
-
-  li {
-    margin: 3rem 5rem 0.7rem 2rem;
   }
 }
 .postLists {
   // position: relative;
   background-image: url(/letterPinch.png);
-  background-size: 35rem;
-  height: 100rem;
+  // background-position: 0 -2rem;
+  background-size: 50rem;
+  height: 100%;
+  width: 81%;
   margin: 0 8rem;
+  @media screen and (max-width: 767px) {
+    margin: 0 3.5rem;
+    width: 65%;
+  }
+}
+.postImage {
+  width: 5rem;
+  height: 8rem;
+  margin: 4rem 10rem 4.1rem 1.3rem;
+  @media screen and (max-width: 767px) {
+    margin: 4rem 6rem 4rem 1.3rem;
+  }
+  @media screen and (max-width: 767px) {
+    margin: 4.1rem 6rem 4rem 1.3rem;
+  }
+  img {
+    width: 7rem;
+    height: 10rem;
+    @media screen and (max-width: 767px) {
+      width: 7rem;
+      height: 10rem;
+    }
+  }
 }
