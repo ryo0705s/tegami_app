@@ -1,14 +1,16 @@
 import { Button, IconButton, TextField } from "@material-ui/core";
+import PhotoCameraIcon from "@material-ui/icons/PhotoCamera";
+import { Avatar } from "@mui/material";
+import { makeStyles } from "@material-ui/core/styles";
+
 import React, { useState, useContext, useEffect } from "react";
 import Image from "next/image";
-import PhotoCameraIcon from "@material-ui/icons/PhotoCamera";
 import styles from "../../components/user.module.scss";
 import firebase from "firebase/app";
 import { db, storage } from "../../firebase";
 import { AppContext } from "../../components/PageStates";
 import { useRouter } from "next/router";
 import Layout from "../../components/layout";
-import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -116,13 +118,16 @@ const user = () => {
 
   return (
     <Layout>
-      <img src={users.avatar} className={styles.editImg} />
-      <IconButton>
-        <label>
-          <PhotoCameraIcon />
-          <input type="file" className={styles.input} onChange={editAvatar} />
-        </label>
-      </IconButton>
+      <div className={styles.avatarEdit}>
+        <Avatar src={users.avatar} alt="prof" className={styles.editImg} />
+        {/* <img src={users.avatar} className={styles.editPostImg} /> */}
+        <IconButton>
+          <label>
+            <PhotoCameraIcon />
+            <input type="file" className={styles.input} onChange={editAvatar} />
+          </label>
+        </IconButton>
+      </div>
       <p>レターネーム</p>
       <TextField value={users.letterName} onChange={createLetterName} />
       <p>コメント</p>
