@@ -110,11 +110,9 @@ const postLists = () => {
             {posts &&
               posts.map((post) => {
                 return (
-                  <li>
+                  <li className={styles.postImage}>
                     <img
                       src={post.image}
-                      width={70}
-                      height={100}
                       onClick={() => window.confirm("ログインしてください")}
                     />
                   </li>

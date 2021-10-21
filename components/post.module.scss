@@ -6,6 +6,7 @@
     margin: 5rem 0 2rem;
   }
 }
+
 .input {
   display: none;
   border-style: none;
@@ -16,19 +17,44 @@
 }
 .comment {
   display: flex;
-  gap: 3rem;
-  // width: 128px;
-  // justify-content: flex-start;
+  gap: 2rem;
+  @media screen and (max-width: 767px) {
+    gap: 1rem;
+  }
   img {
     margin-bottom: 1rem;
+    width: 2rem;
+    height: 2rem;
+    @media screen and (max-width: 767px) {
+      width: 1.2rem;
+      height: 1.2rem;
+    }
   }
 }
 .comments {
   margin: 5rem 10rem 0;
+  @media screen and (max-width: 767px) {
+    margin: 5rem 0rem 0;
+    font-size: 10px;
+  }
 }
 .postImage {
   margin-left: 8rem;
+  width: 30rem;
+  height: 19rem;
+  @media screen and (max-width: 767px) {
+    margin-left: 2rem;
+    width: 13rem;
+    height: 8rem;
+  }
 }
 .postAvatar {
   margin-left: 1rem;
+}
+.iconButton {
+  position: relative;
+  button {
+    position: absolute;
+    top: -3rem;
+  }
 }

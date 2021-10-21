@@ -429,22 +429,19 @@ const post = () => {
   return (
     <Layout>
       <div className={styles.post}>
-        <img
-          src={clickedPost.image}
-          width="400"
-          height="500"
-          className={styles.postImage}
-        />
-        <IconButton>
-          <label>
-            <PhotoCameraIcon />
-            <input
-              type="file"
-              className={styles.input}
-              onChange={handlePicture}
-            />
-          </label>
-        </IconButton>
+        <img src={clickedPost.image} className={styles.postImage} />
+        <span className={styles.iconButton}>
+          <IconButton>
+            <label>
+              <PhotoCameraIcon />
+              <input
+                type="file"
+                className={styles.input}
+                onChange={handlePicture}
+              />
+            </label>
+          </IconButton>
+        </span>
 
         {targetUid && clickedPost.liked ? (
           <IconButton onClick={handleUnLike}>
@@ -460,6 +457,7 @@ const post = () => {
             </label>
           </IconButton>
         )}
+
         <span>{clickedPost.likeCount}</span>
         <div>
           <span>投稿者：{findPostLetterName} さん</span>
@@ -562,8 +560,6 @@ const post = () => {
                     <img
                       src={comment.commentAvatar}
                       alt="prof"
-                      width="30"
-                      height="30"
                       onClick={() =>
                         router.push(`/posts/${selectedId}/${comment.id}`)
                       }
