@@ -150,6 +150,9 @@ const editProf = () => {
     setClickedPost,
   }: any = useContext(AppContext);
 
+  useEffect(() => {
+    setLoginedId(users.id);
+  });
   // デバッグ用コード
   useEffect(() => {
     console.log(users, "お前誰？");

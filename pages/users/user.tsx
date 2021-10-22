@@ -120,7 +120,6 @@ const user = () => {
     <Layout>
       <div className={styles.avatarEdit}>
         <Avatar src={users.avatar} alt="prof" className={styles.editImg} />
-        {/* <img src={users.avatar} className={styles.editPostImg} /> */}
         <IconButton>
           <label>
             <PhotoCameraIcon />

@@ -361,6 +361,7 @@ const post = () => {
   useEffect(() => {
     const targetUrl = location.pathname.split("/")[2];
     setSelectedId(targetUrl);
+    setClickedId("");
   }, []);
 
   useEffect(() => {
