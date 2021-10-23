@@ -82,7 +82,7 @@ const postLists = () => {
 
   // デバッグ用
   useEffect(() => {
-    console.log(router.query, "呼ばれてる？");
+    console.log(posts, "呼ばれてる？");
   }, []);
   useEffect(() => {
     console.log(liked, "焼肉らいく");
@@ -110,11 +110,9 @@ const postLists = () => {
             {posts &&
               posts.map((post) => {
                 return (
-                  <li>
+                  <li className={styles.postImage}>
                     <img
                       src={post.image}
-                      width={70}
-                      height={100}
                       onClick={() => window.confirm("ログインしてください")}
                     />
                   </li>

@@ -80,7 +80,7 @@ const posting = () => {
     setPictureUrl("");
   };
   useEffect(() => {
-    setPictureUrl("/uploadYourPicture.jpg");
+    setPictureUrl("/uploadYourPicture.png");
   }, []);
 
   return (

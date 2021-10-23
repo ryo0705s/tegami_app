@@ -1,4 +1,5 @@
 import { Button, IconButton, TextField } from "@material-ui/core";
+import { Avatar } from "@mui/material";
 import React, { useState, useContext, useEffect } from "react";
 import Image from "next/image";
 import PhotoCameraIcon from "@material-ui/icons/PhotoCamera";
@@ -149,6 +150,9 @@ const editProf = () => {
     setClickedPost,
   }: any = useContext(AppContext);
 
+  useEffect(() => {
+    setLoginedId(users.id);
+  });
   // デバッグ用コード
   useEffect(() => {
     console.log(users, "お前誰？");
@@ -156,13 +160,15 @@ const editProf = () => {
 
   return users.id ? (
     <Layout>
-      <img src={users.avatar} className={styles.editImg} />
-      <IconButton>
-        <label>
-          <PhotoCameraIcon />
-          <input type="file" className={styles.input} onChange={editAvatar} />
-        </label>
-      </IconButton>
+      <div className={styles.avatarEdit}>
+        <Avatar src={users.avatar} alt="prof" className={styles.editImg} />
+        <IconButton>
+          <label>
+            <PhotoCameraIcon />
+            <input type="file" className={styles.input} onChange={editAvatar} />
+          </label>
+        </IconButton>
+      </div>
       <form className={classes.root} noValidate autoComplete="off">
         <TextField
           required
@@ -195,13 +201,15 @@ const editProf = () => {
     </Layout>
   ) : (
     <Layout>
-      <img src={users.avatar} className={styles.editImg} />
-      <IconButton>
-        <label>
-          <PhotoCameraIcon />
-          <input type="file" className={styles.input} onChange={editAvatar} />
-        </label>
-      </IconButton>
+      <div className={styles.avatarEdit}>
+        <Avatar src={users.avatar} alt="prof" className={styles.editImg} />
+        <IconButton>
+          <label>
+            <PhotoCameraIcon />
+            <input type="file" className={styles.input} onChange={editAvatar} />
+          </label>
+        </IconButton>
+      </div>
       <p>レターネーム</p>
       <TextField value={users.letterName} onChange={createLetterName} />
       <p>コメント</p>

@@ -4,6 +4,7 @@ import { db, storage } from "../../../firebase";
 import { AppContext } from "../../../components/PageStates";
 import { useRouter } from "next/router";
 import Layout from "../../../components/layout";
+import { Avatar } from "@mui/material";
 
 interface yourPostProps {
   id: string;
@@ -122,13 +123,16 @@ const userInfo = () => {
           {postUsers &&
             postUsers.map((postUser) => {
               return (
-                <li>
-                  <img src={postUser.avatar} width={100} height={100} />
-                  <p>レターネーム</p>
+                <li className={styles.postUserInfo}>
+                  <Avatar
+                    src={postUser.avatar}
+                    alt="prof"
+                    className={styles.editPostImg}
+                  />
+                  <h3>レターネーム</h3>
                   <div>{postUser.letterName}</div>
-                  <p>コメント</p>
-                  <div>{postUser.otherInfo}</div>
-                  <br />
+                  <h3>コメント</h3>
+                  <div className={styles.text}>{postUser.otherInfo}</div>
                 </li>
               );
             })}

@@ -8,6 +8,8 @@ import { auth, db } from "../firebase";
 import { NextRouter, useRouter } from "next/router";
 import { AppContext } from "./PageStates";
 import MenuIcon from "@mui/icons-material/Menu";
+import { Stack } from "@mui/material";
+import { Avatar } from "@mui/material";
 
 interface Props {
   children?: ReactNode;
@@ -255,11 +257,10 @@ const Layout = ({ children }: Props) => {
         </header>
       )}
       <main>
-        <img
+        {/* <Stack direction="row" spacing={2}> */}
+        <Avatar
           src={users.avatar}
           alt="prof"
-          width="50"
-          height="50"
           className={styles.avatarImage}
           onClick={() => router.push("/users/editProf")}
         />

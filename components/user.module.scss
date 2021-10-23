@@ -5,13 +5,41 @@
   display: none;
   border-style: none;
 }
-.userInfo {
-  p {
-    font-size: 20px;
+.avatarEdit {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+  .userInfo {
+    p {
+      font-size: 20px;
+    }
+  }
+  .editImg {
+    height: 6rem;
+    width: 6rem;
+    // margin: 2.5rem 46% 0;
+  }
+  label {
+    margin-top: 3.5rem;
   }
 }
-.editImg {
-  height: 6rem;
-  width: 6rem;
-  margin-left: 2.5rem;
+.postUserInfo {
+  padding-right: 1rem;
+  @media screen and (max-width: 767px) {
+    padding-right: 2rem;
+  }
+  h3 {
+    margin-bottom: 0.4rem;
+  }
+  .editPostImg {
+    height: 6rem;
+    width: 6rem;
+    margin: 0 45.5% 3rem;
+    @media screen and (max-width: 767px) {
+      margin: 0 33% 3rem;
+    }
+  }
+}
+.text {
+  white-space: pre;
 }

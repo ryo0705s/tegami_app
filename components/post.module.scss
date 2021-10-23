@@ -6,9 +6,16 @@
     margin: 5rem 0 2rem;
   }
 }
+
 .input {
   display: none;
   border-style: none;
+}
+.text {
+  white-space: pre;
+  @media screen and (max-width: 767px) {
+    white-space: normal;
+  }
 }
 .textField {
   padding: 0 10% 0;
@@ -16,19 +23,71 @@
 }
 .comment {
   display: flex;
-  gap: 3rem;
-  // width: 128px;
-  // justify-content: flex-start;
-  img {
+  gap: 2rem;
+  @media screen and (max-width: 767px) {
+    gap: 1rem;
+  }
+  .commentAvatar {
+    width: 2rem;
+    height: 2rem;
     margin-bottom: 1rem;
+    @media screen and (max-width: 767px) {
+      width: 1rem;
+      height: 1rem;
+      margin-left: 0.5rem;
+    }
+  }
+  .commentText {
+    padding-top: 0.5rem;
+    @media screen and (max-width: 767px) {
+      padding-top: 0.2rem;
+      position: 10px;
+    }
   }
 }
 .comments {
   margin: 5rem 10rem 0;
+  @media screen and (max-width: 767px) {
+    margin: 5rem 0rem 0;
+    font-size: 10px;
+  }
 }
 .postImage {
   margin-left: 8rem;
+  width: 30rem;
+  height: 19rem;
+  @media screen and (max-width: 767px) {
+    margin-left: 2rem;
+    width: 13rem;
+    height: 8rem;
+  }
 }
-.postAvatar {
-  margin-left: 1rem;
+.postMember {
+  display: flex;
+  justify-content: center;
+  span {
+    padding-top: 0.5rem;
+    @media screen and (max-width: 767px) {
+      padding-top: 0.3rem;
+      font-size: 12px;
+    }
+  }
+  .postAvatar {
+    width: 2rem;
+    height: 2rem;
+    margin-left: 1rem;
+    @media screen and (max-width: 767px) {
+      width: 1.5rem;
+      height: 1.5rem;
+      margin-left: 0.5rem;
+    }
+  }
+}
+
+.iconButton {
+  position: relative;
+  button {
+    position: absolute;
+    top: -3rem;
+  }
 }

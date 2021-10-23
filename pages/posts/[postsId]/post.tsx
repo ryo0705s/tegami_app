@@ -1,5 +1,6 @@
 import { Button, TextField, IconButton } from "@material-ui/core";
 import Stack from "@mui/material/Stack";
+import { Avatar } from "@mui/material";
 import { makeStyles } from "@material-ui/core/styles";
 import ThumbUpAltIcon from "@material-ui/icons/ThumbUpAlt";
 import PhotoCameraIcon from "@material-ui/icons/PhotoCamera";
@@ -360,6 +361,7 @@ const post = () => {
   useEffect(() => {
     const targetUrl = location.pathname.split("/")[2];
     setSelectedId(targetUrl);
+    setClickedId("");
   }, []);
 
   useEffect(() => {
@@ -429,22 +431,19 @@ const post = () => {
   return (
     <Layout>
       <div className={styles.post}>
-        <img
-          src={clickedPost.image}
-          width="400"
-          height="500"
-          className={styles.postImage}
-        />
-        <IconButton>
-          <label>
-            <PhotoCameraIcon />
-            <input
-              type="file"
-              className={styles.input}
-              onChange={handlePicture}
-            />
-          </label>
-        </IconButton>
+        <img src={clickedPost.image} className={styles.postImage} />
+        <span className={styles.iconButton}>
+          <IconButton>
+            <label>
+              <PhotoCameraIcon />
+              <input
+                type="file"
+                className={styles.input}
+                onChange={handlePicture}
+              />
+            </label>
+          </IconButton>
+        </span>
 
         {targetUid && clickedPost.liked ? (
           <IconButton onClick={handleUnLike}>
@@ -460,24 +459,25 @@ const post = () => {
             </label>
           </IconButton>
         )}
+
         <span>{clickedPost.likeCount}</span>
         <div>
-          <span>投稿者：{findPostLetterName} さん</span>
-          <img
-            src={findPostAvatar}
-            alt="prof"
-            width="30"
-            height="30"
-            className={styles.postAvatar}
-            onClick={() => router.push(`/posts/${selectedId}/postInfo`)}
-          />
+          <div className={styles.postMember}>
+            <span>投稿者：{findPostLetterName} さん</span>
+            <Avatar
+              src={findPostAvatar}
+              alt="prof"
+              className={styles.postAvatar}
+              onClick={() => router.push(`/posts/${selectedId}/postInfo`)}
+            />
+          </div>
         </div>
         <br />
         <h2>説明</h2>
         {clickedPost.uid === users.uid ? (
           <>
             {!edited ? (
-              <div>{clickedPost.text}</div>
+              <div className={styles.text}>{clickedPost.text}</div>
             ) : (
               <TextField
                 multiline
@@ -519,7 +519,7 @@ const post = () => {
             )}
           </>
         ) : (
-          <div>{clickedPost.text}</div>
+          <div className={styles.text}>{clickedPost.text}</div>
         )}
 
         <br />
@@ -558,18 +558,22 @@ const post = () => {
             comments.map((comment) => {
               return (
                 <li className={styles.comment}>
-                  <div>
-                    <img
+                  <Avatar
+                    src={comment.commentAvatar}
+                    alt="prof"
+                    className={styles.commentAvatar}
+                    onClick={() =>
+                      router.push(`/posts/${selectedId}/${comment.id}`)
+                    }
+                  />
+                  {/* <img
                       src={comment.commentAvatar}
                       alt="prof"
-                      width="30"
-                      height="30"
                       onClick={() =>
                         router.push(`/posts/${selectedId}/${comment.id}`)
                       }
-                    />
-                  </div>
-                  <div>{comment.text}</div>
+                    /> */}
+                  <div className={styles.commentText}>{comment.text}</div>
                   {comment.commentUid === users.uid ? (
                     <div>
                       <Stack

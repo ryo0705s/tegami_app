@@ -22,18 +22,18 @@
   width: 5rem;
   height: 8rem;
   margin: 4rem 10rem 4.1rem 1.3rem;
-  @media screen and (max-width: 767px) {
-    margin: 4rem 6rem 4rem 1.3rem;
-  }
+  // @media screen and (max-width: 767px) {
+  //   margin: 4rem 6rem 4rem 1.3rem;
+  // }
   @media screen and (max-width: 767px) {
     margin: 4.1rem 6rem 4rem 1.3rem;
   }
   img {
-    width: 7rem;
-    height: 10rem;
-    @media screen and (max-width: 767px) {
-      width: 7rem;
-      height: 10rem;
-    }
+    width: 10rem;
+    height: 7rem;
+    // @media screen and (max-width: 767px) {
+    //   width: 7rem;
+    //   height: 10rem;
+    // }
   }
 }

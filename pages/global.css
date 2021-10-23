@@ -6,6 +6,8 @@ body {
   margin: 0 auto;
   padding: 0;
   text-align: center;
+  /* white-space: pre; */
+  /* word-break: keep-all; */
   /* width: 80vw; */
 
   background: linear-gradient(
