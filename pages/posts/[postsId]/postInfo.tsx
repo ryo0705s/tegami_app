@@ -132,7 +132,7 @@ const userInfo = () => {
                   <h3>レターネーム</h3>
                   <div>{postUser.letterName}</div>
                   <h3>コメント</h3>
-                  <div>{postUser.otherInfo}</div>
+                  <div className={styles.text}>{postUser.otherInfo}</div>
                 </li>
               );
             })}

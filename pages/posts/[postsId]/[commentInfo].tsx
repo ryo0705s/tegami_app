@@ -142,7 +142,7 @@ const commentInfo = () => {
                   <h3>レターネーム</h3>
                   <div>{commentUser.letterName}</div>
                   <h3>コメント</h3>
-                  <div>{commentUser.otherInfo}</div>
+                  <div className={styles.text}>{commentUser.otherInfo}</div>
                 </li>
               );
             })}

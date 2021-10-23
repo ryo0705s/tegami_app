@@ -11,6 +11,12 @@
   display: none;
   border-style: none;
 }
+.text {
+  white-space: pre;
+  @media screen and (max-width: 767px) {
+    white-space: normal;
+  }
+}
 .textField {
   padding: 0 10% 0;
   margin: 6rem 0 1rem;

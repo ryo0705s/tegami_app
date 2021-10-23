@@ -477,7 +477,7 @@ const post = () => {
         {clickedPost.uid === users.uid ? (
           <>
             {!edited ? (
-              <div>{clickedPost.text}</div>
+              <div className={styles.text}>{clickedPost.text}</div>
             ) : (
               <TextField
                 multiline
@@ -519,7 +519,7 @@ const post = () => {
             )}
           </>
         ) : (
-          <div>{clickedPost.text}</div>
+          <div className={styles.text}>{clickedPost.text}</div>
         )}
 
         <br />

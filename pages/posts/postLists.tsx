@@ -82,7 +82,7 @@ const postLists = () => {
 
   // デバッグ用
   useEffect(() => {
-    console.log(router.query, "呼ばれてる？");
+    console.log(posts, "呼ばれてる？");
   }, []);
   useEffect(() => {
     console.log(liked, "焼肉らいく");
