@@ -155,10 +155,18 @@ const IndexPage = () => {
         <br />
         <p>コロナによりオンラインでのやりとりが増えました。</p>
         <p>だからこそオフラインの価値が高まっていると思います。</p>
-        <p>手紙はその中間をいくようなものだと思います。</p>
+        <p>
+          手紙は、”自宅にいながらオフラインの気持ちを相手に渡せる”便利なツールです。
+        </p>
         <p>
           このTEGAMIをきっかけに大事な人に手紙を出してみてはどうでしょうか？
         </p>
+      </div>
+      <div className={styles.instagram}>
+        <h2>Instagramはこちら</h2>
+        <a href="https://www.instagram.com/tegami_letter/" target="_blank">
+          <img src="/instagramLogo.png" alt="instagram" />
+        </a>
       </div>
     </Layout>
   );
