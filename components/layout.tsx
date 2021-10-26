@@ -1,14 +1,12 @@
 import React, { ReactNode, useContext, useEffect, useState } from "react";
 import Head from "next/head";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import { auth, db } from "../firebase";
+import { AppContext } from "./states/PageStates";
 import styles from "../components/scss/layout.module.scss";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
-import firebase from "firebase/app";
-import { auth, db } from "../firebase";
-import { NextRouter, useRouter } from "next/router";
-import { AppContext } from "./states/PageStates";
 import MenuIcon from "@mui/icons-material/Menu";
-import { Stack } from "@mui/material";
 import { Avatar } from "@mui/material";
 
 export interface Props {
@@ -20,15 +18,10 @@ const Layout = ({ children }: Props) => {
   const [authId, setAuthId] = useState("");
   const [menuWindow, setMenuWindow] = useState(false);
   const {
-    userId,
-    setUserId,
-    avatarUrl,
-    setAvatarUrl,
     users,
     setUsers,
     guestLogined,
     setGuestLogined,
-    authUserId,
     setAuthUserId,
   }: any = useContext(AppContext);
 
@@ -53,7 +46,7 @@ const Layout = ({ children }: Props) => {
   };
 
   const authLogin = () => {
-    firebase.auth().onAuthStateChanged(async (user) => {
+    auth.onAuthStateChanged(async (user) => {
       if (user) {
         const authUid = user.uid;
         await db

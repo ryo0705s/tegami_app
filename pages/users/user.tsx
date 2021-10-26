@@ -3,10 +3,8 @@ import PhotoCameraIcon from "@material-ui/icons/PhotoCamera";
 import { Avatar } from "@mui/material";
 import { makeStyles } from "@material-ui/core/styles";
 
-import React, { useState, useContext, useEffect } from "react";
-import Image from "next/image";
+import React, { useContext, useEffect } from "react";
 import styles from "../../components/scss/user.module.scss";
-import firebase from "firebase/app";
 import { db, storage } from "../../firebase";
 import { AppContext } from "../../components/states/PageStates";
 import { useRouter } from "next/router";

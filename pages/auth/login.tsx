@@ -25,17 +25,12 @@ const login = () => {
     setEmail,
     password,
     setPassword,
-    userId,
-    setUserId,
     loginedId,
     setLoginedId,
-    avatarUrl,
-    setAvatarUrl,
     logined,
     setLogined,
     users,
     setUsers,
-    authUserId,
     setAuthUserId,
     guestLogined,
     setGuestLogined,
@@ -88,7 +83,7 @@ const login = () => {
   };
 
   const currentLogin = async () => {
-    const authUser = firebase.auth().currentUser;
+    const authUser = auth.currentUser;
     if (authUser) {
       const displayName = authUser.displayName;
       const email = authUser.email;
@@ -137,7 +132,7 @@ const login = () => {
   };
 
   const onetimeLogin = () => {
-    const authUser = firebase.auth().currentUser;
+    const authUser = auth.currentUser;
     if (authUser) {
       const displayName = authUser.displayName;
       const email = authUser.email;
@@ -159,8 +154,7 @@ const login = () => {
   };
 
   const forgotLoginInfo = () => {
-    firebase
-      .auth()
+    auth
       .sendPasswordResetEmail(forgotEmail)
       .then(() => {
         setLogined(!logined);

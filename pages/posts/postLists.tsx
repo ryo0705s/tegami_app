@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import Layout from "../../components/layout";
 import styles from "../../components/scss/posts.module.scss";
-import { storage, db } from "../../firebase";
+import { db } from "../../firebase";
 import { useRouter } from "next/router";
 import { AppContext } from "../../components/states/PageStates";
 

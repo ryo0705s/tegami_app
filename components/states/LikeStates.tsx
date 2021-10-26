@@ -10,19 +10,20 @@ export const LikeContext = createContext({});
 
 const LikeStates = ({ children }: Props) => {
   const router = useRouter();
+  const likeArray = firebase.firestore.FieldValue.arrayUnion;
+  const likeGood = firebase.firestore.FieldValue.increment(1);
+  const likeBad = firebase.firestore.FieldValue.increment(-1);
 
   const handleLike = () => {
     db.collection("posts")
       .doc(clickedPost.id)
       .update({
-        likedUid: firebase.firestore.FieldValue.arrayUnion(users.uid),
+        likedUid: likeArray(users.uid),
       });
 
-    db.collection("posts")
-      .doc(clickedPost.id)
-      .update({
-        likeCount: firebase.firestore.FieldValue.increment(1),
-      });
+    db.collection("posts").doc(clickedPost.id).update({
+      likeCount: likeGood,
+    });
     db.collection("posts").doc(clickedPost.id).update({
       liked: true,
     });
@@ -33,14 +34,12 @@ const LikeStates = ({ children }: Props) => {
     db.collection("posts")
       .doc(clickedPost.id)
       .update({
-        likedUid: firebase.firestore.FieldValue.arrayRemove(users.uid),
+        likedUid: likeArray(users.uid),
       });
 
-    db.collection("posts")
-      .doc(clickedPost.id)
-      .update({
-        likeCount: firebase.firestore.FieldValue.increment(-1),
-      });
+    db.collection("posts").doc(clickedPost.id).update({
+      likeCount: likeBad,
+    });
     db.collection("posts").doc(clickedPost.id).update({
       liked: false,
     });

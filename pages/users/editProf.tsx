@@ -1,10 +1,8 @@
 import { Button, IconButton, TextField } from "@material-ui/core";
 import { Avatar } from "@mui/material";
-import React, { useState, useContext, useEffect } from "react";
-import Image from "next/image";
+import React, { useContext, useEffect } from "react";
 import PhotoCameraIcon from "@material-ui/icons/PhotoCamera";
 import styles from "../../components/scss/user.module.scss";
-import firebase from "firebase/app";
 import { db, storage } from "../../firebase";
 import {
   AppContext,
