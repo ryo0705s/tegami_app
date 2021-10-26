@@ -8,7 +8,7 @@ import Image from "next/image";
 import styles from "../../components/user.module.scss";
 import firebase from "firebase/app";
 import { db, storage } from "../../firebase";
-import { AppContext } from "../../components/PageStates";
+import { AppContext } from "../../components/states/PageStates";
 import { useRouter } from "next/router";
 import Layout from "../../components/layout";
 

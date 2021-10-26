@@ -6,12 +6,12 @@ import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import firebase from "firebase/app";
 import { auth, db } from "../firebase";
 import { NextRouter, useRouter } from "next/router";
-import { AppContext } from "./PageStates";
+import { AppContext } from "./states/PageStates";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Stack } from "@mui/material";
 import { Avatar } from "@mui/material";
 
-interface Props {
+export interface Props {
   children?: ReactNode;
 }
 

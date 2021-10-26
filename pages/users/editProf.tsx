@@ -6,7 +6,11 @@ import PhotoCameraIcon from "@material-ui/icons/PhotoCamera";
 import styles from "../../components/user.module.scss";
 import firebase from "firebase/app";
 import { db, storage } from "../../firebase";
-import { AppContext, userProps, postProps } from "../../components/PageStates";
+import {
+  AppContext,
+  userProps,
+  postProps,
+} from "../../components/states/PageStates";
 import { useRouter } from "next/router";
 import Layout from "../../components/layout";
 import { makeStyles } from "@material-ui/core/styles";

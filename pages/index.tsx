@@ -6,7 +6,7 @@ import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import Grid from "@mui/material/Grid";
 import styles from "../components/layout.module.scss";
-import { AppContext } from "../components/PageStates";
+import { AppContext } from "../components/states/PageStates";
 import Image from "next/image";
 
 const IndexPage = () => {

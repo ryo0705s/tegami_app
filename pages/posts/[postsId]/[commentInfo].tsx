@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import styles from "../../../components/user.module.scss";
 import { db, storage } from "../../../firebase";
-import { AppContext } from "../../../components/PageStates";
+import { AppContext } from "../../../components/states/PageStates";
 import { useRouter } from "next/router";
 import Layout from "../../../components/layout";
 import { Avatar } from "@mui/material";

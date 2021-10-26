@@ -8,7 +8,7 @@ import { storage, db } from "../../firebase";
 import "firebase/storage";
 import firebase from "firebase/app";
 import { useRouter } from "next/router";
-import { AppContext } from "../../components/PageStates";
+import { AppContext } from "../../components/states/PageStates";
 
 const useStyles = makeStyles((theme) => ({
   root: {
