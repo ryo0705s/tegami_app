@@ -3,7 +3,7 @@ import { Avatar } from "@mui/material";
 import React, { useState, useContext, useEffect } from "react";
 import Image from "next/image";
 import PhotoCameraIcon from "@material-ui/icons/PhotoCamera";
-import styles from "../../components/user.module.scss";
+import styles from "../../components/scss/user.module.scss";
 import firebase from "firebase/app";
 import { db, storage } from "../../firebase";
 import {

@@ -10,7 +10,7 @@ import "firebase/firestore";
 import { db } from "../../../firebase";
 import { AppContext } from "../../../components/states/PageStates";
 import { useRouter } from "next/router";
-import styles from "../../../components/post.module.scss";
+import styles from "../../../components/scss/post.module.scss";
 import { PostContext } from "../../../components/states/PostStates";
 import { CommentContext } from "../../../components/states/CommentStates";
 // import {

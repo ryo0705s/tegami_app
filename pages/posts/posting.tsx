@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import React, { useState, useEffect, useContext } from "react";
 import Layout from "../../components/layout";
 import PhotoCameraIcon from "@material-ui/icons/PhotoCamera";
-import styles from "../../components/posting.module.scss";
+import styles from "../../components/scss/post.module.scss";
 import { storage, db } from "../../firebase";
 import "firebase/storage";
 import firebase from "firebase/app";

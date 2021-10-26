@@ -5,7 +5,7 @@ import { makeStyles } from "@material-ui/core/styles";
 
 import React, { useState, useContext, useEffect } from "react";
 import Image from "next/image";
-import styles from "../../components/user.module.scss";
+import styles from "../../components/scss/user.module.scss";
 import firebase from "firebase/app";
 import { db, storage } from "../../firebase";
 import { AppContext } from "../../components/states/PageStates";

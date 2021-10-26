@@ -1,7 +1,7 @@
 import React, { ReactNode, useContext, useEffect, useState } from "react";
 import Head from "next/head";
 import Link from "next/link";
-import styles from "./layout.module.scss";
+import styles from "../components/scss/layout.module.scss";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import firebase from "firebase/app";
 import { auth, db } from "../firebase";
