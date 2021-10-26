@@ -1,4 +1,4 @@
-import "./global.css";
+import "../components/global.css";
 import PageStates from "../components/states/PageStates";
 import PostStates from "../components/states/PostStates";
 import CommentStates from "../components/states/CommentStates";
