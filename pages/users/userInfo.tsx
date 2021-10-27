@@ -2,7 +2,6 @@ import React, { useState, useContext, useEffect } from "react";
 import styles from "../../components/scss/user.module.scss";
 import { db, postDB } from "../../firebase";
 import { AppContext } from "../../components/states/PageStates";
-import { useRouter } from "next/router";
 import Layout from "../../components/layout";
 
 interface yourPostProps {
@@ -16,7 +15,6 @@ interface yourPostProps {
 }
 
 const userInfo = () => {
-  const router = useRouter();
   const [yourPosts, setYourPosts] = useState<yourPostProps[]>([
     {
       id: "",
@@ -30,6 +28,7 @@ const userInfo = () => {
   ]);
 
   const {
+    router,
     posts,
     setPosts,
     users,

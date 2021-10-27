@@ -7,7 +7,6 @@ import styles from "../../components/scss/post.module.scss";
 import { storage, db, postDB } from "../../firebase";
 import "firebase/storage";
 import firebase from "firebase/app";
-import { useRouter } from "next/router";
 import { AppContext } from "../../components/states/PageStates";
 
 const useStyles = makeStyles((theme) => ({
@@ -31,8 +30,8 @@ const posting = () => {
     setUserId,
     users,
     setUsers,
+    router,
   }: any = useContext(AppContext);
-  const router = useRouter();
 
   const handlePicture = (e: any) => {
     const next = function (snapshot) {};

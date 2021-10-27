@@ -3,12 +3,10 @@ import firebase from "firebase/app";
 import "firebase/firestore";
 import { db, postDB, userDB } from "../../firebase";
 import { AppContext, Props } from "./PageStates";
-import { useRouter } from "next/router";
 
 export const LikeContext = createContext({});
 
 const LikeStates = ({ children }: Props) => {
-  const router = useRouter();
   const likeArray = firebase.firestore.FieldValue.arrayUnion;
   const likeGood = firebase.firestore.FieldValue.increment(1);
   const likeBad = firebase.firestore.FieldValue.increment(-1);
@@ -42,6 +40,7 @@ const LikeStates = ({ children }: Props) => {
   };
 
   const {
+    router,
     liked,
     setLiked,
     users,

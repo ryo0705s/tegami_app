@@ -9,7 +9,6 @@ import Layout from "../../../components/layout";
 import "firebase/firestore";
 import { db, postDB } from "../../../firebase";
 import { AppContext } from "../../../components/states/PageStates";
-import { useRouter } from "next/router";
 import styles from "../../../components/scss/post.module.scss";
 import { PostContext } from "../../../components/states/PostStates";
 import { CommentContext } from "../../../components/states/CommentStates";
@@ -31,8 +30,8 @@ const useStyles = makeStyles((theme) => ({
 
 const post = () => {
   const classes = useStyles();
-  const router = useRouter();
   const {
+    router,
     setClickedId,
     edited,
     setEdited,

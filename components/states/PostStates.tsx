@@ -2,12 +2,10 @@ import React, { useContext, createContext } from "react";
 import "firebase/firestore";
 import { db, storage, postDB } from "../../firebase";
 import { AppContext, Props } from "./PageStates";
-import { useRouter } from "next/router";
 
 export const PostContext = createContext({});
 
 const PostStates = ({ children }: Props) => {
-  const router = useRouter();
   const editText = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setClickedPost({
       id: clickedPost.id,
@@ -99,6 +97,7 @@ const PostStates = ({ children }: Props) => {
   };
 
   const {
+    router,
     edited,
     setEdited,
     updated,

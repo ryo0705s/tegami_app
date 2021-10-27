@@ -1,8 +1,7 @@
 import React, { useState, useContext, createContext } from "react";
 import "firebase/firestore";
-import { db, postDB } from "../../firebase";
+import { postDB } from "../../firebase";
 import { AppContext, Props } from "./PageStates";
-import { useRouter } from "next/router";
 
 export const CommentContext = createContext({});
 
@@ -24,7 +23,6 @@ export interface updateCommentTextProps {
 }
 
 const CommentStates = ({ children }: Props) => {
-  const router = useRouter();
   const [comments, setComments] = useState<Partial<commentProps[]>>([
     {
       id: "",
@@ -98,7 +96,9 @@ const CommentStates = ({ children }: Props) => {
       });
   };
 
-  const { users, setSelectedId, clickedPost }: any = useContext(AppContext);
+  const { router, users, setSelectedId, clickedPost }: any = useContext(
+    AppContext
+  );
 
   const value = {
     comments,

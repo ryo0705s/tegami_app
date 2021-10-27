@@ -1,7 +1,6 @@
 import React, { ReactNode, useContext, useEffect, useState } from "react";
 import Head from "next/head";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import { auth, db, userDB } from "../firebase";
 import { AppContext, Props } from "./states/PageStates";
 import styles from "../components/scss/layout.module.scss";
@@ -10,8 +9,6 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { Avatar } from "@mui/material";
 
 const Layout = ({ children }: Props) => {
-  const router = useRouter();
-
   const [authId, setAuthId] = useState("");
   const [menuWindow, setMenuWindow] = useState(false);
 
@@ -21,6 +18,7 @@ const Layout = ({ children }: Props) => {
     guestLogined,
     setGuestLogined,
     setAuthUserId,
+    router,
   }: any = useContext(AppContext);
 
   // ヘッダーとフッターにログアウトアイコンがあるためlayoutに記述

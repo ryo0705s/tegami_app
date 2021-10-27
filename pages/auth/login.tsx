@@ -5,7 +5,6 @@ import Layout from "../../components/layout";
 import styles from "../../components/scss/login.module.scss";
 import firebase from "firebase/app";
 import { auth, provider, db, userDB } from "../../firebase";
-import { useRouter } from "next/router";
 import { AppContext } from "../../components/states/PageStates";
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -34,9 +33,9 @@ const login = () => {
     setAuthUserId,
     guestLogined,
     setGuestLogined,
+    router,
   }: any = useContext(AppContext);
 
-  const router = useRouter();
   const [forgotEmail, setForgotEmail] = useState("");
 
   const handleLogin = async () => {

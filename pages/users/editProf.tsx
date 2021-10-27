@@ -9,7 +9,6 @@ import {
   userProps,
   postProps,
 } from "../../components/states/PageStates";
-import { useRouter } from "next/router";
 import Layout from "../../components/layout";
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -24,7 +23,6 @@ const useStyles = makeStyles((theme) => ({
 
 const editProf = () => {
   const classes = useStyles();
-  const router = useRouter();
 
   const createLetterName = (
     e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
@@ -140,6 +138,7 @@ const editProf = () => {
   //     });
   // };
   const {
+    router,
     users,
     setUsers,
     avatarUrl,

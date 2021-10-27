@@ -2,11 +2,11 @@ import React, { useState, useEffect, useContext } from "react";
 import Layout from "../../components/layout";
 import styles from "../../components/scss/posts.module.scss";
 import { db, postDB, userDB } from "../../firebase";
-import { useRouter } from "next/router";
 import { AppContext } from "../../components/states/PageStates";
 
 const postLists = () => {
   const {
+    router,
     posts,
     setPosts,
     clickedId,
@@ -22,7 +22,6 @@ const postLists = () => {
     users,
     setUsers,
   }: any = useContext(AppContext);
-  const router = useRouter();
 
   const selectPost = (post: any) => {
     setClickedId(post.id);

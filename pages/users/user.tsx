@@ -7,7 +7,6 @@ import React, { useContext, useEffect } from "react";
 import styles from "../../components/scss/user.module.scss";
 import { db, storage } from "../../firebase";
 import { AppContext } from "../../components/states/PageStates";
-import { useRouter } from "next/router";
 import Layout from "../../components/layout";
 
 const useStyles = makeStyles((theme) => ({
@@ -21,7 +20,6 @@ const useStyles = makeStyles((theme) => ({
 
 const user = () => {
   const classes = useStyles();
-  const router = useRouter();
 
   const createLetterName = (
     e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
@@ -99,6 +97,7 @@ const user = () => {
   //     });
   // };
   const {
+    router,
     users,
     setUsers,
     avatarUrl,

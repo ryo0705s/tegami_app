@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import React, { useState, useEffect, useContext, createContext } from "react";
 
 export const AppContext = createContext({});
@@ -41,6 +42,7 @@ interface clickedPostProps {
 // const TEGAMI_KEY = "tegamiKey";
 
 function PageStates({ children }: Props) {
+  const router = useRouter();
   const [posts, setPosts] = useState<Partial<postProps[]>>([
     {
       id: "",
@@ -90,8 +92,8 @@ function PageStates({ children }: Props) {
     liked: false,
     likedUid: [""],
   });
-
   const value = {
+    router,
     posts,
     setPosts,
     pictures,
@@ -144,6 +146,7 @@ function PageStates({ children }: Props) {
     setSelectedId,
     clickedPost,
     setClickedPost,
+    router,
   };
 
   return (
