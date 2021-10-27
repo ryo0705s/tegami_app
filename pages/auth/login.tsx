@@ -4,7 +4,7 @@ import React, { useState, useContext, useEffect } from "react";
 import Layout from "../../components/layout";
 import styles from "../../components/scss/login.module.scss";
 import firebase from "firebase/app";
-import { auth, provider, db } from "../../firebase";
+import { auth, provider, db, userDB } from "../../firebase";
 import { useRouter } from "next/router";
 import { AppContext } from "../../components/states/PageStates";
 import { makeStyles } from "@material-ui/core/styles";
@@ -169,7 +169,7 @@ const login = () => {
   useEffect(() => {
     if (loginedId)
       (async () => {
-        const docRef = await db.collection("users").doc(loginedId);
+        const docRef = await userDB.doc(loginedId);
         docRef
           .get()
           .then((doc) => {

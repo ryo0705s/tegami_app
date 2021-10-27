@@ -46,7 +46,7 @@ const user = () => {
     });
   };
   const createProfile = () => {
-    db.collection("users").add({
+    userDB.add({
       avatar: users.avatar,
       letterName: users.letterName,
       otherInfo: users.otherInfo,

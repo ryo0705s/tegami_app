@@ -1,8 +1,7 @@
 import React, { useContext, createContext } from "react";
-import { Props } from "../layout";
 import "firebase/firestore";
-import { db, storage } from "../../firebase";
-import { AppContext } from "./PageStates";
+import { db, storage, postDB } from "../../firebase";
+import { AppContext, Props } from "./PageStates";
 import { useRouter } from "next/router";
 
 export const PostContext = createContext({});
@@ -21,7 +20,7 @@ const PostStates = ({ children }: Props) => {
     });
   };
   const updateText = () => {
-    db.collection("posts")
+    postDB
       .doc(clickedPost.id)
       .set({
         id: clickedPost.id,
@@ -33,7 +32,7 @@ const PostStates = ({ children }: Props) => {
         likedUid: clickedPost.likedUid,
       })
       .then(() => {
-        const docRef = db.collection("posts").doc(clickedPost.id);
+        const docRef = postDB.doc(clickedPost.id);
         docRef
           .get()
           .then((doc) => {
@@ -56,7 +55,7 @@ const PostStates = ({ children }: Props) => {
   };
 
   const handleDelete = () => {
-    db.collection("posts")
+    postDB
       .doc(clickedPost.id)
       .delete()
       .then(() => {
@@ -89,7 +88,7 @@ const PostStates = ({ children }: Props) => {
     });
 
     // firebaseStorageに写真をアップロード
-    db.collection("posts")
+    postDB
       .doc(clickedPost.id)
       .update({
         image: uploadPicture,
@@ -110,7 +109,7 @@ const PostStates = ({ children }: Props) => {
   }: any = useContext(AppContext);
 
   const selectedPost = () => {
-    db.collection("posts")
+    postDB
       .doc(selectedId)
       .get()
       .then((doc) => {

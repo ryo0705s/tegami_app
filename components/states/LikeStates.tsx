@@ -1,9 +1,8 @@
 import React, { useContext, createContext } from "react";
-import Layout, { Props } from "../layout";
 import firebase from "firebase/app";
 import "firebase/firestore";
-import { db } from "../../firebase";
-import { AppContext } from "./PageStates";
+import { db, postDB, userDB } from "../../firebase";
+import { AppContext, Props } from "./PageStates";
 import { useRouter } from "next/router";
 
 export const LikeContext = createContext({});
@@ -15,32 +14,28 @@ const LikeStates = ({ children }: Props) => {
   const likeBad = firebase.firestore.FieldValue.increment(-1);
 
   const handleLike = () => {
-    db.collection("posts")
-      .doc(clickedPost.id)
-      .update({
-        likedUid: likeArray(users.uid),
-      });
+    postDB.doc(clickedPost.id).update({
+      likedUid: likeArray(users.uid),
+    });
 
-    db.collection("posts").doc(clickedPost.id).update({
+    postDB.doc(clickedPost.id).update({
       likeCount: likeGood,
     });
-    db.collection("posts").doc(clickedPost.id).update({
+    postDB.doc(clickedPost.id).update({
       liked: true,
     });
     setLiked(!liked);
   };
 
   const handleUnLike = () => {
-    db.collection("posts")
-      .doc(clickedPost.id)
-      .update({
-        likedUid: likeArray(users.uid),
-      });
+    postDB.doc(clickedPost.id).update({
+      likedUid: likeArray(users.uid),
+    });
 
-    db.collection("posts").doc(clickedPost.id).update({
+    postDB.doc(clickedPost.id).update({
       likeCount: likeBad,
     });
-    db.collection("posts").doc(clickedPost.id).update({
+    postDB.doc(clickedPost.id).update({
       liked: false,
     });
     setLiked(!liked);
@@ -57,33 +52,31 @@ const LikeStates = ({ children }: Props) => {
   }: any = useContext(AppContext);
 
   const selectedUser = () => {
-    db.collection("users")
-      .get()
-      .then((querySnapshot) => {
-        let userLists = [];
-        querySnapshot.forEach((doc) => {
-          const restData = { ...doc.data() };
-          userLists.push({
-            id: doc.id,
-            avatar: restData.avatar,
-            letterName: restData.letterName,
-            otherInfo: restData.otherInfo,
-            uid: restData.uid,
-          });
+    userDB.get().then((querySnapshot) => {
+      let userLists = [];
+      querySnapshot.forEach((doc) => {
+        const restData = { ...doc.data() };
+        userLists.push({
+          id: doc.id,
+          avatar: restData.avatar,
+          letterName: restData.letterName,
+          otherInfo: restData.otherInfo,
+          uid: restData.uid,
         });
-        const postNumber: number = userLists.findIndex(
-          (userList) => userList.uid === clickedPost.uid
-        );
-        console.log(postNumber, "ポストナンバぁ");
-        const findPostElements = () => {
-          setFindPostAvatar(userLists[postNumber].avatar);
-          setFindPostUid(userLists[postNumber].uid);
-          setFindPostLetterName(userLists[postNumber].letterName);
-        };
-        postNumber !== -1 ? findPostElements() : "";
-        // いいねのロジックを正常に戻す
-        setLiked(false);
       });
+      const postNumber: number = userLists.findIndex(
+        (userList) => userList.uid === clickedPost.uid
+      );
+      console.log(postNumber, "ポストナンバぁ");
+      const findPostElements = () => {
+        setFindPostAvatar(userLists[postNumber].avatar);
+        setFindPostUid(userLists[postNumber].uid);
+        setFindPostLetterName(userLists[postNumber].letterName);
+      };
+      postNumber !== -1 ? findPostElements() : "";
+      // いいねのロジックを正常に戻す
+      setLiked(false);
+    });
   };
   const value = {
     handleLike,

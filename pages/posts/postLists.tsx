@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import Layout from "../../components/layout";
 import styles from "../../components/scss/posts.module.scss";
-import { db } from "../../firebase";
+import { db, postDB, userDB } from "../../firebase";
 import { useRouter } from "next/router";
 import { AppContext } from "../../components/states/PageStates";
 
@@ -26,32 +26,30 @@ const postLists = () => {
 
   const selectPost = (post: any) => {
     setClickedId(post.id);
-    db.collection("users")
-      .get()
-      .then((querySnapshot) => {
-        let userLists = [];
-        querySnapshot.forEach((doc) => {
-          const restData = { ...doc.data() };
-          userLists.push({
-            id: doc.id,
-            avatar: restData.avatar,
-            letterName: restData.letterName,
-            otherInfo: restData.otherInfo,
-            uid: restData.uid,
-          });
+    userDB.get().then((querySnapshot) => {
+      let userLists = [];
+      querySnapshot.forEach((doc) => {
+        const restData = { ...doc.data() };
+        userLists.push({
+          id: doc.id,
+          avatar: restData.avatar,
+          letterName: restData.letterName,
+          otherInfo: restData.otherInfo,
+          uid: restData.uid,
         });
-        const postNumber: number = userLists.findIndex(
-          (userList) => userList.uid === post.uid
-        );
-        const findPostElements = () => {
-          setFindPostAvatar(userLists[postNumber].avatar);
-          setFindPostUid(userLists[postNumber].uid);
-          setFindPostLetterName(userLists[postNumber].letterName);
-        };
-        postNumber !== -1 ? findPostElements() : "";
-        // いいねのロジックを正常に戻す
-        setLiked(false);
       });
+      const postNumber: number = userLists.findIndex(
+        (userList) => userList.uid === post.uid
+      );
+      const findPostElements = () => {
+        setFindPostAvatar(userLists[postNumber].avatar);
+        setFindPostUid(userLists[postNumber].uid);
+        setFindPostLetterName(userLists[postNumber].letterName);
+      };
+      postNumber !== -1 ? findPostElements() : "";
+      // いいねのロジックを正常に戻す
+      setLiked(false);
+    });
   };
   // const pagePush = () => {
   //   router.push("/post");
@@ -64,7 +62,7 @@ const postLists = () => {
   }, [clickedId]);
 
   useEffect(() => {
-    db.collection("posts").onSnapshot((snapshot) =>
+    postDB.onSnapshot((snapshot) =>
       setPosts(
         snapshot.docs.map((doc) => ({
           id: doc.id,

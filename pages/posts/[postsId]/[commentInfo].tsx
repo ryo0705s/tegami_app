@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import styles from "../../../components/scss/user.module.scss";
-import { db } from "../../../firebase";
+import { db, userDB } from "../../../firebase";
 import { AppContext } from "../../../components/states/PageStates";
 import Layout from "../../../components/layout";
 import { Avatar } from "@mui/material";
@@ -76,7 +76,7 @@ const commentInfo = () => {
       });
   };
   const selectedUser = () => {
-    db.collection("users")
+    userDB
       .where("uid", "==", clickedComment.commentUid)
       .get()
       .then((querySnapshot) => {

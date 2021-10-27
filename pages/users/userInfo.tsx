@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import styles from "../../components/scss/user.module.scss";
-import { db } from "../../firebase";
+import { db, postDB } from "../../firebase";
 import { AppContext } from "../../components/states/PageStates";
 import { useRouter } from "next/router";
 import Layout from "../../components/layout";
@@ -45,7 +45,7 @@ const userInfo = () => {
   }: any = useContext(AppContext);
 
   useEffect(() => {
-    db.collection("posts")
+    postDB
       .where("uid", "==", findPostUid)
       .get()
       .then((querySnapshot) => {

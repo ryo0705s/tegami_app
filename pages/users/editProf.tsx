@@ -3,7 +3,7 @@ import { Avatar } from "@mui/material";
 import React, { useContext, useEffect } from "react";
 import PhotoCameraIcon from "@material-ui/icons/PhotoCamera";
 import styles from "../../components/scss/user.module.scss";
-import { db, storage } from "../../firebase";
+import { db, storage, userDB } from "../../firebase";
 import {
   AppContext,
   userProps,
@@ -49,7 +49,7 @@ const editProf = () => {
     });
   };
   const createProfile = () => {
-    db.collection("users").add({
+    userDB.add({
       avatar: users.avatar,
       letterName: users.letterName,
       otherInfo: users.otherInfo,
@@ -113,7 +113,7 @@ const editProf = () => {
     });
   };
   const editProfile = () => {
-    db.collection("users")
+    userDB
       .doc(loginedId)
       .set({
         avatar: users.avatar,

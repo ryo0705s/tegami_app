@@ -7,7 +7,7 @@ import PhotoCameraIcon from "@material-ui/icons/PhotoCamera";
 import React, { useEffect, useContext } from "react";
 import Layout from "../../../components/layout";
 import "firebase/firestore";
-import { db } from "../../../firebase";
+import { db, postDB } from "../../../firebase";
 import { AppContext } from "../../../components/states/PageStates";
 import { useRouter } from "next/router";
 import styles from "../../../components/scss/post.module.scss";
@@ -111,7 +111,7 @@ const post = () => {
 
   useEffect(() => {
     if (clickedPost.id)
-      db.collection("posts")
+      postDB
         .doc(clickedPost.id)
         .get()
         .then((doc) => {

@@ -1,8 +1,7 @@
 import React, { useState, useContext, createContext } from "react";
-import { Props } from "../layout";
 import "firebase/firestore";
-import { db } from "../../firebase";
-import { AppContext } from "./PageStates";
+import { db, postDB } from "../../firebase";
+import { AppContext, Props } from "./PageStates";
 import { useRouter } from "next/router";
 
 export const CommentContext = createContext({});
@@ -52,16 +51,12 @@ const CommentStates = ({ children }: Props) => {
   });
 
   const createComment = () => {
-    db.collection("posts")
-      .doc(clickedPost.id)
-      .collection("comments")
-      .doc()
-      .set({
-        commentUid: users.uid,
-        text: commentText.comment,
-        commentAvatar: users.avatar,
-        commented: true,
-      });
+    postDB.doc(clickedPost.id).collection("comments").doc().set({
+      commentUid: users.uid,
+      text: commentText.comment,
+      commentAvatar: users.avatar,
+      commented: true,
+    });
     setCommentText({ comment: "", commented: true });
     setSelectedId(clickedPost.id);
   };
@@ -74,7 +69,7 @@ const CommentStates = ({ children }: Props) => {
   };
 
   const updateComment = () => {
-    db.collection("posts")
+    postDB
       .doc(clickedPost.id)
       .collection("comments")
       .doc(updateCommentText.id)
@@ -90,7 +85,7 @@ const CommentStates = ({ children }: Props) => {
   };
 
   const deleteComment = (comment) => {
-    db.collection("posts")
+    postDB
       .doc(clickedPost.id)
       .collection("comments")
       .doc(comment.id)

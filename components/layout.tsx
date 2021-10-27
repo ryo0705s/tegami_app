@@ -2,21 +2,19 @@ import React, { ReactNode, useContext, useEffect, useState } from "react";
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { auth, db } from "../firebase";
-import { AppContext } from "./states/PageStates";
+import { auth, db, userDB } from "../firebase";
+import { AppContext, Props } from "./states/PageStates";
 import styles from "../components/scss/layout.module.scss";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Avatar } from "@mui/material";
 
-export interface Props {
-  children?: ReactNode;
-}
-
 const Layout = ({ children }: Props) => {
   const router = useRouter();
+
   const [authId, setAuthId] = useState("");
   const [menuWindow, setMenuWindow] = useState(false);
+
   const {
     users,
     setUsers,
@@ -25,6 +23,7 @@ const Layout = ({ children }: Props) => {
     setAuthUserId,
   }: any = useContext(AppContext);
 
+  // ヘッダーとフッターにログアウトアイコンがあるためlayoutに記述
   const handleLogout = () => {
     auth
       .signOut()
@@ -45,6 +44,7 @@ const Layout = ({ children }: Props) => {
     router.push("/auth/login");
   };
 
+  // 全ページusersコレクションのuidがトリガーになっているため、ページリロードした際にstateを保持するために記述
   const authLogin = () => {
     auth.onAuthStateChanged(async (user) => {
       if (user) {
@@ -56,6 +56,7 @@ const Layout = ({ children }: Props) => {
             let userIds = [];
             querySnapshot.forEach((doc) => {
               const restData = { ...doc.data() };
+
               userIds.push({
                 id: doc.id,
                 avatar: restData.avatar,
@@ -63,10 +64,10 @@ const Layout = ({ children }: Props) => {
                 otherInfo: restData.otherInfo,
                 uid: restData.uid,
               });
+
               const loginIdNumber: number = userIds.findIndex(
                 (userId) => userId.uid === authUid
               );
-              // console.log(loginIdNumber, "ロングマン");
               loginIdNumber !== -1
                 ? setAuthId(userIds[loginIdNumber].id)
                 : setUsers({
@@ -77,14 +78,13 @@ const Layout = ({ children }: Props) => {
                     uid: authUid,
                   });
               setAuthUserId(authUid);
-              // saveLoginState();
             });
           })
           .catch((error: any) => {
-            console.log("Error getting documents: ", error);
+            alert(error.message);
           });
       } else {
-        console.log("誰もいない夏");
+        router.push("/auth/login");
       }
     });
   };
@@ -94,9 +94,9 @@ const Layout = ({ children }: Props) => {
   }, []);
 
   useEffect(() => {
-    if (authId)
-      (async () => {
-        const docRef = await db.collection("users").doc(authId);
+    if (authId) {
+      async () => {
+        const docRef = await userDB.doc(authId);
         docRef
           .get()
           .then((doc) => {
@@ -109,13 +109,16 @@ const Layout = ({ children }: Props) => {
                 uid: doc.data().uid,
               });
             } else {
-              console.log("No such document!");
+              alert("ユーザー情報が取得できません");
             }
           })
           .catch((error: any) => {
             alert(error.message);
           });
-      })();
+      };
+    } else {
+      authLogin();
+    }
   }, [authId]);
 
   return (
@@ -263,13 +266,6 @@ const Layout = ({ children }: Props) => {
       {users.uid ? (
         <footer>
           <br />
-          <div>
-            {/* <h1>TEGAMI</h1> */}
-            {/* <div className={styles.svg} onClick={handleLogout}>
-              <ExitToAppIcon />
-              <span className={styles.logout}>ログアウトします</span>
-            </div> */}
-          </div>
           <ul className={styles.loginedListStyle_footer}>
             <li>
               <Link href="/">トップ</Link>

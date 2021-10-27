@@ -4,7 +4,7 @@ import React, { useEffect, useContext } from "react";
 import Layout from "../../components/layout";
 import PhotoCameraIcon from "@material-ui/icons/PhotoCamera";
 import styles from "../../components/scss/post.module.scss";
-import { storage, db } from "../../firebase";
+import { storage, db, postDB } from "../../firebase";
 import "firebase/storage";
 import firebase from "firebase/app";
 import { useRouter } from "next/router";
@@ -61,7 +61,7 @@ const posting = () => {
     );
   };
   const handlePost = () => {
-    db.collection("posts")
+    postDB
       .add({
         image: pictureUrl,
         text: message,
