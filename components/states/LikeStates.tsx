@@ -1,11 +1,12 @@
 import React, { useContext, createContext } from "react";
 import firebase from "firebase/app";
 import "firebase/firestore";
-import { db, postDB, userDB } from "../../firebase";
+import { postDB, userDB } from "../../firebase";
 import { AppContext, Props } from "./PageStates";
 
 export const LikeContext = createContext({});
 
+// post.tsxのいいね機能に関するstateをコンポーネント化
 const LikeStates = ({ children }: Props) => {
   const likeArray = firebase.firestore.FieldValue.arrayUnion;
   const likeGood = firebase.firestore.FieldValue.increment(1);
@@ -40,7 +41,6 @@ const LikeStates = ({ children }: Props) => {
   };
 
   const {
-    router,
     liked,
     setLiked,
     users,
@@ -66,16 +66,15 @@ const LikeStates = ({ children }: Props) => {
       const postNumber: number = userLists.findIndex(
         (userList) => userList.uid === clickedPost.uid
       );
-      console.log(postNumber, "ポストナンバぁ");
       const findPostElements = () => {
         setFindPostAvatar(userLists[postNumber].avatar);
         setFindPostUid(userLists[postNumber].uid);
         setFindPostLetterName(userLists[postNumber].letterName);
       };
       postNumber !== -1 ? findPostElements() : "";
-      // いいねのロジックを正常に戻す
-      setLiked(false);
     });
+    // いいねのロジックを正常に戻す
+    setLiked(false);
   };
   const value = {
     handleLike,

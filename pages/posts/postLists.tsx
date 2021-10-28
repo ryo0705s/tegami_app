@@ -46,9 +46,9 @@ const postLists = () => {
         setFindPostLetterName(userLists[postNumber].letterName);
       };
       postNumber !== -1 ? findPostElements() : "";
-      // いいねのロジックを正常に戻す
-      setLiked(false);
     });
+    // いいねのロジックを正常に戻す
+    setLiked(false);
   };
   // const pagePush = () => {
   //   router.push("/post");

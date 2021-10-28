@@ -1,10 +1,10 @@
-import { Button, TextField } from "@material-ui/core";
 import React, { useState } from "react";
+import { useRouter } from "next/router";
+import { auth } from "../../firebase";
 import Layout from "../../components/layout";
 import styles from "../../components/login.module.scss";
-import { auth } from "../../firebase";
-import { useRouter } from "next/router";
 import { makeStyles } from "@material-ui/core/styles";
+import { Button, TextField } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -17,9 +17,10 @@ const useStyles = makeStyles((theme) => ({
 
 const loginUser = (props: any) => {
   const classes = useStyles();
+  const router = useRouter();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const router = useRouter();
+
   const handleSubmit = () => {
     auth
       .createUserWithEmailAndPassword(email, password)
@@ -33,6 +34,7 @@ const loginUser = (props: any) => {
     setPassword("");
     router.push("/auth/login");
   };
+
   return (
     <Layout>
       <div className={styles.login}>

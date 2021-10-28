@@ -22,6 +22,7 @@ export interface updateCommentTextProps {
   edited: boolean;
 }
 
+// post.tsxの投稿へのコメントに関するstateをコンポーネント化
 const CommentStates = ({ children }: Props) => {
   const [comments, setComments] = useState<Partial<commentProps[]>>([
     {
@@ -96,9 +97,7 @@ const CommentStates = ({ children }: Props) => {
       });
   };
 
-  const { router, users, setSelectedId, clickedPost }: any = useContext(
-    AppContext
-  );
+  const { users, setSelectedId, clickedPost }: any = useContext(AppContext);
 
   const value = {
     comments,

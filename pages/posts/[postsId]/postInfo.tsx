@@ -1,8 +1,8 @@
 import React, { useState, useContext, useEffect } from "react";
-import styles from "../../../components/scss/user.module.scss";
 import { db, userDB } from "../../../firebase";
 import { AppContext } from "../../../components/states/PageStates";
 import Layout from "../../../components/layout";
+import styles from "../../../components/scss/user.module.scss";
 import { Avatar } from "@mui/material";
 
 interface yourPostProps {

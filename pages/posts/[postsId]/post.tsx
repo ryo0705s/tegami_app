@@ -1,23 +1,23 @@
+import React, { useEffect, useContext } from "react";
+import "firebase/firestore";
+import { db, postDB } from "../../../firebase";
+import { AppContext } from "../../../components/states/PageStates";
+import { PostContext } from "../../../components/states/PostStates";
+import { CommentContext } from "../../../components/states/CommentStates";
+import { LikeContext } from "../../../components/states/LikeStates";
+import Layout from "../../../components/layout";
+import styles from "../../../components/scss/post.module.scss";
 import { Button, TextField, IconButton } from "@material-ui/core";
 import Stack from "@mui/material/Stack";
 import { Avatar } from "@mui/material";
 import { makeStyles } from "@material-ui/core/styles";
 import ThumbUpAltIcon from "@material-ui/icons/ThumbUpAlt";
 import PhotoCameraIcon from "@material-ui/icons/PhotoCamera";
-import React, { useEffect, useContext } from "react";
-import Layout from "../../../components/layout";
-import "firebase/firestore";
-import { db, postDB } from "../../../firebase";
-import { AppContext } from "../../../components/states/PageStates";
-import styles from "../../../components/scss/post.module.scss";
-import { PostContext } from "../../../components/states/PostStates";
-import { CommentContext } from "../../../components/states/CommentStates";
 // import {
 //   commentProps,
 //   commentTextProps,
 //   updateCommentTextProps,
 // } from "../../../components/states/CommentStates";
-import { LikeContext } from "../../../components/states/LikeStates";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -30,6 +30,11 @@ const useStyles = makeStyles((theme) => ({
 
 const post = () => {
   const classes = useStyles();
+
+  const targetUid: string = clickedPost.likedUid.find((clickedFoundUid) => {
+    return clickedFoundUid == users.uid;
+  });
+
   const {
     router,
     setClickedId,
@@ -129,21 +134,6 @@ const post = () => {
         });
   }, [liked]);
 
-  // デバッグ用
-  useEffect(() => {
-    console.log(findPostUid, "呼ばれてますか？");
-  }, [findPostUid]);
-  useEffect(() => {
-    console.log(clickedPost, "モンドセレクション");
-  }, [clickedPost]);
-  useEffect(() => {
-    console.log(location.pathname.split("/")[2], "クエっクエ");
-  }, []);
-
-  const targetUid: string = clickedPost.likedUid.find((clickedFoundUid) => {
-    return clickedFoundUid == users.uid;
-  });
-
   return (
     <Layout>
       <div className={styles.post}>
@@ -163,7 +153,6 @@ const post = () => {
 
         {targetUid && clickedPost.liked ? (
           <IconButton onClick={handleUnLike}>
-            {/* <IconButton onClick={alreadyLiked}> */}
             <label>
               <ThumbUpAltIcon />
             </label>
@@ -282,13 +271,6 @@ const post = () => {
                       router.push(`/posts/${selectedId}/${comment.id}`)
                     }
                   />
-                  {/* <img
-                      src={comment.commentAvatar}
-                      alt="prof"
-                      onClick={() =>
-                        router.push(`/posts/${selectedId}/${comment.id}`)
-                      }
-                    /> */}
                   <div className={styles.commentText}>{comment.text}</div>
                   {comment.commentUid === users.uid ? (
                     <div>
@@ -327,7 +309,6 @@ const post = () => {
           <div></div>
         ) : (
           <>
-            {/* <div>コメントを編集する</div> */}
             <div className={styles.textField}>
               <form className={classes.root} noValidate autoComplete="off">
                 <TextField

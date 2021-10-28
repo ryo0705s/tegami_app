@@ -1,4 +1,4 @@
-import React, { ReactNode, useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Head from "next/head";
 import Link from "next/link";
 import { auth, db, userDB } from "../firebase";
@@ -251,7 +251,6 @@ const Layout = ({ children }: Props) => {
         </header>
       )}
       <main>
-        {/* <Stack direction="row" spacing={2}> */}
         <Avatar
           src={users.avatar}
           alt="prof"

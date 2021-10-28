@@ -1,19 +1,19 @@
 import React, { useState, useContext, useEffect } from "react";
-import styles from "../../../components/scss/user.module.scss";
 import { db, userDB } from "../../../firebase";
-import { AppContext } from "../../../components/states/PageStates";
 import Layout from "../../../components/layout";
+import { AppContext } from "../../../components/states/PageStates";
+import styles from "../../../components/scss/user.module.scss";
 import { Avatar } from "@mui/material";
 
-interface yourPostProps {
-  id: string;
-  image: string;
-  text: string;
-  uid: string;
-  likeCount: number;
-  liked: boolean;
-  likedUid: string[];
-}
+// interface yourPostProps {
+//   id: string;
+//   image: string;
+//   text: string;
+//   uid: string;
+//   likeCount: number;
+//   liked: boolean;
+//   likedUid: string[];
+// }
 
 const commentInfo = () => {
   // const router = useRouter();
@@ -46,12 +46,7 @@ const commentInfo = () => {
     text: "",
   });
 
-  const {
-    selectedId,
-    setSelectedId,
-    clickedPost,
-    setClickedPost,
-  }: any = useContext(AppContext);
+  const { selectedId, setSelectedId }: any = useContext(AppContext);
 
   const selectedComment = () => {
     db.collection("posts")
@@ -67,14 +62,12 @@ const commentInfo = () => {
           commented: doc.data().commented,
           text: doc.data().text,
         });
-        // clickedId→clickedPostIdに渡すことによりバックボタンで前ページに戻れるようにした
-        // setClickedPostId(clickedId);
-        // setClickedId("");
       })
       .catch((error: any) => {
         alert(error.message);
       });
   };
+
   const selectedUser = () => {
     userDB
       .where("uid", "==", clickedComment.commentUid)
@@ -103,6 +96,7 @@ const commentInfo = () => {
   //   .doc(clickedPost.id)
   //   .collection("comments");
 
+  // リロードしても特定のユーザーのページに飛べるようにURLから情報を取得
   useEffect(() => {
     const targetUrl = location.pathname.split("/")[2];
     const targetCommentUrl = location.pathname.split("/")[3];
@@ -118,15 +112,9 @@ const commentInfo = () => {
     if (clickedComment) selectedUser();
   }, [clickedComment]);
 
-  // デバッグ用コード
-  useEffect(() => {
-    console.log(location.pathname.split("/")[3], "お前誰？");
-  }, []);
-
   return (
     <Layout>
       <br />
-
       <div className={styles.userInfo}>
         <ul>
           {commentUsers &&

@@ -1,12 +1,12 @@
-import { Button, TextField } from "@material-ui/core";
-import Link from "next/link";
 import React, { useState, useContext, useEffect } from "react";
+import Link from "next/link";
+import { auth, provider, db, userDB } from "../../firebase";
 import Layout from "../../components/layout";
 import styles from "../../components/scss/login.module.scss";
-import firebase from "firebase/app";
-import { auth, provider, db, userDB } from "../../firebase";
 import { AppContext } from "../../components/states/PageStates";
+import { Button, TextField } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import useCurrentUser from "../../components/hooks/useCurrentUser";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -19,24 +19,23 @@ const useStyles = makeStyles((theme) => ({
 
 const login = () => {
   const classes = useStyles();
+
+  const [forgotEmail, setForgotEmail] = useState("");
+
   const {
     email,
     setEmail,
     password,
     setPassword,
     loginedId,
-    setLoginedId,
     logined,
     setLogined,
     users,
     setUsers,
-    setAuthUserId,
     guestLogined,
     setGuestLogined,
     router,
   }: any = useContext(AppContext);
-
-  const [forgotEmail, setForgotEmail] = useState("");
 
   const handleLogin = async () => {
     await auth
@@ -47,96 +46,26 @@ const login = () => {
       .catch((error: any) => {
         alert(error.message);
       });
-    currentLogin();
+    useCurrentUser;
     setEmail("");
     setPassword("");
-    // saveLoginState();
-    // router.push("/");
   };
 
   const googleLogin = async () => {
     await auth
       .signInWithPopup(provider)
       .then((result: any) => {
-        // return result;
-        console.log(result, "パスワードでろ！");
-      })
-      .catch((error: any) => {
-        alert(error.message);
-      });
-    currentLogin();
-    // saveLoginState();
-    // console.log(saveLoginState, "いじいじ");
-  };
-
-  const anonymousLogin = async () => {
-    await auth
-      .signInAnonymously()
-      .then((result: any) => {
         return result;
       })
       .catch((error: any) => {
         alert(error.message);
       });
-    onetimeLogin();
-  };
-
-  const currentLogin = async () => {
-    const authUser = auth.currentUser;
-    if (authUser) {
-      const displayName = authUser.displayName;
-      const email = authUser.email;
-      // const photoURL = authUser.photoURL;
-      // const emailVerified = authUser.emailVerified;
-      const authUid = authUser.uid;
-      console.log(authUid, "いる？");
-      await db
-        .collection("users")
-        .get()
-        .then((querySnapshot) => {
-          let userIds = [];
-          querySnapshot.forEach((doc) => {
-            const restData = { ...doc.data() };
-            userIds.push({
-              id: doc.id,
-              avatar: restData.avatar,
-              letterName: restData.letterName,
-              otherInfo: restData.otherInfo,
-              uid: restData.uid,
-            });
-            const loginIdNumber: number = userIds.findIndex(
-              (userId) => userId.uid === authUid
-            );
-            // console.log(loginIdNumber, "ロングマン");
-            loginIdNumber !== -1
-              ? setLoginedId(userIds[loginIdNumber].id)
-              : setUsers({
-                  id: users.id,
-                  avatar: users.avatar,
-                  letterName: users.letterName,
-                  otherInfo: users.otherInfo,
-                  uid: authUid,
-                });
-            setAuthUserId(authUid);
-            // router.push("/");
-            // saveLoginState();
-          });
-        })
-        .catch((error: any) => {
-          console.log("Error getting documents: ", error);
-        });
-    } else {
-      console.log("誰もいない");
-    }
+    useCurrentUser;
   };
 
   const onetimeLogin = () => {
     const authUser = auth.currentUser;
     if (authUser) {
-      const displayName = authUser.displayName;
-      const email = authUser.email;
-      // const photoURL = authUser.photoURL;
-      // const emailVerified = authUser.emailVerified;
       const authUid = authUser.uid;
       setUsers({
         id: users.id,
@@ -148,7 +77,22 @@ const login = () => {
       setGuestLogined(!guestLogined);
       router.push("/");
     } else {
-      // No user is signed in.
+      alert("ログインユーザーが見つかりません");
+    }
+  };
+  const anonymousLogin = async () => {
+    try {
+      await auth
+        .signInAnonymously()
+        .then((result: any) => {
+          return result;
+        })
+        .catch((error: any) => {
+          alert(error.message);
+        });
+      onetimeLogin();
+    } catch {
+      alert("ログインに失敗しました");
     }
   };
 
@@ -159,9 +103,7 @@ const login = () => {
         setLogined(!logined);
       })
       .catch((error: any) => {
-        var errorCode = error.code;
-        var errorMessage = error.message;
-        // ..
+        alert(error.message);
       });
   };
 
@@ -182,7 +124,7 @@ const login = () => {
               });
               router.push("/");
             } else {
-              console.log("No such document!");
+              alert("対象のドキュメントが見つかりません");
             }
           })
           .catch((error: any) => {
@@ -190,15 +132,6 @@ const login = () => {
           });
       })();
   }, [loginedId]);
-
-  // デバッグ用コード
-  useEffect(() => {
-    console.log(users.letterName, "レタス");
-  }, [users]);
-
-  useEffect(() => {
-    console.log(guestLogined, "出ていますか？");
-  }, [guestLogined]);
 
   return (
     <Layout>
@@ -227,17 +160,11 @@ const login = () => {
           </form>
         </div>
         <br />
-        {/* {users.letterName ? ( */}
         <p className={styles.loginButton}>
           <Button variant="contained" color="primary" onClick={handleLogin}>
             ログイン
           </Button>
         </p>
-        {/* ) : (
-          <Button variant="contained" color="primary" onClick={noNameLogin}>
-            ログイン
-          </Button>
-        )} */}
         <br />
         <div className={styles.otherLogin}>
           <Button

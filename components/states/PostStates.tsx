@@ -5,6 +5,7 @@ import { AppContext, Props } from "./PageStates";
 
 export const PostContext = createContext({});
 
+// post.tsxの投稿に関するstateをコンポーネント化
 const PostStates = ({ children }: Props) => {
   const editText = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setClickedPost({
@@ -64,36 +65,40 @@ const PostStates = ({ children }: Props) => {
       });
   };
   const handlePicture = async (e: any) => {
-    // storageからURLを取得
-    await storage
-      .ref(`/images/${e.target.files[0].name}`)
-      .put(e.target.files[0]);
+    try {
+      // storageからURLを取得
+      await storage
+        .ref(`/images/${e.target.files[0].name}`)
+        .put(e.target.files[0]);
 
-    // storageから画像のURLを取得し、clickedPostに保存
-    const uploadPicture = await storage
-      .ref()
-      .child(`/images/${e.target.files[0].name}`)
-      .getDownloadURL();
+      // storageから画像のURLを取得し、clickedPostに保存
+      const uploadPicture = await storage
+        .ref()
+        .child(`/images/${e.target.files[0].name}`)
+        .getDownloadURL();
 
-    setClickedPost({
-      id: clickedPost.id,
-      image: uploadPicture,
-      text: clickedPost.text,
-      uid: clickedPost.uid,
-      likeCount: clickedPost.likeCount,
-      liked: clickedPost.liked,
-      likedUid: clickedPost.likedUid,
-    });
-
-    // firebaseStorageに写真をアップロード
-    postDB
-      .doc(clickedPost.id)
-      .update({
+      setClickedPost({
+        id: clickedPost.id,
         image: uploadPicture,
-      })
-      .catch((error: any) => {
-        alert(error.message);
+        text: clickedPost.text,
+        uid: clickedPost.uid,
+        likeCount: clickedPost.likeCount,
+        liked: clickedPost.liked,
+        likedUid: clickedPost.likedUid,
       });
+
+      // firebaseStorageに写真をアップロード
+      postDB
+        .doc(clickedPost.id)
+        .update({
+          image: uploadPicture,
+        })
+        .catch((error: any) => {
+          alert(error.message);
+        });
+    } catch {
+      alert("画像の投稿に失敗しました");
+    }
   };
 
   const {
@@ -121,9 +126,6 @@ const PostStates = ({ children }: Props) => {
           liked: doc.data().liked,
           likedUid: doc.data().likedUid,
         });
-        // clickedId→clickedPostIdに渡すことによりバックボタンで前ページに戻れるようにした
-        // setClickedPostId(clickedId);
-        // setClickedId("");
       })
       .catch((error: any) => {
         alert(error.message);
