@@ -1,8 +1,8 @@
 import React, { useState, useContext, useEffect } from "react";
-import styles from "../../components/scss/user.module.scss";
-import { db, postDB } from "../../firebase";
+import { postDB } from "../../firebase";
 import { AppContext } from "../../components/states/PageStates";
 import Layout from "../../components/layout";
+import styles from "../../components/scss/user.module.scss";
 
 interface yourPostProps {
   id: string;
@@ -27,21 +27,7 @@ const userInfo = () => {
     },
   ]);
 
-  const {
-    router,
-    posts,
-    setPosts,
-    users,
-    setUsers,
-    avatarUrl,
-    setAvatarUrl,
-    loginedId,
-    setLoginedId,
-    authUserId,
-    setAuthUserId,
-    findPostUid,
-    setFindPostUid,
-  }: any = useContext(AppContext);
+  const { users, findPostUid }: any = useContext(AppContext);
 
   useEffect(() => {
     postDB
@@ -67,11 +53,6 @@ const userInfo = () => {
         console.log("Error getting documents: ", error);
       });
   }, []);
-
-  // デバッグ用コード
-  useEffect(() => {
-    console.log(yourPosts, "お前誰？");
-  }, [yourPosts]);
 
   return (
     <Layout>

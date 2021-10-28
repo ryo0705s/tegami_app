@@ -59,9 +59,6 @@ const userInfo = () => {
           liked: doc.data().liked,
           likedUid: doc.data().likedUid,
         });
-        // clickedId→clickedPostIdに渡すことによりバックボタンで前ページに戻れるようにした
-        // setClickedPostId(clickedId);
-        // setClickedId("");
       })
       .catch((error: any) => {
         alert(error.message);
@@ -95,6 +92,7 @@ const userInfo = () => {
   //   .doc(clickedPost.id)
   //   .collection("comments");
 
+  // リロードしても特定のユーザーのページに飛べるようにURLから情報を取得
   useEffect(() => {
     const targetUrl = location.pathname.split("/")[2];
     setSelectedId(targetUrl);
@@ -108,15 +106,9 @@ const userInfo = () => {
     if (clickedPost) selectedUser();
   }, [clickedPost]);
 
-  // デバッグ用コード
-  useEffect(() => {
-    console.log(selectedUser, "お前誰？");
-  }, [clickedPost]);
-
   return (
     <Layout>
       <br />
-
       <div className={styles.userInfo}>
         <ul>
           {postUsers &&
