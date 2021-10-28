@@ -1,34 +1,23 @@
+import React, { useEffect, useContext } from "react";
+import "firebase/firestore";
+import { db, postDB } from "../../../firebase";
+import { AppContext } from "../../../components/states/PageStates";
+import { PostContext } from "../../../components/states/PostStates";
+import { CommentContext } from "../../../components/states/CommentStates";
+import { LikeContext } from "../../../components/states/LikeStates";
+import Layout from "../../../components/layout";
+import styles from "../../../components/scss/post.module.scss";
 import { Button, TextField, IconButton } from "@material-ui/core";
 import Stack from "@mui/material/Stack";
 import { Avatar } from "@mui/material";
 import { makeStyles } from "@material-ui/core/styles";
 import ThumbUpAltIcon from "@material-ui/icons/ThumbUpAlt";
 import PhotoCameraIcon from "@material-ui/icons/PhotoCamera";
-import React, { useState, useEffect, useContext } from "react";
-import Layout from "../../../components/layout";
-import firebase from "firebase/app";
-import "firebase/firestore";
-import { db, storage } from "../../../firebase";
-import { AppContext } from "../../../components/PageStates";
-import { useRouter } from "next/router";
-import styles from "../../../components/post.module.scss";
-
-interface commentProps {
-  id: string;
-  commentUid: string;
-  commentAvatar: string;
-  commented: boolean;
-  text: string;
-}
-interface commentTextProps {
-  comment: string;
-  commented: boolean;
-}
-interface updateCommentTextProps {
-  id: string;
-  comment: string;
-  edited: boolean;
-}
+// import {
+//   commentProps,
+//   commentTextProps,
+//   updateCommentTextProps,
+// } from "../../../components/states/CommentStates";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -41,322 +30,53 @@ const useStyles = makeStyles((theme) => ({
 
 const post = () => {
   const classes = useStyles();
-  const router = useRouter();
-  const [comments, setComments] = useState<Partial<commentProps[]>>([
-    {
-      id: "",
-      commentUid: "",
-      commentAvatar: "",
-      commented: false,
-      text: "",
-    },
-  ]);
-  const [commented, setCommented] = useState<boolean>(false);
-  const [commentEdited, setCommentEdited] = useState<boolean>(false);
-  const [commentUid, setCommentUid] = useState<string>("");
-  const [commentText, setCommentText] = useState<commentTextProps>({
-    comment: "",
-    commented: false,
+
+  const targetUid: string = clickedPost.likedUid.find((clickedFoundUid) => {
+    return clickedFoundUid == users.uid;
   });
-  const [
-    updateCommentText,
-    setUpdateCommentText,
-  ] = useState<updateCommentTextProps>({
-    id: "",
-    comment: "",
-    edited: false,
-  });
-
-  const editText = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setClickedPost({
-      id: clickedPost.id,
-      image: clickedPost.image,
-      text: e.target.value,
-      uid: clickedPost.uid,
-      likeCount: clickedPost.likeCount,
-      liked: clickedPost.liked,
-      likedUid: clickedPost.likedUid,
-    });
-  };
-  const updateText = () => {
-    db.collection("posts")
-      .doc(clickedPost.id)
-      .set({
-        id: clickedPost.id,
-        image: clickedPost.image,
-        text: clickedPost.text,
-        uid: clickedPost.uid,
-        likeCount: clickedPost.likeCount,
-        liked: clickedPost.liked,
-        likedUid: clickedPost.likedUid,
-      })
-      .then(() => {
-        const docRef = db.collection("posts").doc(clickedPost.id);
-        docRef
-          .get()
-          .then((doc) => {
-            setClickedPost({
-              id: doc.id,
-              image: doc.data().image,
-              text: doc.data().text,
-              uid: doc.data().uid,
-              likeCount: doc.data().likeCount,
-              liked: doc.data().liked,
-              likedUid: doc.data().likedUid,
-            });
-          })
-          .catch((error: any) => {
-            alert(error.message);
-          });
-      });
-    setEdited(!edited);
-    setUpdated(!updated);
-  };
-
-  const handleDelete = () => {
-    db.collection("posts")
-      .doc(clickedPost.id)
-      .delete()
-      .then(() => {
-        router.push("/posts/postLists");
-      })
-      .catch((error: any) => {
-        alert(error.message);
-      });
-  };
-  const handlePicture = async (e: any) => {
-    // storageからURLを取得
-    await storage
-      .ref(`/images/${e.target.files[0].name}`)
-      .put(e.target.files[0]);
-
-    // storageから画像のURLを取得し、clickedPostに保存
-    const uploadPicture = await storage
-      .ref()
-      .child(`/images/${e.target.files[0].name}`)
-      .getDownloadURL();
-
-    setClickedPost({
-      id: clickedPost.id,
-      image: uploadPicture,
-      text: clickedPost.text,
-      uid: clickedPost.uid,
-      likeCount: clickedPost.likeCount,
-      liked: clickedPost.liked,
-      likedUid: clickedPost.likedUid,
-    });
-
-    // firebaseStorageに写真をアップロード
-    db.collection("posts")
-      .doc(clickedPost.id)
-      .update({
-        image: uploadPicture,
-      })
-      .catch((error: any) => {
-        alert(error.message);
-      });
-  };
-
-  const handleLike = () => {
-    db.collection("posts")
-      .doc(clickedPost.id)
-      .update({
-        likedUid: firebase.firestore.FieldValue.arrayUnion(users.uid),
-      });
-
-    db.collection("posts")
-      .doc(clickedPost.id)
-      .update({
-        likeCount: firebase.firestore.FieldValue.increment(1),
-      });
-    db.collection("posts").doc(clickedPost.id).update({
-      liked: true,
-    });
-    setLiked(!liked);
-  };
-
-  const handleUnLike = () => {
-    db.collection("posts")
-      .doc(clickedPost.id)
-      .update({
-        likedUid: firebase.firestore.FieldValue.arrayRemove(users.uid),
-      });
-
-    db.collection("posts")
-      .doc(clickedPost.id)
-      .update({
-        likeCount: firebase.firestore.FieldValue.increment(-1),
-      });
-    db.collection("posts").doc(clickedPost.id).update({
-      liked: false,
-    });
-    setLiked(!liked);
-  };
-
-  // const alreadyLiked = () => {
-  //   db.collection("posts")
-  //     .doc(clickedPost.id)
-  //     .update({
-  //       likedUid: firebase.firestore.FieldValue.arrayRemove(users.uid),
-  //     });
-
-  //   db.collection("posts")
-  //     .doc(clickedPost.id)
-  //     .update({
-  //       likeCount: firebase.firestore.FieldValue.increment(-1),
-  //     });
-  //   db.collection("posts").doc(clickedPost.id).update({
-  //     liked: false,
-  //   });
-  //   setLiked(liked);
-  // };
-
-  const createComment = () => {
-    db.collection("posts")
-      .doc(clickedPost.id)
-      .collection("comments")
-      .doc()
-      .set({
-        commentUid: users.uid,
-        text: commentText.comment,
-        commentAvatar: users.avatar,
-        commented: true,
-      });
-    setCommentText({ comment: "", commented: true });
-    setSelectedId(clickedPost.id);
-  };
-  const editComment = (comment) => {
-    setUpdateCommentText({
-      id: comment.id,
-      comment: comment.text,
-      edited: true,
-    });
-  };
-
-  const updateComment = () => {
-    db.collection("posts")
-      .doc(clickedPost.id)
-      .collection("comments")
-      .doc(updateCommentText.id)
-      .update({
-        text: updateCommentText.comment,
-      });
-    setUpdateCommentText({
-      id: "",
-      comment: "",
-      edited: false,
-    });
-    setSelectedId(clickedPost.id);
-  };
-
-  const deleteComment = (comment) => {
-    db.collection("posts")
-      .doc(clickedPost.id)
-      .collection("comments")
-      .doc(comment.id)
-      .delete()
-      .then(() => {
-        setSelectedId(clickedPost.id);
-      })
-      .catch((error: any) => {
-        alert(error.message);
-      });
-  };
 
   const {
-    message,
-    setMessage,
-    posts,
-    setPosts,
-    clickedId,
+    router,
     setClickedId,
     edited,
     setEdited,
     updated,
     setUpdated,
-    likeCount,
-    setLikeCount,
     liked,
-    setLiked,
-    likedUids,
-    setLikedUids,
-    userId,
-    setUserId,
     users,
-    setUsers,
     findPostAvatar,
-    setFindPostAvatar,
-    findCommentAvatar,
-    setFindCommentAvatar,
     findPostLetterName,
-    setFindPostLetterName,
     findPostUid,
-    setFindPostUid,
     selectedId,
     setSelectedId,
     clickedPost,
     setClickedPost,
   }: any = useContext(AppContext);
 
-  const selectedPost = () => {
-    db.collection("posts")
-      .doc(selectedId)
-      .get()
-      .then((doc) => {
-        setClickedPost({
-          id: doc.id,
-          image: doc.data().image,
-          text: doc.data().text,
-          uid: doc.data().uid,
-          likeCount: doc.data().likeCount,
-          liked: doc.data().liked,
-          likedUid: doc.data().likedUid,
-        });
-        // clickedId→clickedPostIdに渡すことによりバックボタンで前ページに戻れるようにした
-        // setClickedPostId(clickedId);
-        // setClickedId("");
-      })
-      .catch((error: any) => {
-        alert(error.message);
-      });
-  };
-  const selectedUser = () => {
-    db.collection("users")
-      .get()
-      .then((querySnapshot) => {
-        let userLists = [];
-        querySnapshot.forEach((doc) => {
-          const restData = { ...doc.data() };
-          userLists.push({
-            id: doc.id,
-            avatar: restData.avatar,
-            letterName: restData.letterName,
-            otherInfo: restData.otherInfo,
-            uid: restData.uid,
-          });
-        });
-        const postNumber: number = userLists.findIndex(
-          (userList) => userList.uid === clickedPost.uid
-        );
-        console.log(postNumber, "ポストナンバぁ");
-        const findPostElements = () => {
-          setFindPostAvatar(userLists[postNumber].avatar);
-          setFindPostUid(userLists[postNumber].uid);
-          setFindPostLetterName(userLists[postNumber].letterName);
-        };
-        postNumber !== -1 ? findPostElements() : "";
-        // いいねのロジックを正常に戻す
-        setLiked(false);
-      });
-  };
-  // const likesRef = db.collection("posts").doc(clickedPost.id);
-  // .collection("likes")
-  // .doc("djJtq6u4uNhQl3V2q6ns");
+  const {
+    editText,
+    updateText,
+    handleDelete,
+    handlePicture,
+    selectedPost,
+  }: any = useContext(PostContext);
 
-  // const commentRef = db
-  //   .collection("posts")
-  //   .doc(clickedPost.id)
-  //   .collection("comments");
+  const {
+    comments,
+    setComments,
+    commentText,
+    setCommentText,
+    updateCommentText,
+    setUpdateCommentText,
+    createComment,
+    editComment,
+    updateComment,
+    deleteComment,
+  }: any = useContext(CommentContext);
+
+  const { handleLike, handleUnLike, selectedUser }: any = useContext(
+    LikeContext
+  );
 
   useEffect(() => {
     const targetUrl = location.pathname.split("/")[2];
@@ -395,7 +115,7 @@ const post = () => {
 
   useEffect(() => {
     if (clickedPost.id)
-      db.collection("posts")
+      postDB
         .doc(clickedPost.id)
         .get()
         .then((doc) => {
@@ -413,20 +133,6 @@ const post = () => {
           alert(error.message);
         });
   }, [liked]);
-
-  // デバッグ用
-  useEffect(() => {
-    console.log(findPostUid, "呼ばれてますか？");
-  }, [findPostUid]);
-  useEffect(() => {
-    console.log(clickedPost, "モンドセレクション");
-  }, [clickedPost]);
-  useEffect(() => {
-    console.log(location.pathname.split("/")[2], "クエっクエ");
-  }, []);
-  const targetUid: string = clickedPost.likedUid.find((clickedFoundUid) => {
-    return clickedFoundUid == users.uid;
-  });
 
   return (
     <Layout>
@@ -447,7 +153,6 @@ const post = () => {
 
         {targetUid && clickedPost.liked ? (
           <IconButton onClick={handleUnLike}>
-            {/* <IconButton onClick={alreadyLiked}> */}
             <label>
               <ThumbUpAltIcon />
             </label>
@@ -566,13 +271,6 @@ const post = () => {
                       router.push(`/posts/${selectedId}/${comment.id}`)
                     }
                   />
-                  {/* <img
-                      src={comment.commentAvatar}
-                      alt="prof"
-                      onClick={() =>
-                        router.push(`/posts/${selectedId}/${comment.id}`)
-                      }
-                    /> */}
                   <div className={styles.commentText}>{comment.text}</div>
                   {comment.commentUid === users.uid ? (
                     <div>
@@ -611,7 +309,6 @@ const post = () => {
           <div></div>
         ) : (
           <>
-            {/* <div>コメントを編集する</div> */}
             <div className={styles.textField}>
               <form className={classes.root} noValidate autoComplete="off">
                 <TextField

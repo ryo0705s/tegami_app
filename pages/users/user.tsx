@@ -1,16 +1,12 @@
+import React, { useContext, useEffect } from "react";
+import { storage, userDB } from "../../firebase";
+import Layout from "../../components/layout";
+import { AppContext } from "../../components/states/PageStates";
+import styles from "../../components/scss/user.module.scss";
 import { Button, IconButton, TextField } from "@material-ui/core";
 import PhotoCameraIcon from "@material-ui/icons/PhotoCamera";
 import { Avatar } from "@mui/material";
 import { makeStyles } from "@material-ui/core/styles";
-
-import React, { useState, useContext, useEffect } from "react";
-import Image from "next/image";
-import styles from "../../components/user.module.scss";
-import firebase from "firebase/app";
-import { db, storage } from "../../firebase";
-import { AppContext } from "../../components/PageStates";
-import { useRouter } from "next/router";
-import Layout from "../../components/layout";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,7 +19,6 @@ const useStyles = makeStyles((theme) => ({
 
 const user = () => {
   const classes = useStyles();
-  const router = useRouter();
 
   const createLetterName = (
     e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
@@ -36,6 +31,7 @@ const user = () => {
       uid: users.uid,
     });
   };
+
   const createOtherInfo = (
     e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => {
@@ -48,7 +44,7 @@ const user = () => {
     });
   };
   const createProfile = () => {
-    db.collection("users").add({
+    userDB.add({
       avatar: users.avatar,
       letterName: users.letterName,
       otherInfo: users.otherInfo,
@@ -63,31 +59,29 @@ const user = () => {
     });
     router.push("../");
   };
-  const editAvatar = (e: any) => {
-    storage
-      .ref()
-      .child(`/avatars/${e.target.files[0].name}`)
-      .put(e.target.files[0])
-      .then(function (snapshot) {
-        console.log("Uploaded a blob or file!");
-        storage
-          .ref()
-          .child(`/avatars/${e.target.files[0].name}`)
-          .getDownloadURL()
-          .then(function (URL) {
-            setUsers({
-              id: users.id,
-              avatar: URL,
-              letterName: users.letterName,
-              otherInfo: users.otherInfo,
-              uid: users.uid,
-            });
-            console.log(URL, "アドレス教えて！");
-          })
-          .catch(function (error: any) {
-            // Handle any errors
-          });
+
+  const editAvatar = async (e: any) => {
+    try {
+      await storage
+        .ref()
+        .child(`/avatars/${e.target.files[0].name}`)
+        .put(e.target.files[0]);
+
+      const uploadPicture = await storage
+        .ref()
+        .child(`/avatars/${e.target.files[0].name}`)
+        .getDownloadURL();
+
+      setUsers({
+        id: users.id,
+        avatar: uploadPicture,
+        letterName: users.letterName,
+        otherInfo: users.otherInfo,
+        uid: users.uid,
       });
+    } catch {
+      alert("画像の投稿に失敗しました");
+    }
   };
 
   // const deleteProfile = () => {
@@ -100,21 +94,7 @@ const user = () => {
   //       console.error("Error removing document: ", error);
   //     });
   // };
-  const {
-    users,
-    setUsers,
-    avatarUrl,
-    setAvatarUrl,
-    loginedId,
-    setLoginedId,
-    authUserId,
-    setAuthUserId,
-  }: any = useContext(AppContext);
-
-  // デバッグ用コード
-  useEffect(() => {
-    console.log(users, "お前誰？");
-  }, [users]);
+  const { router, users, setUsers, authUserId }: any = useContext(AppContext);
 
   return (
     <Layout>

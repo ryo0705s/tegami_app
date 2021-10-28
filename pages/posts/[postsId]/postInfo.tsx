@@ -1,9 +1,8 @@
 import React, { useState, useContext, useEffect } from "react";
-import styles from "../../../components/user.module.scss";
-import { db, storage } from "../../../firebase";
-import { AppContext } from "../../../components/PageStates";
-import { useRouter } from "next/router";
+import { db, userDB } from "../../../firebase";
+import { AppContext } from "../../../components/states/PageStates";
 import Layout from "../../../components/layout";
+import styles from "../../../components/scss/user.module.scss";
 import { Avatar } from "@mui/material";
 
 interface yourPostProps {
@@ -60,16 +59,13 @@ const userInfo = () => {
           liked: doc.data().liked,
           likedUid: doc.data().likedUid,
         });
-        // clickedId→clickedPostIdに渡すことによりバックボタンで前ページに戻れるようにした
-        // setClickedPostId(clickedId);
-        // setClickedId("");
       })
       .catch((error: any) => {
         alert(error.message);
       });
   };
   const selectedUser = () => {
-    db.collection("users")
+    userDB
       .where("uid", "==", clickedPost.uid)
       .get()
       .then((querySnapshot) => {
@@ -96,6 +92,7 @@ const userInfo = () => {
   //   .doc(clickedPost.id)
   //   .collection("comments");
 
+  // リロードしても特定のユーザーのページに飛べるようにURLから情報を取得
   useEffect(() => {
     const targetUrl = location.pathname.split("/")[2];
     setSelectedId(targetUrl);
@@ -109,15 +106,9 @@ const userInfo = () => {
     if (clickedPost) selectedUser();
   }, [clickedPost]);
 
-  // デバッグ用コード
-  useEffect(() => {
-    console.log(selectedUser, "お前誰？");
-  }, [clickedPost]);
-
   return (
     <Layout>
       <br />
-
       <div className={styles.userInfo}>
         <ul>
           {postUsers &&

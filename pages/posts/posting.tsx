@@ -1,14 +1,13 @@
+import React, { useEffect, useContext } from "react";
+import { storage, postDB } from "../../firebase";
+import firebase from "firebase/app";
+import "firebase/storage";
+import { AppContext } from "../../components/states/PageStates";
+import Layout from "../../components/layout";
+import styles from "../../components/scss/post.module.scss";
 import { Button, IconButton, TextField } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import React, { useState, useEffect, useContext } from "react";
-import Layout from "../../components/layout";
 import PhotoCameraIcon from "@material-ui/icons/PhotoCamera";
-import styles from "../../components/posting.module.scss";
-import { storage, db } from "../../firebase";
-import "firebase/storage";
-import firebase from "firebase/app";
-import { useRouter } from "next/router";
-import { AppContext } from "../../components/PageStates";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -31,8 +30,8 @@ const posting = () => {
     setUserId,
     users,
     setUsers,
+    router,
   }: any = useContext(AppContext);
-  const router = useRouter();
 
   const handlePicture = (e: any) => {
     const next = function (snapshot) {};
@@ -61,7 +60,7 @@ const posting = () => {
     );
   };
   const handlePost = () => {
-    db.collection("posts")
+    postDB
       .add({
         image: pictureUrl,
         text: message,

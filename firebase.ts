@@ -12,20 +12,12 @@ if (firebase.apps.length === 0) {
     storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
     messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
     appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
-    // apiKey: "AIzaSyCNOWL6WQRN0GEVJq7E0cV6TnHsr4PjOSQ",
-    // authDomain: "tegami-app.firebaseapp.com",
-    // databaseURL: "https://tegami-app.firebaseapp.com",
-    // projectId: "tegami-app",
-    // storageBucket: "tegami-app.appspot.com",
-    // messagingSenderId: "54665515800",
-    // appId: "1:54665515800:web:170a2d47862ab9cfd2846d",
-    // measurementId: "G-8R7RDZ6DGK",
   });
 }
-// console.log(firebaseApp);
-// firebase.initializeApp(firebaseConfig);
+
 export const auth = firebase.auth();
-// firebase.analytics();
 export const db = firebase.firestore();
 export const provider = new firebase.auth.GoogleAuthProvider();
 export const storage = firebase.storage();
+export const postDB = db.collection("posts");
+export const userDB = db.collection("users");

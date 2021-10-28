@@ -1,12 +1,8 @@
-import { Button, IconButton, TextField } from "@material-ui/core";
 import React, { useState, useContext, useEffect } from "react";
-import Image from "next/image";
-import PhotoCameraIcon from "@material-ui/icons/PhotoCamera";
-import styles from "../../components/user.module.scss";
-import { db, storage } from "../../firebase";
-import { AppContext } from "../../components/PageStates";
-import { useRouter } from "next/router";
+import { postDB } from "../../firebase";
+import { AppContext } from "../../components/states/PageStates";
 import Layout from "../../components/layout";
+import styles from "../../components/scss/user.module.scss";
 
 interface yourPostProps {
   id: string;
@@ -19,7 +15,6 @@ interface yourPostProps {
 }
 
 const userInfo = () => {
-  const router = useRouter();
   const [yourPosts, setYourPosts] = useState<yourPostProps[]>([
     {
       id: "",
@@ -32,23 +27,10 @@ const userInfo = () => {
     },
   ]);
 
-  const {
-    posts,
-    setPosts,
-    users,
-    setUsers,
-    avatarUrl,
-    setAvatarUrl,
-    loginedId,
-    setLoginedId,
-    authUserId,
-    setAuthUserId,
-    findPostUid,
-    setFindPostUid,
-  }: any = useContext(AppContext);
+  const { users, findPostUid }: any = useContext(AppContext);
 
   useEffect(() => {
-    db.collection("posts")
+    postDB
       .where("uid", "==", findPostUid)
       .get()
       .then((querySnapshot) => {
@@ -71,11 +53,6 @@ const userInfo = () => {
         console.log("Error getting documents: ", error);
       });
   }, []);
-
-  // デバッグ用コード
-  useEffect(() => {
-    console.log(yourPosts, "お前誰？");
-  }, [yourPosts]);
 
   return (
     <Layout>

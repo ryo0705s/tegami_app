@@ -1,27 +1,26 @@
 import React, { useState, useEffect, useContext } from "react";
+import Image from "next/image";
+import { AppContext } from "../components/states/PageStates";
 import Layout from "../components/layout";
+import styles from "../components/scss/layout.module.scss";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import Grid from "@mui/material/Grid";
-import styles from "../components/layout.module.scss";
-import { AppContext } from "../components/PageStates";
-import Image from "next/image";
 
 const IndexPage = () => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const { users, setUsers }: any = useContext(AppContext);
+  const { users }: any = useContext(AppContext);
 
   useEffect(() => {
     if (!users.uid) setOpen(true);
   }, []);
+
   return (
     <Layout>
       <div>
-        {/* <Button onClick={handleOpen}>Open modal</Button> */}
         <Modal
           open={open}
           onClick={handleClose}
@@ -35,10 +34,7 @@ const IndexPage = () => {
               top: "50%",
               left: "50%",
               transform: "translate(-50%, -50%)",
-              // width: 1,
-              // height: 1,
               bgcolor: "background.paper",
-              // background-image: url(/background.jpg),
               border: "2px solid #000",
               boxShadow: 24,
               p: 4,
@@ -49,9 +45,6 @@ const IndexPage = () => {
               alt="tegami"
               className={styles.titleLogo}
             />
-            {/* <Typography id="modal-modal-title" variant="h6" component="h2">
-              Text in a modal
-            </Typography> */}
             <Typography id="modal-modal-description" sx={{ mt: 2 }}>
               <div className={styles.topMessage}>
                 <p>このサイトは”手紙を通じて心の安らぎを感じてほしい”</p>
