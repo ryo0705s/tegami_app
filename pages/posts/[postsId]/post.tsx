@@ -31,10 +31,6 @@ const useStyles = makeStyles((theme) => ({
 const post = () => {
   const classes = useStyles();
 
-  const targetUid: string = clickedPost.likedUid.find((clickedFoundUid) => {
-    return clickedFoundUid == users.uid;
-  });
-
   const {
     router,
     setClickedId,
@@ -77,7 +73,9 @@ const post = () => {
   const { handleLike, handleUnLike, selectedUser }: any = useContext(
     LikeContext
   );
-
+  const targetUid: string = clickedPost.likedUid.find((clickedFoundUid) => {
+    return clickedFoundUid == users.uid;
+  });
   useEffect(() => {
     const targetUrl = location.pathname.split("/")[2];
     setSelectedId(targetUrl);

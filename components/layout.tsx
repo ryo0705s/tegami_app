@@ -93,7 +93,7 @@ const Layout = ({ children }: Props) => {
 
   useEffect(() => {
     if (authId) {
-      async () => {
+      (async () => {
         const docRef = await userDB.doc(authId);
         docRef
           .get()
@@ -113,7 +113,7 @@ const Layout = ({ children }: Props) => {
           .catch((error: any) => {
             alert(error.message);
           });
-      };
+      })();
     } else {
       authLogin();
     }
