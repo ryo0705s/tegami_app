@@ -122,8 +122,6 @@ function PageStates({ children }: Props) {
     setUsers,
     logined,
     setLogined,
-    // likes,
-    // setLikes,
     likeCount,
     setLikeCount,
     liked,
@@ -146,7 +144,6 @@ function PageStates({ children }: Props) {
     setSelectedId,
     clickedPost,
     setClickedPost,
-    router,
   };
 
   return (

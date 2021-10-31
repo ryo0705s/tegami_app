@@ -1,47 +1,93 @@
-# TypeScript Next.js example
+# TEGAMI
 
-This is a really simple project that shows the usage of Next.js with TypeScript.
+![表紙](public/coverPage.png)
 
-## Preview
+## overview
 
-Preview the example live on [StackBlitz](http://stackblitz.com/):
+---
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/vercel/next.js/tree/canary/examples/with-typescript)
+TEGAMI は手紙を共有できるアプリです。
 
-## Deploy your own
+コロナ禍の中で、人と会う機会が減 x 蔦ので、
 
-Deploy the example using [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example):
+人との繋がりを思い出させてくれるアプリを作成してみました。
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https://github.com/vercel/next.js/tree/canary/examples/with-typescript&project-name=with-typescript&repository-name=with-typescript)
+### PC 版
 
-## How to use it?
+|                認証                |             ユーザー登録             |
+| :--------------------------------: | :----------------------------------: |
+| ![認証](public/authentication.png) | ![ユーザー情報](public/userInfo.png) |
 
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init) or [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/) to bootstrap the example:
+|              投稿               |             みんなの投稿              |
+| :-----------------------------: | :-----------------------------------: |
+| ![新規投稿](public/newPost.png) | ![みんなの投稿](public/postLists.png) |
 
-```bash
-npx create-next-app --example with-typescript with-typescript-app
-# or
-yarn create next-app --example with-typescript with-typescript-app
+|               いいね               |              コメント              |
+| :--------------------------------: | :--------------------------------: |
+| ![いいね](public/likeFunction.png) | ![コメント](public/newComment.png) |
+
+### スマホ版
+
+|                   認証                   |                みんなの投稿                 |
+| :--------------------------------------: | :-----------------------------------------: |
+| ![認証](public/mobileAuthentication.png) | ![みんなの投稿](public/mobilePostLists.png) |
+
+## Demo
+
+---
+
+https://tegami-app-axci1x30y-ryo0705s.vercel.app/
+
+## Installation/Usage
+
+---
+
+```
+$ git clone https://github.com/ryo0705s/tegami_app.git
 ```
 
-Deploy it to the cloud with [Vercel](https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example) ([Documentation](https://nextjs.org/docs/deployment)).
-
-## Notes
-
-This example shows how to integrate the TypeScript type system into Next.js. Since TypeScript is supported out of the box with Next.js, all we have to do is to install TypeScript.
-
 ```
-npm install --save-dev typescript
+$ npm run dev
 ```
 
-To enable TypeScript's features, we install the type declarations for React and Node.
+## Features
 
-```
-npm install --save-dev @types/react @types/react-dom @types/node
-```
+---
 
-When we run `next dev` the next time, Next.js will start looking for any `.ts` or `.tsx` files in our project and builds it. It even automatically creates a `tsconfig.json` file for our project with the recommended settings.
+- 認証機能（mail、Google、ゲスト）
+- 投稿機能
+- コメント機能
+- いいね機能
+- crud 機能
 
-Next.js has built-in TypeScript declarations, so we'll get autocompletion for Next.js' modules straight away.
+## 実装予定機能
 
-A `type-check` script is also added to `package.json`, which runs TypeScript's `tsc` CLI in `noEmit` mode to run type-checking separately. You can then include this, for example, in your `test` scripts.
+---
+
+- 最近の投稿表示
+- タイムスタンプ
+- メッセージ機能
+- オンライン文通機能
+
+## Technology
+
+---
+
+- JavaScript Framework: React, Typescript, Next.js
+- styling: Sass, Material-UI
+- BaaS: Firebase
+
+## Requirements
+
+---
+
+- Node.js
+
+## Auther
+
+---
+
+### Ryo Sasaki
+
+- [GitHub](https://github.com/ryo0705s)
+- [twitter](https://twitter.com/DwmGlory)
