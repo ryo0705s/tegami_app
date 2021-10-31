@@ -4,7 +4,6 @@
 
 ## overview
 
----
 
 TEGAMI は手紙を共有できるアプリです。
 
@@ -34,13 +33,11 @@ TEGAMI は手紙を共有できるアプリです。
 
 ## Demo
 
----
 
 https://tegami-app-axci1x30y-ryo0705s.vercel.app/
 
 ## Installation/Usage
 
----
 
 ```
 $ git clone https://github.com/ryo0705s/tegami_app.git
@@ -52,7 +49,6 @@ $ npm run dev
 
 ## Features
 
----
 
 - 認証機能（mail、Google、ゲスト）
 - 投稿機能
@@ -62,7 +58,6 @@ $ npm run dev
 
 ## 実装予定機能
 
----
 
 - 最近の投稿表示
 - タイムスタンプ
@@ -71,7 +66,6 @@ $ npm run dev
 
 ## Technology
 
----
 
 - JavaScript Framework: React, Typescript, Next.js
 - styling: Sass, Material-UI
@@ -79,13 +73,11 @@ $ npm run dev
 
 ## Requirements
 
----
 
 - Node.js
 
 ## Auther
 
----
 
 ### Ryo Sasaki
 
