@@ -70,6 +70,11 @@ $ npm run dev
 - JavaScript Framework: React, Typescript, Next.js
 - styling: Sass, Material-UI
 - BaaS: Firebase
+  - IDaaS: Firebase Authentication
+  - Database: Cloud Firestore
+  - Hosting: Firebase Hosting
+  - FaaS: Cloud Functions
+  - Storage: Cloud Storage
 
 ## Requirements
 
