@@ -81,8 +81,6 @@ const Layout = ({ children }: Props) => {
           .catch((error: any) => {
             alert(error.message);
           });
-      } else {
-        router.push("/auth/login");
       }
     });
   };
@@ -251,13 +249,27 @@ const Layout = ({ children }: Props) => {
         </header>
       )}
       <main>
-        <Avatar
-          src={users.avatar}
-          alt="prof"
-          className={styles.avatarImage}
-          onClick={() => router.push("/users/editProf")}
-        />
-        <p className={styles.hello}>{`${users.uid}さんこんにちは`}</p>
+        {users.uid ? (
+          <Avatar
+            src={users.avatar}
+            alt="prof"
+            className={styles.avatarImage}
+            onClick={() => router.push("/users/editProf")}
+          />
+        ) : (
+          <Avatar
+            src={users.avatar}
+            alt="prof"
+            className={styles.avatarImage}
+          />
+        )}
+
+        {users.letterName !== "" ? (
+          <p className={styles.hello}>{`${users.letterName}さんこんにちは`}</p>
+        ) : (
+          <p className={styles.hello}>ゲストさんこんにちは</p>
+        )}
+
         <div>{children}</div>
       </main>
       {users.uid ? (
