@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import { storage, userDB } from "../../firebase";
 import Layout from "../../components/layout";
-import { AppContext } from "../../components/states/PageStates";
+import { AppContext } from "../../components/context/PageStates";
 import styles from "../../components/scss/user.module.scss";
 import { Button, IconButton, TextField } from "@material-ui/core";
 import PhotoCameraIcon from "@material-ui/icons/PhotoCamera";

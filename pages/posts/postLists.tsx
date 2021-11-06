@@ -1,7 +1,7 @@
 import React, { useEffect, useContext } from "react";
 import { postDB, userDB } from "../../firebase";
 import Layout from "../../components/layout";
-import { AppContext } from "../../components/states/PageStates";
+import { AppContext } from "../../components/context/PageStates";
 import styles from "../../components/scss/posts.module.scss";
 
 const postLists = () => {

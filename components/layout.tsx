@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import Head from "next/head";
 import Link from "next/link";
 import { auth, db, userDB } from "../firebase";
-import { AppContext, Props } from "./states/PageStates";
+import { AppContext, Props } from "./context/PageStates";
 import styles from "../components/scss/layout.module.scss";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import MenuIcon from "@mui/icons-material/Menu";

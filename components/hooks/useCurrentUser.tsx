@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { auth, userDB } from "../../firebase";
-import { AppContext } from "../states/PageStates";
+import { AppContext } from "../context/PageStates";
 
 // 現在ログインしてるユーザーの情報をstateに挿入
 const useCurrentUser = async () => {

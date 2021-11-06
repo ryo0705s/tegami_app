@@ -3,6 +3,7 @@ import firebase from "firebase/app";
 import "firebase/firestore";
 import { postDB, userDB } from "../../firebase";
 import { AppContext, Props } from "./PageStates";
+import Post from "../../pages/posts/[postsId]/post";
 
 export const LikeContext = createContext({});
 
@@ -83,7 +84,10 @@ const LikeStates = ({ children }: Props) => {
   };
   return (
     <div>
-      <LikeContext.Provider value={value}>{children}</LikeContext.Provider>
+      <LikeContext.Provider value={value}>
+        {/* <Post /> */}
+        {children}
+      </LikeContext.Provider>
     </div>
   );
 };

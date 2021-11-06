@@ -2,7 +2,7 @@ import React, { useEffect, useContext } from "react";
 import { storage, postDB } from "../../firebase";
 import firebase from "firebase/app";
 import "firebase/storage";
-import { AppContext } from "../../components/states/PageStates";
+import { AppContext } from "../../components/context/PageStates";
 import Layout from "../../components/layout";
 import styles from "../../components/scss/post.module.scss";
 import { Button, IconButton, TextField } from "@material-ui/core";

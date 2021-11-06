@@ -3,7 +3,7 @@ import Link from "next/link";
 import { auth, provider, db, userDB } from "../../firebase";
 import Layout from "../../components/layout";
 import styles from "../../components/scss/login.module.scss";
-import { AppContext } from "../../components/states/PageStates";
+import { AppContext } from "../../components/context/PageStates";
 import { Button, TextField } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import useCurrentUser from "../../components/hooks/useCurrentUser";
