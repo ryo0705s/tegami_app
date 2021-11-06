@@ -7,12 +7,12 @@ import { CommentContext } from "../../../context/CommentStates";
 import { LikeContext } from "../../../context/LikeStates";
 import Layout from "../../../components/layout";
 import styles from "../../../components/scss/post.module.scss";
-import { Button, TextField, IconButton } from "@material-ui/core";
-import Stack from "@mui/material/Stack";
-import { Avatar } from "@mui/material";
+import { IconButton } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import ThumbUpAltIcon from "@material-ui/icons/ThumbUpAlt";
 import PhotoCameraIcon from "@material-ui/icons/PhotoCamera";
+import PostComponent from "../../../components/postComponent";
+import CommentComponent from "../../../components/commentComponent";
+import LikeComponent from "../../../components/likeComponent";
 // import {
 //   commentProps,
 //   commentTextProps,
@@ -32,50 +32,20 @@ const Post = () => {
   const classes = useStyles();
 
   const {
-    router,
     setClickedId,
-    edited,
-    setEdited,
-    updated,
-    setUpdated,
     liked,
-    users,
-    findPostAvatar,
-    findPostLetterName,
-    findPostUid,
     selectedId,
     setSelectedId,
     clickedPost,
     setClickedPost,
   }: any = useContext(AppContext);
 
-  const {
-    editText,
-    updateText,
-    handleDelete,
-    handlePicture,
-    selectedPost,
-  }: any = useContext(PostContext);
+  const { handlePicture, selectedPost }: any = useContext(PostContext);
 
-  const {
-    comments,
-    setComments,
-    commentText,
-    setCommentText,
-    updateCommentText,
-    setUpdateCommentText,
-    createComment,
-    editComment,
-    updateComment,
-    deleteComment,
-  }: any = useContext(CommentContext);
+  const { setComments }: any = useContext(CommentContext);
 
-  const { handleLike, handleUnLike, selectedUser }: any = useContext(
-    LikeContext
-  );
-  const targetUid: string = clickedPost.likedUid.find((clickedFoundUid) => {
-    return clickedFoundUid == users.uid;
-  });
+  const { selectedUser }: any = useContext(LikeContext);
+
   useEffect(() => {
     const targetUrl = location.pathname.split("/")[2];
     setSelectedId(targetUrl);
@@ -148,190 +118,10 @@ const Post = () => {
             </label>
           </IconButton>
         </span>
-
-        {targetUid && clickedPost.liked ? (
-          <IconButton onClick={handleUnLike}>
-            <label>
-              <ThumbUpAltIcon />
-            </label>
-          </IconButton>
-        ) : (
-          <IconButton onClick={!liked ? handleLike : handleUnLike}>
-            <label>
-              <ThumbUpAltIcon />
-            </label>
-          </IconButton>
-        )}
-
-        <span>{clickedPost.likeCount}</span>
-        <div>
-          <div className={styles.postMember}>
-            <span>投稿者：{findPostLetterName} さん</span>
-            <Avatar
-              src={findPostAvatar}
-              alt="prof"
-              className={styles.postAvatar}
-              onClick={() => router.push(`/posts/${selectedId}/postInfo`)}
-            />
-          </div>
-        </div>
+        <LikeComponent />
+        <PostComponent />
         <br />
-        <h2>説明</h2>
-        {clickedPost.uid === users.uid ? (
-          <>
-            {!edited ? (
-              <div className={styles.text}>{clickedPost.text}</div>
-            ) : (
-              <TextField
-                multiline
-                variant="outlined"
-                fullWidth
-                value={clickedPost.text}
-                onChange={editText}
-              />
-            )}
-            {!updated ? (
-              <>
-                <br />
-                <Stack spacing={2} direction="row" justifyContent="center">
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    size="small"
-                    onClick={() => {
-                      setEdited(!edited);
-                      setUpdated(!updated);
-                    }}
-                  >
-                    編集
-                  </Button>
-                  <Button
-                    variant="contained"
-                    color="secondary"
-                    size="small"
-                    onClick={handleDelete}
-                  >
-                    削除
-                  </Button>
-                </Stack>
-              </>
-            ) : (
-              <Button variant="contained" color="primary" onClick={updateText}>
-                完了
-              </Button>
-            )}
-          </>
-        ) : (
-          <div className={styles.text}>{clickedPost.text}</div>
-        )}
-
-        <br />
-        {!commentText.commented ? (
-          <>
-            <div className={styles.textField}>
-              <h2>コメント</h2>
-              <form className={classes.root} noValidate autoComplete="off">
-                <TextField
-                  id="outlined-textarea"
-                  label="コメント"
-                  placeholder="コメントをしてみましょう"
-                  multiline
-                  variant="outlined"
-                  fullWidth
-                  value={commentText.comment}
-                  onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
-                    setCommentText({
-                      comment: e.target.value,
-                      commented: false,
-                    })
-                  }
-                />
-              </form>
-            </div>
-            <br />
-            <Button variant="contained" color="primary" onClick={createComment}>
-              投稿
-            </Button>
-          </>
-        ) : (
-          <div></div>
-        )}
-        <ul className={styles.comments}>
-          {comments &&
-            comments.map((comment) => {
-              return (
-                <li className={styles.comment}>
-                  <Avatar
-                    src={comment.commentAvatar}
-                    alt="prof"
-                    className={styles.commentAvatar}
-                    onClick={() =>
-                      router.push(`/posts/${selectedId}/${comment.id}`)
-                    }
-                  />
-                  <div className={styles.commentText}>{comment.text}</div>
-                  {comment.commentUid === users.uid ? (
-                    <div>
-                      <Stack
-                        spacing={1}
-                        direction="row"
-                        justifyContent="center"
-                      >
-                        <Button
-                          variant="contained"
-                          color="primary"
-                          size="small"
-                          onClick={() => editComment(comment)}
-                        >
-                          編集
-                        </Button>
-                        <Button
-                          variant="contained"
-                          color="secondary"
-                          size="small"
-                          onClick={() => deleteComment(comment)}
-                        >
-                          削除
-                        </Button>
-                      </Stack>
-                    </div>
-                  ) : (
-                    ""
-                  )}
-                </li>
-              );
-            })}
-        </ul>
-        <br />
-        {!updateCommentText.edited ? (
-          <div></div>
-        ) : (
-          <>
-            <div className={styles.textField}>
-              <form className={classes.root} noValidate autoComplete="off">
-                <TextField
-                  id="outlined-textarea"
-                  label="コメント編集"
-                  placeholder="コメントを編集しましょう"
-                  multiline
-                  variant="outlined"
-                  fullWidth
-                  value={updateCommentText.comment}
-                  onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
-                    setUpdateCommentText({
-                      id: updateCommentText.id,
-                      comment: e.target.value,
-                      edited: true,
-                    })
-                  }
-                />
-              </form>
-            </div>
-            <Button variant="contained" color="primary" onClick={updateComment}>
-              完了
-            </Button>
-          </>
-        )}
+        <CommentComponent />
       </div>
     </Layout>
   );
