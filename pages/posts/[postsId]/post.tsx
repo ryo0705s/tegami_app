@@ -1,10 +1,10 @@
 import React, { useEffect, useContext } from "react";
 import "firebase/firestore";
 import { db, postDB } from "../../../firebase";
-import { AppContext } from "../../../components/context/PageStates";
-import { PostContext } from "../../../components/context/PostStates";
-import { CommentContext } from "../../../components/context/CommentStates";
-import { LikeContext } from "../../../components/context/LikeStates";
+import { AppContext } from "../../../context/PageStates";
+import { PostContext } from "../../../context/PostStates";
+import { CommentContext } from "../../../context/CommentStates";
+import { LikeContext } from "../../../context/LikeStates";
 import Layout from "../../../components/layout";
 import styles from "../../../components/scss/post.module.scss";
 import { Button, TextField, IconButton } from "@material-ui/core";

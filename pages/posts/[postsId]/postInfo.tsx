@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import { db, userDB } from "../../../firebase";
-import { AppContext } from "../../../components/context/PageStates";
+import { AppContext } from "../../../context/PageStates";
 import Layout from "../../../components/layout";
 import styles from "../../../components/scss/user.module.scss";
 import { Avatar } from "@mui/material";

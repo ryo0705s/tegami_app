@@ -3,10 +3,10 @@ import Link from "next/link";
 import { auth, provider, db, userDB } from "../../firebase";
 import Layout from "../../components/layout";
 import styles from "../../components/scss/login.module.scss";
-import { AppContext } from "../../components/context/PageStates";
+import { AppContext } from "../../context/PageStates";
 import { Button, TextField } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import useCurrentUser from "../../components/hooks/useCurrentUser";
+import useCurrentUser from "../../hooks/useCurrentUser";
 
 const useStyles = makeStyles((theme) => ({
   root: {
