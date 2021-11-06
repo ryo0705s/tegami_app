@@ -3,14 +3,19 @@ import { auth, userDB } from "../../firebase";
 import { AppContext } from "../context/PageStates";
 
 // 現在ログインしてるユーザーの情報をstateに挿入
-const useCurrentUser = async () => {
-  const { users, setUsers, setLoginedId, setAuthUserId }: any = useContext(
-    AppContext
-  );
+const useCurrentUser = () => {
+  // async () => {
+  const {
+    router,
+    users,
+    setUsers,
+    setLoginedId,
+    setAuthUserId,
+  }: any = useContext(AppContext);
   const authUser = auth.currentUser;
   if (authUser) {
     const authUid = authUser.uid;
-    await userDB
+    userDB
       .get()
       .then((querySnapshot) => {
         let userIds = [];
@@ -41,9 +46,11 @@ const useCurrentUser = async () => {
       .catch((error: any) => {
         alert(error.message);
       });
+    router.push("/");
   } else {
     alert("ログインユーザーが見つかりません");
   }
 };
+// };
 
 export default useCurrentUser;
