@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import Head from "next/head";
 import Link from "next/link";
 import { auth, db, userDB } from "../firebase";
-import { AppContext, Props } from "./states/PageStates";
+import { AppContext, Props } from "../context/PageStates";
 import styles from "../components/scss/layout.module.scss";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -81,8 +81,6 @@ const Layout = ({ children }: Props) => {
           .catch((error: any) => {
             alert(error.message);
           });
-      } else {
-        router.push("/auth/login");
       }
     });
   };
@@ -251,13 +249,27 @@ const Layout = ({ children }: Props) => {
         </header>
       )}
       <main>
-        <Avatar
-          src={users.avatar}
-          alt="prof"
-          className={styles.avatarImage}
-          onClick={() => router.push("/users/editProf")}
-        />
-        <p className={styles.hello}>{`${users.uid}さんこんにちは`}</p>
+        {users.uid ? (
+          <Avatar
+            src={users.avatar}
+            alt="prof"
+            className={styles.avatarImage}
+            onClick={() => router.push("/users/editProf")}
+          />
+        ) : (
+          <Avatar
+            src={users.avatar}
+            alt="prof"
+            className={styles.avatarImage}
+          />
+        )}
+
+        {users.letterName !== "" ? (
+          <p className={styles.hello}>{`${users.letterName}さんこんにちは`}</p>
+        ) : (
+          <p className={styles.hello}>ゲストさんこんにちは</p>
+        )}
+
         <div>{children}</div>
       </main>
       {users.uid ? (

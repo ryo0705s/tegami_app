@@ -1,7 +1,8 @@
 import React, { useState, useContext, createContext } from "react";
 import "firebase/firestore";
-import { postDB } from "../../firebase";
+import { postDB } from "../firebase";
 import { AppContext, Props } from "./PageStates";
+import Post from "../pages/posts/[postsId]/post";
 
 export const CommentContext = createContext({});
 
@@ -121,6 +122,7 @@ const CommentStates = ({ children }: Props) => {
     <div>
       <CommentContext.Provider value={value}>
         {children}
+        {/* <Post /> */}
       </CommentContext.Provider>
     </div>
   );

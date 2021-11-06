@@ -1,6 +1,6 @@
-import React, { useContext } from "react";
-import { storage } from "../../firebase";
-import { AppContext } from "../states/PageStates";
+import React, { useContext, useState } from "react";
+import { storage } from "../firebase";
+import { AppContext } from "../context/PageStates";
 
 const useEditAvatar = async (e: any) => {
   const { users, setUsers }: any = useContext(AppContext);

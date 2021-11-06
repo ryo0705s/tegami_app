@@ -1,10 +1,10 @@
 import React, { useEffect, useContext } from "react";
 import "firebase/firestore";
 import { db, postDB } from "../../../firebase";
-import { AppContext } from "../../../components/states/PageStates";
-import { PostContext } from "../../../components/states/PostStates";
-import { CommentContext } from "../../../components/states/CommentStates";
-import { LikeContext } from "../../../components/states/LikeStates";
+import { AppContext } from "../../../context/PageStates";
+import { PostContext } from "../../../context/PostStates";
+import { CommentContext } from "../../../context/CommentStates";
+import { LikeContext } from "../../../context/LikeStates";
 import Layout from "../../../components/layout";
 import styles from "../../../components/scss/post.module.scss";
 import { Button, TextField, IconButton } from "@material-ui/core";
@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const post = () => {
+const Post = () => {
   const classes = useStyles();
 
   const {
@@ -337,4 +337,4 @@ const post = () => {
   );
 };
 
-export default post;
+export default Post;

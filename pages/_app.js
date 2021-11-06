@@ -1,8 +1,8 @@
 import "../components/global.css";
-import PageStates from "../components/states/PageStates";
-import PostStates from "../components/states/PostStates";
-import CommentStates from "../components/states/CommentStates";
-import LikeStates from "../components/states/LikeStates";
+import PageStates from "../context/PageStates";
+import PostStates from "../context/PostStates";
+import CommentStates from "../context/CommentStates";
+import LikeStates from "../context/LikeStates";
 
 export default function App({ Component, pageProps }) {
   return (

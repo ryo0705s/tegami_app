@@ -1,7 +1,8 @@
 import React, { useContext, createContext } from "react";
 import "firebase/firestore";
-import { db, storage, postDB } from "../../firebase";
+import { db, storage, postDB } from "../firebase";
 import { AppContext, Props } from "./PageStates";
+import Post from "../pages/posts/[postsId]/post";
 
 export const PostContext = createContext({});
 
@@ -142,7 +143,10 @@ const PostStates = ({ children }: Props) => {
 
   return (
     <div>
-      <PostContext.Provider value={value}>{children}</PostContext.Provider>
+      <PostContext.Provider value={value}>
+        {/* <Post /> */}
+        {children}
+      </PostContext.Provider>
     </div>
   );
 };

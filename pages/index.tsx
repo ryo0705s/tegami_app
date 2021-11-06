@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import Image from "next/image";
-import { AppContext } from "../components/states/PageStates";
+import { AppContext } from "../context/PageStates";
 import Layout from "../components/layout";
 import styles from "../components/scss/layout.module.scss";
 import Box from "@mui/material/Box";
