@@ -1,12 +1,11 @@
 import React, { useState, useEffect, useContext } from "react";
-import Image from "next/image";
 import { AppContext } from "../context/PageStates";
+import GridComponent from "../components/gridComponent";
 import Layout from "../components/layout";
 import styles from "../components/scss/layout.module.scss";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
-import Grid from "@mui/material/Grid";
 
 const IndexPage = () => {
   const [open, setOpen] = useState(false);
@@ -58,93 +57,9 @@ const IndexPage = () => {
         </Modal>
       </div>
       <div className={styles.what}>TEGAMIとは</div>
-      <Grid container spacing={12}>
-        <Grid item xs={6} className={styles.gridItemRight}>
-          <p>TEGAMIは手紙を共有できるアプリです</p>
-        </Grid>
-        <Grid item xs={6} className={styles.gridItemLeft}>
-          <p className={styles.photo}>
-            <Image
-              src="/tegamiShere.jpg"
-              alt="登録方法"
-              width={300}
-              height={250}
-            />
-          </p>
-        </Grid>
-        <Grid item xs={6} className={styles.gridItemRight}>
-          <p className={styles.photo}>
-            <Image
-              src="/tegamiMemory.jpg"
-              alt="登録方法"
-              width={300}
-              height={250}
-            />
-          </p>
-        </Grid>
-        <Grid item xs={6} className={styles.gridItemLeft}>
-          <p>大切にしまってある手紙やメッセージを</p>
-          <p>共有してみませんか？</p>
-        </Grid>
-        <Grid item xs={6} className={styles.gridItemRight}>
-          <p>その時感じた気持ちを共有してみましょう♪</p>
-        </Grid>
-        <Grid item xs={6} className={styles.gridItemLeft}>
-          <p className={styles.photo}>
-            <Image
-              src="/shereYourFeeling.jpg"
-              alt="登録方法"
-              width={300}
-              height={200}
-            />
-          </p>
-        </Grid>
-      </Grid>
-      <div className={styles.how}>TEGAMIの利用方法</div>
-      <br />
-      <Grid container spacing={12}>
-        <Grid item xs={6} className={styles.gridItemRight}>
-          <p>アカウントを作成しましょう</p>
-        </Grid>
-        <Grid item xs={6} className={styles.gridItemLeft}>
-          <p className={styles.letter}>
-            <Image
-              src="/createAccount.png"
-              alt="登録方法"
-              width={250}
-              height={300}
-            />
-          </p>
-        </Grid>
-        <Grid item xs={6} className={styles.gridItemRight}>
-          <p className={styles.letter}>
-            <Image
-              src="/uploadLetter.png"
-              alt="投稿方法"
-              width={250}
-              height={300}
-            />
-          </p>
-        </Grid>
-        <Grid item xs={6} className={styles.gridItemLeft}>
-          <p>撮影した写真やメッセージを投稿してみましょう</p>
-        </Grid>
-        <Grid item xs={6} className={styles.gridItemRight}>
-          <p>気になった投稿にコメントしてみましょう</p>
-        </Grid>
-        <Grid item xs={6} className={styles.gridItemLeft}>
-          <p className={styles.letter}>
-            <Image
-              src="/commentForPost.png"
-              alt="コメント方法"
-              width={250}
-              height={300}
-            />
-          </p>
-        </Grid>
-      </Grid>
+      <GridComponent />
       <div className={styles.authMessage}>
-        <h1>製作者から一言</h1>
+        <h1>開発者の想い</h1>
         <br />
         <p>コロナによりオンラインでのやりとりが増えました。</p>
         <p>だからこそオフラインの価値が高まっていると思います。</p>
