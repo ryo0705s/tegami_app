@@ -1,11 +1,7 @@
-import React, { useState, useContext, createContext } from "react";
+import React, { useState, useContext } from "react";
 import "firebase/firestore";
 import { postDB } from "../firebase";
-import { AppContext, Props } from "./PageStates";
-import Post from "../pages/posts/[postsId]/post";
-import CommentComponent from "../components/commentComponent";
-
-export const CommentContext = createContext({});
+import { AppContext, Props } from "../context/PageStates";
 
 export interface commentProps {
   id: string;
@@ -25,7 +21,7 @@ export interface updateCommentTextProps {
 }
 
 // post.tsxの投稿へのコメントに関するstateをコンポーネント化
-export const CommentStates = () => {
+export const useCommentAction = () => {
   const [comments, setComments] = useState<Partial<commentProps[]>>([
     {
       id: "",
@@ -101,7 +97,7 @@ export const CommentStates = () => {
 
   const { users, setSelectedId, clickedPost }: any = useContext(AppContext);
 
-  const value = {
+  return {
     comments,
     setComments,
     commented,
@@ -119,14 +115,5 @@ export const CommentStates = () => {
     updateComment,
     deleteComment,
   };
-  return (
-    <div>
-      <CommentContext.Provider value={value}>
-        {/* {children} */}
-        <Post />
-        <CommentComponent />
-      </CommentContext.Provider>
-    </div>
-  );
 };
 // export default CommentStates;
