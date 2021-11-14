@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import "firebase/firestore";
 import { AppContext } from "../context/PageStates";
-// import { CommentContext } from "../context/CommentStates";
+import { CommentContext } from "../context/CommentStates";
 import styles from "../components/scss/post.module.scss";
 import { Button, TextField } from "@material-ui/core";
 import Stack from "@mui/material/Stack";
@@ -22,23 +22,15 @@ const CommentComponent = () => {
   const classes = useStyles();
 
   const { router, users, selectedId }: any = useContext(AppContext);
-  // const {
-  //   comments,
-  //   commentText,
-  //   setCommentText,
-  //   updateCommentText,
-  //   setUpdateCommentText,
-  //   createComment,
-  //   editComment,
-  //   updateComment,
-  //   deleteComment,
-  // }: any = useContext(CommentContext);
   const {
     comments,
     commentText,
     setCommentText,
     updateCommentText,
     setUpdateCommentText,
+  }: any = useContext(CommentContext);
+
+  const {
     createComment,
     editComment,
     updateComment,

@@ -3,7 +3,7 @@ import "firebase/firestore";
 import { db, postDB } from "../../../firebase";
 import { AppContext } from "../../../context/PageStates";
 // import { PostContext } from "../../../context/PostStates";
-// import { CommentContext } from "../../../context/CommentStates";
+import { CommentContext } from "../../../context/CommentStates";
 // import { LikeContext } from "../../../context/LikeStates";
 import Layout from "../../../components/layout";
 import styles from "../../../components/scss/post.module.scss";
@@ -14,7 +14,7 @@ import PostComponent from "../../../components/postComponent";
 import CommentComponent from "../../../components/commentComponent";
 import LikeComponent from "../../../components/likeComponent";
 import { usePostAction } from "../../../hooks/usePostAciton";
-import { useCommentAction } from "../../../hooks/useCommentAction";
+// import { useCommentAction } from "../../../hooks/useCommentAction";
 import { useLikeAction } from "../../../hooks/useLikeAction";
 // import {
 //   commentProps,
@@ -46,8 +46,8 @@ const Post = () => {
   // const { handlePicture, selectedPost }: any = useContext(PostContext);
   // const [handlePicture, selectedPost]: any = usePostAction();
   const { handlePicture, selectedPost }: any = usePostAction();
-  // const { setComments }: any = useContext(CommentContext);
-  const { setComments }: any = useCommentAction();
+  const { setComments }: any = useContext(CommentContext);
+  // const { setComments }: any = useCommentAction();
 
   // const { selectedUser }: any = useContext(LikeContext);
   const { selectedUser }: any = useLikeAction();

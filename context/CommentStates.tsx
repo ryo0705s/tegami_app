@@ -1,9 +1,10 @@
 import React, { useState, useContext, createContext } from "react";
 import "firebase/firestore";
-import { postDB } from "../firebase";
-import { AppContext, Props } from "./PageStates";
-import Post from "../pages/posts/[postsId]/post";
-import CommentComponent from "../components/commentComponent";
+// import { postDB } from "../firebase";
+import { Props } from "./PageStates";
+// import Post from "../pages/posts/[postsId]/post";
+// import CommentComponent from "../components/commentComponent";
+// import { useCommentAction } from "../hooks/useCommentAction";
 
 export const CommentContext = createContext({});
 
@@ -25,7 +26,7 @@ export interface updateCommentTextProps {
 }
 
 // post.tsxの投稿へのコメントに関するstateをコンポーネント化
-export const CommentStates = () => {
+const CommentStates = ({ children }: Props) => {
   const [comments, setComments] = useState<Partial<commentProps[]>>([
     {
       id: "",
@@ -51,55 +52,55 @@ export const CommentStates = () => {
     edited: false,
   });
 
-  const createComment = () => {
-    postDB.doc(clickedPost.id).collection("comments").doc().set({
-      commentUid: users.uid,
-      text: commentText.comment,
-      commentAvatar: users.avatar,
-      commented: true,
-    });
-    setCommentText({ comment: "", commented: true });
-    setSelectedId(clickedPost.id);
-  };
-  const editComment = (comment) => {
-    setUpdateCommentText({
-      id: comment.id,
-      comment: comment.text,
-      edited: true,
-    });
-  };
+  // const createComment = () => {
+  //   postDB.doc(clickedPost.id).collection("comments").doc().set({
+  //     commentUid: users.uid,
+  //     text: commentText.comment,
+  //     commentAvatar: users.avatar,
+  //     commented: true,
+  //   });
+  //   setCommentText({ comment: "", commented: true });
+  //   setSelectedId(clickedPost.id);
+  // };
+  // const editComment = (comment) => {
+  //   setUpdateCommentText({
+  //     id: comment.id,
+  //     comment: comment.text,
+  //     edited: true,
+  //   });
+  // };
 
-  const updateComment = () => {
-    postDB
-      .doc(clickedPost.id)
-      .collection("comments")
-      .doc(updateCommentText.id)
-      .update({
-        text: updateCommentText.comment,
-      });
-    setUpdateCommentText({
-      id: "",
-      comment: "",
-      edited: false,
-    });
-    setSelectedId(clickedPost.id);
-  };
+  // const updateComment = () => {
+  //   postDB
+  //     .doc(clickedPost.id)
+  //     .collection("comments")
+  //     .doc(updateCommentText.id)
+  //     .update({
+  //       text: updateCommentText.comment,
+  //     });
+  //   setUpdateCommentText({
+  //     id: "",
+  //     comment: "",
+  //     edited: false,
+  //   });
+  //   setSelectedId(clickedPost.id);
+  // };
 
-  const deleteComment = (comment) => {
-    postDB
-      .doc(clickedPost.id)
-      .collection("comments")
-      .doc(comment.id)
-      .delete()
-      .then(() => {
-        setSelectedId(clickedPost.id);
-      })
-      .catch((error: any) => {
-        alert(error.message);
-      });
-  };
+  // const deleteComment = (comment) => {
+  //   postDB
+  //     .doc(clickedPost.id)
+  //     .collection("comments")
+  //     .doc(comment.id)
+  //     .delete()
+  //     .then(() => {
+  //       setSelectedId(clickedPost.id);
+  //     })
+  //     .catch((error: any) => {
+  //       alert(error.message);
+  //     });
+  // };
 
-  const { users, setSelectedId, clickedPost }: any = useContext(AppContext);
+  // const { users, setSelectedId, clickedPost }: any = useContext(AppContext);
 
   const value = {
     comments,
@@ -114,19 +115,16 @@ export const CommentStates = () => {
     setCommentText,
     updateCommentText,
     setUpdateCommentText,
-    createComment,
-    editComment,
-    updateComment,
-    deleteComment,
   };
   return (
     <div>
       <CommentContext.Provider value={value}>
-        {/* {children} */}
-        <Post />
+        {children}
+        {/* <Post />
         <CommentComponent />
+        <useCommentAction /> */}
       </CommentContext.Provider>
     </div>
   );
 };
-// export default CommentStates;
+export default CommentStates;

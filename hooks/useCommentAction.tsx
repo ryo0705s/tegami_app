@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import "firebase/firestore";
 import { postDB } from "../firebase";
 import { AppContext, Props } from "../context/PageStates";
+import { CommentContext } from "../context/CommentStates";
 
 export interface commentProps {
   id: string;
@@ -22,31 +23,6 @@ export interface updateCommentTextProps {
 
 // post.tsxの投稿へのコメントに関するstateをコンポーネント化
 export const useCommentAction = () => {
-  const [comments, setComments] = useState<Partial<commentProps[]>>([
-    {
-      id: "",
-      commentUid: "",
-      commentAvatar: "",
-      commented: false,
-      text: "",
-    },
-  ]);
-  const [commented, setCommented] = useState<boolean>(false);
-  const [commentEdited, setCommentEdited] = useState<boolean>(false);
-  const [commentUid, setCommentUid] = useState<string>("");
-  const [commentText, setCommentText] = useState<commentTextProps>({
-    comment: "",
-    commented: false,
-  });
-  const [
-    updateCommentText,
-    setUpdateCommentText,
-  ] = useState<updateCommentTextProps>({
-    id: "",
-    comment: "",
-    edited: false,
-  });
-
   const createComment = () => {
     postDB.doc(clickedPost.id).collection("comments").doc().set({
       commentUid: users.uid,
@@ -96,20 +72,14 @@ export const useCommentAction = () => {
   };
 
   const { users, setSelectedId, clickedPost }: any = useContext(AppContext);
-
-  return {
-    comments,
-    setComments,
-    commented,
-    setCommented,
-    commentEdited,
-    setCommentEdited,
-    commentUid,
-    setCommentUid,
+  const {
     commentText,
     setCommentText,
     updateCommentText,
     setUpdateCommentText,
+  }: any = useContext(CommentContext);
+
+  return {
     createComment,
     editComment,
     updateComment,
