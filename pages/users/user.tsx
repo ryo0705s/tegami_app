@@ -83,7 +83,7 @@ const user = () => {
       alert("画像の投稿に失敗しました");
     }
   };
-
+  // アカウント削除（将来的に使うかもしれない）
   // const deleteProfile = () => {
   //   docRef
   //     .delete()

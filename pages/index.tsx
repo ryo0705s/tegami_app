@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { AppContext } from "../context/PageStates";
-import GridComponent from "../components/gridComponent";
+import GridComponent from "../components/view/gridComponent";
 import Layout from "../components/layout";
 import styles from "../components/scss/layout.module.scss";
 import Box from "@mui/material/Box";

@@ -1,13 +1,12 @@
 import React, { useContext } from "react";
 import "firebase/firestore";
-import { AppContext } from "../context/PageStates";
-// import { PostContext } from "../context/PostStates";
-import styles from "../components/scss/post.module.scss";
+import { AppContext } from "../../context/PageStates";
+import { usePostAction } from "../../hooks/usePostAciton";
+import styles from "../../components/scss/post.module.scss";
 import { Button, TextField } from "@material-ui/core";
 import Stack from "@mui/material/Stack";
 import { Avatar } from "@mui/material";
 import { makeStyles } from "@material-ui/core/styles";
-import { usePostAction } from "../hooks/usePostAciton";
 
 const useStyles = makeStyles((theme) => ({
   root: {

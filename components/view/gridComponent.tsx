@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "next/image";
-import styles from "../components/scss/layout.module.scss";
+import styles from "../../components/scss/layout.module.scss";
 import Grid from "@mui/material/Grid";
 
 const GridComponent = () => {

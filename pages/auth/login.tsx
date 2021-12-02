@@ -3,7 +3,7 @@ import { userDB } from "../../firebase";
 import Layout from "../../components/layout";
 import { AppContext } from "../../context/PageStates";
 import { makeStyles } from "@material-ui/core/styles";
-import LoginComponent from "../../components/loginComponent";
+import LoginComponent from "../../components/view/loginComponent";
 
 const useStyles = makeStyles((theme) => ({
   root: {

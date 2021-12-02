@@ -1,8 +1,8 @@
 import React, { useContext } from "react";
-import { useLoginAction } from "../hooks/useLoginAction";
+import { useLoginAction } from "../../hooks/useLoginAction";
 import Link from "next/link";
-import styles from "../components/scss/login.module.scss";
-import { AppContext } from "../context/PageStates";
+import styles from "../../components/scss/login.module.scss";
+import { AppContext } from "../../context/PageStates";
 import { Button, TextField } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 

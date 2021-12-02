@@ -2,21 +2,16 @@ import React, { useEffect, useContext } from "react";
 import "firebase/firestore";
 import { db, postDB } from "../../../firebase";
 import { AppContext } from "../../../context/PageStates";
+import { usePostAction } from "../../../hooks/usePostAciton";
+import { useLikeAction } from "../../../hooks/useLikeAction";
+import PostComponent from "../../../components/view/postComponent";
+import CommentComponent from "../../../components/view/commentComponent";
+import LikeComponent from "../../../components/view/likeComponent";
 import Layout from "../../../components/layout";
 import styles from "../../../components/scss/post.module.scss";
 import { IconButton } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import PhotoCameraIcon from "@material-ui/icons/PhotoCamera";
-import PostComponent from "../../../components/postComponent";
-import CommentComponent from "../../../components/commentComponent";
-import LikeComponent from "../../../components/likeComponent";
-import { usePostAction } from "../../../hooks/usePostAciton";
-import { useLikeAction } from "../../../hooks/useLikeAction";
-// import {
-//   commentProps,
-//   commentTextProps,
-//   updateCommentTextProps,
-// } from "../../../components/states/CommentStates";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -29,7 +24,6 @@ const useStyles = makeStyles((theme) => ({
 
 const Post = () => {
   const classes = useStyles();
-
   const {
     setClickedId,
     liked,

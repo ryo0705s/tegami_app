@@ -1,11 +1,10 @@
 import React, { useContext } from "react";
 import "firebase/firestore";
-import { AppContext } from "../context/PageStates";
-// import { LikeContext } from "../context/LikeStates";
+import { AppContext } from "../../context/PageStates";
 import { IconButton } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import ThumbUpAltIcon from "@material-ui/icons/ThumbUpAlt";
-import { useLikeAction } from "../hooks/useLikeAction";
+import { useLikeAction } from "../../hooks/useLikeAction";
 
 const useStyles = makeStyles((theme) => ({
   root: {
