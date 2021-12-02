@@ -2,9 +2,9 @@ import React, { useState, useContext, createContext } from "react";
 import "firebase/firestore";
 // import { postDB } from "../firebase";
 import { Props } from "./PageStates";
-// import Post from "../pages/posts/[postsId]/post";
-// import CommentComponent from "../components/commentComponent";
-// import { useCommentAction } from "../hooks/useCommentAction";
+import Post from "../pages/posts/[postsId]/post";
+import CommentComponent from "../components/commentComponent";
+import { useCommentAction } from "../hooks/useCommentAction";
 
 export const CommentContext = createContext({});
 

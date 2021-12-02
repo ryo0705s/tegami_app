@@ -33,6 +33,7 @@ interface clickedPostProps {
   liked: boolean;
   likedUid: string[];
 }
+
 // // UserContext が保持する値の型
 // export interface UserContextType {
 //   gitHubToken: string;
@@ -40,6 +41,22 @@ interface clickedPostProps {
 // }
 // // ローカルストレージ用のキー
 // const TEGAMI_KEY = "tegamiKey";
+export interface commentProps {
+  id: string;
+  commentUid: string;
+  commentAvatar: string;
+  commented: boolean;
+  text: string;
+}
+export interface commentTextProps {
+  comment: string;
+  commented: boolean;
+}
+export interface updateCommentTextProps {
+  id: string;
+  comment: string;
+  edited: boolean;
+}
 
 function PageStates({ children }: Props) {
   const router = useRouter();
@@ -91,6 +108,30 @@ function PageStates({ children }: Props) {
     likeCount: 0,
     liked: false,
     likedUid: [""],
+  });
+  const [comments, setComments] = useState<Partial<commentProps[]>>([
+    {
+      id: "",
+      commentUid: "",
+      commentAvatar: "",
+      commented: false,
+      text: "",
+    },
+  ]);
+  const [commented, setCommented] = useState<boolean>(false);
+  const [commentEdited, setCommentEdited] = useState<boolean>(false);
+  const [commentUid, setCommentUid] = useState<string>("");
+  const [commentText, setCommentText] = useState<commentTextProps>({
+    comment: "",
+    commented: false,
+  });
+  const [
+    updateCommentText,
+    setUpdateCommentText,
+  ] = useState<updateCommentTextProps>({
+    id: "",
+    comment: "",
+    edited: false,
   });
   const value = {
     router,
@@ -144,6 +185,18 @@ function PageStates({ children }: Props) {
     setSelectedId,
     clickedPost,
     setClickedPost,
+    comments,
+    setComments,
+    commented,
+    setCommented,
+    commentEdited,
+    setCommentEdited,
+    commentUid,
+    setCommentUid,
+    commentText,
+    setCommentText,
+    updateCommentText,
+    setUpdateCommentText,
   };
 
   return (

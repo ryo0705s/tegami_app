@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import "firebase/firestore";
 import { postDB } from "../firebase";
 import { AppContext, Props } from "../context/PageStates";
-import { CommentContext } from "../context/CommentStates";
+// import CommentStates, { CommentContext } from "../context/CommentStates";
 
 export interface commentProps {
   id: string;
@@ -71,13 +71,21 @@ export const useCommentAction = () => {
       });
   };
 
-  const { users, setSelectedId, clickedPost }: any = useContext(AppContext);
   const {
+    users,
+    setSelectedId,
+    clickedPost,
     commentText,
     setCommentText,
     updateCommentText,
     setUpdateCommentText,
-  }: any = useContext(CommentContext);
+  }: any = useContext(AppContext);
+  // const {
+  //   commentText,
+  //   setCommentText,
+  //   updateCommentText,
+  //   setUpdateCommentText,
+  // }: any = useContext(CommentContext);
 
   return {
     createComment,
