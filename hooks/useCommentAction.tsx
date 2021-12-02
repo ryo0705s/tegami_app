@@ -2,7 +2,6 @@ import React, { useState, useContext } from "react";
 import "firebase/firestore";
 import { postDB } from "../firebase";
 import { AppContext, Props } from "../context/PageStates";
-// import CommentStates, { CommentContext } from "../context/CommentStates";
 
 export interface commentProps {
   id: string;
@@ -80,12 +79,6 @@ export const useCommentAction = () => {
     updateCommentText,
     setUpdateCommentText,
   }: any = useContext(AppContext);
-  // const {
-  //   commentText,
-  //   setCommentText,
-  //   updateCommentText,
-  //   setUpdateCommentText,
-  // }: any = useContext(CommentContext);
 
   return {
     createComment,
@@ -94,4 +87,3 @@ export const useCommentAction = () => {
     deleteComment,
   };
 };
-// export default CommentStates;

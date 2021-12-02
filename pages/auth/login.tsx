@@ -1,12 +1,9 @@
-import React, { useState, useContext, useEffect } from "react";
-import Link from "next/link";
-import { auth, provider, db, userDB } from "../../firebase";
+import React, { useContext, useEffect } from "react";
+import { userDB } from "../../firebase";
 import Layout from "../../components/layout";
-import styles from "../../components/scss/login.module.scss";
 import { AppContext } from "../../context/PageStates";
-import { Button, TextField } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-// import useCurrentUser from "../../hooks/useCurrentUser";
+import LoginComponent from "../../components/loginComponent";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,143 +17,7 @@ const useStyles = makeStyles((theme) => ({
 const login = () => {
   const classes = useStyles();
 
-  const [forgotEmail, setForgotEmail] = useState("");
-
-  const {
-    email,
-    setEmail,
-    password,
-    setPassword,
-    loginedId,
-    logined,
-    setLogined,
-    users,
-    setUsers,
-    guestLogined,
-    setGuestLogined,
-    router,
-    setLoginedId,
-    setAuthUserId,
-  }: any = useContext(AppContext);
-
-  const handleLogin = async () => {
-    await auth
-      .signInWithEmailAndPassword(email, password)
-      .then((result: any) => {
-        return result;
-      })
-      .catch((error: any) => {
-        alert(error.message);
-      });
-    // useCurrentUser;
-    currentLogin();
-    setEmail("");
-    setPassword("");
-  };
-
-  const googleLogin = async () => {
-    await auth
-      .signInWithPopup(provider)
-      .then((result: any) => {
-        return result;
-      })
-      .catch((error: any) => {
-        alert(error.message);
-      });
-    // useCurrentUser;
-    currentLogin();
-  };
-  const currentLogin = async () => {
-    const authUser = auth.currentUser;
-    if (authUser) {
-      const displayName = authUser.displayName;
-      const email = authUser.email;
-      // const photoURL = authUser.photoURL;
-      // const emailVerified = authUser.emailVerified;
-      const authUid = authUser.uid;
-      console.log(authUid, "いる？");
-      await db
-        .collection("users")
-        .get()
-        .then((querySnapshot) => {
-          let userIds = [];
-          querySnapshot.forEach((doc) => {
-            const restData = { ...doc.data() };
-            userIds.push({
-              id: doc.id,
-              avatar: restData.avatar,
-              letterName: restData.letterName,
-              otherInfo: restData.otherInfo,
-              uid: restData.uid,
-            });
-            const loginIdNumber: number = userIds.findIndex(
-              (userId) => userId.uid === authUid
-            );
-            // console.log(loginIdNumber, "ロングマン");
-            loginIdNumber !== -1
-              ? setLoginedId(userIds[loginIdNumber].id)
-              : setUsers({
-                  id: users.id,
-                  avatar: users.avatar,
-                  letterName: users.letterName,
-                  otherInfo: users.otherInfo,
-                  uid: authUid,
-                });
-            setAuthUserId(authUid);
-            // router.push("/");
-            // saveLoginState();
-          });
-        })
-        .catch((error: any) => {
-          console.log("Error getting documents: ", error);
-        });
-    } else {
-      console.log("誰もいない");
-    }
-  };
-  const onetimeLogin = () => {
-    const authUser = auth.currentUser;
-    if (authUser) {
-      const authUid = authUser.uid;
-      setUsers({
-        id: users.id,
-        avatar: users.avatar,
-        letterName: users.letterName,
-        otherInfo: users.otherInfo,
-        uid: authUid,
-      });
-      setGuestLogined(!guestLogined);
-      router.push("/");
-    } else {
-      alert("ログインユーザーが見つかりません");
-    }
-  };
-  const anonymousLogin = async () => {
-    try {
-      await auth
-        .signInAnonymously()
-        .then((result: any) => {
-          return result;
-        })
-        .catch((error: any) => {
-          alert(error.message);
-        });
-      onetimeLogin();
-    } catch {
-      alert("ログインに失敗しました");
-    }
-  };
-
-  const forgotLoginInfo = () => {
-    auth
-      .sendPasswordResetEmail(forgotEmail)
-      .then(() => {
-        setLogined(!logined);
-      })
-      .catch((error: any) => {
-        alert(error.message);
-      });
-  };
+  const { loginedId, users, setUsers, router }: any = useContext(AppContext);
 
   useEffect(() => {
     if (loginedId)
@@ -190,84 +51,7 @@ const login = () => {
 
   return (
     <Layout>
-      <div className={styles.login}>
-        <div>
-          <form className={classes.root} noValidate autoComplete="off">
-            <TextField
-              id="standard-password-input"
-              label="Email"
-              type="Email"
-              autoComplete="current-email"
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </form>
-        </div>
-        <br />
-        <div>
-          <form className={classes.root} noValidate autoComplete="off">
-            <TextField
-              id="standard-password-input"
-              label="Password"
-              type="Password"
-              autoComplete="current-password"
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </form>
-        </div>
-        <br />
-        <p className={styles.loginButton}>
-          <Button variant="contained" color="primary" onClick={handleLogin}>
-            ログイン
-          </Button>
-        </p>
-        <br />
-        <div className={styles.otherLogin}>
-          <Button
-            variant="contained"
-            color="primary"
-            size="small"
-            onClick={googleLogin}
-          >
-            Googleログイン
-          </Button>
-          <br />
-          <Button
-            variant="contained"
-            color="primary"
-            size="small"
-            onClick={anonymousLogin}
-          >
-            ゲストログイン
-          </Button>
-        </div>
-        <br />
-        <div className={styles.forLogin}>
-          <p onClick={() => setLogined(!logined)}>パスワードを忘れた</p>
-          {logined ? (
-            <>
-              <span>メール</span>
-              <TextField
-                type="email"
-                onChange={(e) => setForgotEmail(e.target.value)}
-              />
-              <Button
-                variant="contained"
-                color="primary"
-                value={forgotEmail}
-                onClick={forgotLoginInfo}
-              >
-                送信
-              </Button>
-            </>
-          ) : (
-            ""
-          )}
-          <br />
-          <p>
-            <Link href="/auth/loginUser">アカウントを作成する</Link>
-          </p>
-        </div>
-      </div>
+      <LoginComponent />
     </Layout>
   );
 };

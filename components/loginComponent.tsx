@@ -1,4 +1,5 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
+import { useLoginAction } from "../hooks/useLoginAction";
 import Link from "next/link";
 import styles from "../components/scss/login.module.scss";
 import { AppContext } from "../context/PageStates";
@@ -17,11 +18,21 @@ const useStyles = makeStyles((theme) => ({
 const LoginComponent = () => {
   const classes = useStyles();
 
-  const [forgotEmail, setForgotEmail] = useState("");
+  const {
+    handleLogin,
+    googleLogin,
+    anonymousLogin,
+    forgotLoginInfo,
+  } = useLoginAction();
 
-  const { setEmail, setPassword, logined, setLogined }: any = useContext(
-    AppContext
-  );
+  const {
+    setEmail,
+    setPassword,
+    logined,
+    setLogined,
+    forgotEmail,
+    setForgotEmail,
+  }: any = useContext(AppContext);
 
   return (
     <div className={styles.login}>

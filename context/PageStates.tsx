@@ -41,6 +41,7 @@ interface clickedPostProps {
 // }
 // // ローカルストレージ用のキー
 // const TEGAMI_KEY = "tegamiKey";
+
 export interface commentProps {
   id: string;
   commentUid: string;
@@ -133,6 +134,8 @@ function PageStates({ children }: Props) {
     comment: "",
     edited: false,
   });
+  const [forgotEmail, setForgotEmail] = useState("");
+
   const value = {
     router,
     posts,
@@ -197,6 +200,8 @@ function PageStates({ children }: Props) {
     setCommentText,
     updateCommentText,
     setUpdateCommentText,
+    forgotEmail,
+    setForgotEmail,
   };
 
   return (

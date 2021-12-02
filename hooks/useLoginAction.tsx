@@ -1,12 +1,7 @@
-import React, { useState, useContext, useEffect } from "react";
-import Link from "next/link";
-import { auth, provider, db, userDB } from "../../firebase";
-import Layout from "../../components/layout";
-import styles from "../../components/scss/login.module.scss";
-import { AppContext } from "../../context/PageStates";
-import { Button, TextField } from "@material-ui/core";
+import React, { useContext } from "react";
+import { auth, provider, db } from "../firebase";
 import { makeStyles } from "@material-ui/core/styles";
-// import useCurrentUser from "../../hooks/useCurrentUser";
+import { AppContext } from "../context/PageStates";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,14 +15,11 @@ const useStyles = makeStyles((theme) => ({
 export const useLoginAction = () => {
   const classes = useStyles();
 
-  const [forgotEmail, setForgotEmail] = useState("");
-
   const {
     email,
     setEmail,
     password,
     setPassword,
-    loginedId,
     logined,
     setLogined,
     users,
@@ -37,6 +29,7 @@ export const useLoginAction = () => {
     router,
     setLoginedId,
     setAuthUserId,
+    forgotEmail,
   }: any = useContext(AppContext);
 
   const handleLogin = async () => {
@@ -48,7 +41,6 @@ export const useLoginAction = () => {
       .catch((error: any) => {
         alert(error.message);
       });
-    // useCurrentUser;
     currentLogin();
     setEmail("");
     setPassword("");
@@ -63,7 +55,6 @@ export const useLoginAction = () => {
       .catch((error: any) => {
         alert(error.message);
       });
-    // useCurrentUser;
     currentLogin();
   };
   const currentLogin = async () => {
@@ -92,7 +83,6 @@ export const useLoginAction = () => {
             const loginIdNumber: number = userIds.findIndex(
               (userId) => userId.uid === authUid
             );
-            // console.log(loginIdNumber, "ロングマン");
             loginIdNumber !== -1
               ? setLoginedId(userIds[loginIdNumber].id)
               : setUsers({
@@ -103,8 +93,6 @@ export const useLoginAction = () => {
                   uid: authUid,
                 });
             setAuthUserId(authUid);
-            // router.push("/");
-            // saveLoginState();
           });
         })
         .catch((error: any) => {
@@ -158,13 +146,12 @@ export const useLoginAction = () => {
       });
   };
 
-  return;
-  {
+  return {
     handleLogin,
-      googleLogin,
-      currentLogin,
-      onetimeLogin,
-      anonymousLogin,
-      forgotLoginInfo;
-  }
+    googleLogin,
+    currentLogin,
+    onetimeLogin,
+    anonymousLogin,
+    forgotLoginInfo,
+  };
 };

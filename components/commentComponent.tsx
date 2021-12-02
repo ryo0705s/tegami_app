@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import "firebase/firestore";
 import { AppContext } from "../context/PageStates";
-// import CommentStates, { CommentContext } from "../context/CommentStates";
 import styles from "../components/scss/post.module.scss";
 import { Button, TextField } from "@material-ui/core";
 import Stack from "@mui/material/Stack";
@@ -31,13 +30,6 @@ const CommentComponent = () => {
     updateCommentText,
     setUpdateCommentText,
   }: any = useContext(AppContext);
-  // const {
-  //   comments,
-  //   commentText,
-  //   setCommentText,
-  //   updateCommentText,
-  //   setUpdateCommentText,
-  // }: any = useContext(CommentContext);
 
   const {
     createComment,
@@ -45,11 +37,9 @@ const CommentComponent = () => {
     updateComment,
     deleteComment,
   }: any = useCommentAction();
-  // const postComponent = () => {
 
   return (
     <>
-      {/* <CommentStates> */}
       {!commentText.commented ? (
         <>
           <div className={styles.textField}>
@@ -152,7 +142,6 @@ const CommentComponent = () => {
           </Button>
         </>
       )}
-      {/* </CommentStates> */}
     </>
   );
 };
