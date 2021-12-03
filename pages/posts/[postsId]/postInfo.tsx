@@ -83,6 +83,7 @@ const userInfo = () => {
         setPostUsers(userLists);
       });
   };
+  // 最近の投稿を表示する場合に使う（将来的に）
   // const likesRef = db.collection("posts").doc(clickedPost.id);
   // .collection("likes")
   // .doc("djJtq6u4uNhQl3V2q6ns");
@@ -128,6 +129,7 @@ const userInfo = () => {
               );
             })}
         </ul>
+        {/* 最近の投稿を表示する場合に使う（将来的に） */}
         {/* <hr />
             <p>最近の投稿</p>
         <ul>

@@ -1,14 +1,11 @@
-import React, { useContext, createContext } from "react";
+import React, { useContext } from "react";
 import firebase from "firebase/app";
 import "firebase/firestore";
 import { postDB, userDB } from "../firebase";
-import { AppContext, Props } from "./PageStates";
-import Post from "../pages/posts/[postsId]/post";
-
-export const LikeContext = createContext({});
+import { AppContext } from "../context/PageStates";
 
 // post.tsxのいいね機能に関するstateをコンポーネント化
-const LikeStates = ({ children }: Props) => {
+export const useLikeAction = () => {
   const likeArray = firebase.firestore.FieldValue.arrayUnion;
   const likeGood = firebase.firestore.FieldValue.increment(1);
   const likeBad = firebase.firestore.FieldValue.increment(-1);
@@ -77,19 +74,10 @@ const LikeStates = ({ children }: Props) => {
     // いいねのロジックを正常に戻す
     setLiked(false);
   };
-  const value = {
+
+  return {
     handleLike,
     handleUnLike,
     selectedUser,
   };
-  return (
-    <div>
-      <LikeContext.Provider value={value}>
-        {/* <Post /> */}
-        {children}
-      </LikeContext.Provider>
-    </div>
-  );
 };
-
-export default LikeStates;

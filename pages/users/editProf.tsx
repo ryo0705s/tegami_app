@@ -126,7 +126,7 @@ const editProf = () => {
       });
     router.push("/");
   };
-
+  // アカウント削除を設定する場合に使用予定（今後）
   // const deleteProfile = () => {
   //   docRef
   //     .delete()

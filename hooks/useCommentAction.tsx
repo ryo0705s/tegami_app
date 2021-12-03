@@ -1,10 +1,7 @@
-import React, { useState, useContext, createContext } from "react";
+import React, { useState, useContext } from "react";
 import "firebase/firestore";
 import { postDB } from "../firebase";
-import { AppContext, Props } from "./PageStates";
-import Post from "../pages/posts/[postsId]/post";
-
-export const CommentContext = createContext({});
+import { AppContext, Props } from "../context/PageStates";
 
 export interface commentProps {
   id: string;
@@ -24,32 +21,7 @@ export interface updateCommentTextProps {
 }
 
 // post.tsxの投稿へのコメントに関するstateをコンポーネント化
-const CommentStates = ({ children }: Props) => {
-  const [comments, setComments] = useState<Partial<commentProps[]>>([
-    {
-      id: "",
-      commentUid: "",
-      commentAvatar: "",
-      commented: false,
-      text: "",
-    },
-  ]);
-  const [commented, setCommented] = useState<boolean>(false);
-  const [commentEdited, setCommentEdited] = useState<boolean>(false);
-  const [commentUid, setCommentUid] = useState<string>("");
-  const [commentText, setCommentText] = useState<commentTextProps>({
-    comment: "",
-    commented: false,
-  });
-  const [
-    updateCommentText,
-    setUpdateCommentText,
-  ] = useState<updateCommentTextProps>({
-    id: "",
-    comment: "",
-    edited: false,
-  });
-
+export const useCommentAction = () => {
   const createComment = () => {
     postDB.doc(clickedPost.id).collection("comments").doc().set({
       commentUid: users.uid,
@@ -98,33 +70,20 @@ const CommentStates = ({ children }: Props) => {
       });
   };
 
-  const { users, setSelectedId, clickedPost }: any = useContext(AppContext);
-
-  const value = {
-    comments,
-    setComments,
-    commented,
-    setCommented,
-    commentEdited,
-    setCommentEdited,
-    commentUid,
-    setCommentUid,
+  const {
+    users,
+    setSelectedId,
+    clickedPost,
     commentText,
     setCommentText,
     updateCommentText,
     setUpdateCommentText,
+  }: any = useContext(AppContext);
+
+  return {
     createComment,
     editComment,
     updateComment,
     deleteComment,
   };
-  return (
-    <div>
-      <CommentContext.Provider value={value}>
-        {children}
-        {/* <Post /> */}
-      </CommentContext.Provider>
-    </div>
-  );
 };
-export default CommentStates;

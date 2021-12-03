@@ -1,13 +1,10 @@
-import React, { useContext, createContext } from "react";
+import React, { useContext } from "react";
 import "firebase/firestore";
-import { db, storage, postDB } from "../firebase";
-import { AppContext, Props } from "./PageStates";
-import Post from "../pages/posts/[postsId]/post";
-
-export const PostContext = createContext({});
+import { storage, postDB } from "../firebase";
+import { AppContext } from "../context/PageStates";
 
 // post.tsxの投稿に関するstateをコンポーネント化
-const PostStates = ({ children }: Props) => {
+export const usePostAction = () => {
   const editText = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setClickedPost({
       id: clickedPost.id,
@@ -132,22 +129,6 @@ const PostStates = ({ children }: Props) => {
         alert(error.message);
       });
   };
-
-  const value = {
-    editText,
-    updateText,
-    handleDelete,
-    handlePicture,
-    selectedPost,
-  };
-
-  return (
-    <div>
-      <PostContext.Provider value={value}>
-        {/* <Post /> */}
-        {children}
-      </PostContext.Provider>
-    </div>
-  );
+  // return [editText, updateText, handleDelete, handlePicture, selectedPost];
+  return { editText, updateText, handleDelete, handlePicture, selectedPost };
 };
-export default PostStates;

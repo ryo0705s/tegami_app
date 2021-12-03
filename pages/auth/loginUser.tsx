@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/router";
 import { auth } from "../../firebase";
 import Layout from "../../components/layout";
-import styles from "../../components/login.module.scss";
+import styles from "../../components/scss/login.module.scss";
 import { makeStyles } from "@material-ui/core/styles";
 import { Button, TextField } from "@material-ui/core";
 
