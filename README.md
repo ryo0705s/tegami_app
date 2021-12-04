@@ -125,5 +125,5 @@ $ npm run dev
 ├─ package.json
 ├─ README.md
 ├─ tsconfig.json
-├─ yarn.lock
+└─ yarn.lock
 ```
