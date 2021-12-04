@@ -123,4 +123,4 @@ $ npm run dev
 
 ### Firebase
 
-![Firebase](public/firebase.jpg)
+![Firebase](public/firebase.png)
