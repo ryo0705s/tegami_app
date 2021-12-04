@@ -32,7 +32,7 @@ TEGAMI は手紙を共有できるアプリです。
 
 ## Demo
 
-https://tegami-app-axci1x30y-ryo0705s.vercel.app/
+https://tegami-app.vercel.app/
 
 ## Installation/Usage
 
