@@ -88,3 +88,42 @@ $ npm run dev
 
 - [GitHub](https://github.com/ryo0705s)
 - [twitter](https://twitter.com/DwmGlory)
+### ディレクトリ構成
+
+```
+@
+├─ firebase
+├─ next
+├─ build
+├─ components // view
+│   ├─ pageView // 各ページのview 
+│   ├─ scss 
+│   ├─ global.css 
+│   └─ layout.tsx
+├─ context // 各ページで使用するstateを格納
+├─ hooks  // カスタムフック
+├─ node_modules
+├─ pages　// 各ページ
+│   ├─ auth // ログイン周り   
+│   ├─ posts // 投稿周り
+│   │   ├─ [postsId]　// 投稿詳細
+│   │   ├─ posting.tsx
+│   │   └─ postLIsts.tsx
+│   ├─ users　// ユーザーページ周り
+│   ├─ _app.js
+│   └─ index.tsx
+├─ public
+├─ .env
+├─ .firebaserc
+├─ .gitignore
+├─ .firebase.json
+├─ .firebase.ts
+├─ .firestore.indexes.json
+├─ .firestore.rules
+├─ next-env.d.ts
+├─ package-lock.json
+├─ package.json
+├─ README.md
+├─ tsconfig.json
+├─ yarn.lock
+```
