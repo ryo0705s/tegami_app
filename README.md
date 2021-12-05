@@ -28,7 +28,7 @@ TEGAMI は手紙を共有できるアプリです。
 
 |                   認証                   |                みんなの投稿                 |
 | :--------------------------------------: | :-----------------------------------------: |
-| <img width="253" alt="mobileAuthentication" src="https://user-images.githubusercontent.com/76162690/144736425-9993f4a9-72e6-4ae0-bf25-59d6ea241dbd.png"> | ![みんなの投稿](public/mobilePostLists.png) |
+| ![ログイン](https://user-images.githubusercontent.com/76162690/144736425-9993f4a9-72e6-4ae0-bf25-59d6ea241dbd.png) | ![みんなの投稿](https://user-images.githubusercontent.com/76162690/144736403-e36b191c-677a-4ca1-b5a6-acdf13e1cccd.png) |
 
 ## Demo
 
