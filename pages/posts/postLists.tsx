@@ -69,7 +69,7 @@ const postLists = () => {
       )
     );
   }, []);
-  console.log(posts);
+  console.log(posts, "投稿データある？");
 
   return (
     <Layout>

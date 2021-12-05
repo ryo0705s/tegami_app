@@ -45,10 +45,6 @@ const login = () => {
       })();
   }, [loginedId]);
 
-  useEffect(() => {
-    console.log(users, "いる？");
-  }, [users]);
-
   return (
     <Layout>
       <LoginComponent />
