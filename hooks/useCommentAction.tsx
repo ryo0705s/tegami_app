@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import "firebase/firestore";
 import { postDB } from "../firebase";
 import { AppContext, Props } from "../context/PageStates";
@@ -20,7 +20,7 @@ export interface updateCommentTextProps {
   edited: boolean;
 }
 
-// post.tsxの投稿へのコメントに関するstateをコンポーネント化
+// post.tsxの投稿へのコメントに関するstateを抽出
 export const useCommentAction = () => {
   const createComment = () => {
     postDB.doc(clickedPost.id).collection("comments").doc().set({
@@ -31,7 +31,9 @@ export const useCommentAction = () => {
     });
     setCommentText({ comment: "", commented: true });
     setSelectedId(clickedPost.id);
+    setReload(!reload);
   };
+
   const editComment = (comment) => {
     setUpdateCommentText({
       id: comment.id,
@@ -54,6 +56,7 @@ export const useCommentAction = () => {
       edited: false,
     });
     setSelectedId(clickedPost.id);
+    setReload(!reload);
   };
 
   const deleteComment = (comment) => {
@@ -64,6 +67,7 @@ export const useCommentAction = () => {
       .delete()
       .then(() => {
         setSelectedId(clickedPost.id);
+        setReload(!reload);
       })
       .catch((error: any) => {
         alert(error.message);
@@ -78,6 +82,8 @@ export const useCommentAction = () => {
     setCommentText,
     updateCommentText,
     setUpdateCommentText,
+    reload,
+    setReload,
   }: any = useContext(AppContext);
 
   return {

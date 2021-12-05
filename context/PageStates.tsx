@@ -135,7 +135,7 @@ function PageStates({ children }: Props) {
     edited: false,
   });
   const [forgotEmail, setForgotEmail] = useState("");
-
+  const [reload, setReload] = useState(false);
   const value = {
     router,
     posts,
@@ -202,6 +202,8 @@ function PageStates({ children }: Props) {
     setUpdateCommentText,
     forgotEmail,
     setForgotEmail,
+    reload,
+    setReload,
   };
 
   return (

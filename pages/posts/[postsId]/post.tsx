@@ -32,6 +32,8 @@ const Post = () => {
     clickedPost,
     setClickedPost,
     setComments,
+    reload,
+    setCommentText,
   }: any = useContext(AppContext);
 
   const { handlePicture, selectedPost }: any = usePostAction();
@@ -93,6 +95,30 @@ const Post = () => {
         });
   }, [liked]);
 
+  useEffect(() => {
+    if (clickedPost.id)
+      postDB
+        .doc(clickedPost.id)
+        .get()
+        .then((doc) => {
+          setClickedPost({
+            id: doc.id,
+            image: doc.data().image,
+            text: doc.data().text,
+            uid: doc.data().uid,
+            likeCount: doc.data().likeCount,
+            liked: doc.data().liked,
+            likedUid: doc.data().likedUid,
+          });
+          setCommentText({ comment: "", commented: false });
+        })
+        .catch((error: any) => {
+          alert(error.message);
+        });
+  }, [reload]);
+  // useEffect(() => {
+  //   console.log("いる？", reload);
+  // }, [reload]);
   return (
     <Layout>
       <div className={styles.post}>
