@@ -1,6 +1,6 @@
 # TEGAMI
 
-![表紙](public/coverPage.png)
+![表紙](https://user-images.githubusercontent.com/76162690/144736161-b04347cc-418c-4afb-b7c5-2449443f8dc0.png)
 
 ## overview
 
@@ -14,21 +14,21 @@ TEGAMI は手紙を共有できるアプリです。
 
 |                認証                |             ユーザー登録             |
 | :--------------------------------: | :----------------------------------: |
-| ![認証](public/authentication.png) | ![ユーザー情報](public/userInfo.png) |
+| ![認証](https://user-images.githubusercontent.com/76162690/144736189-ece8bce8-b0df-4d05-8ca3-eee48196fcbe.png) | ![ユーザー情報](https://user-images.githubusercontent.com/76162690/144736201-3829cbcc-fe68-4a0f-a859-0c41d300801e.png) |
 
 |              投稿               |             みんなの投稿              |
 | :-----------------------------: | :-----------------------------------: |
-| ![新規投稿](public/newPost.png) | ![みんなの投稿](public/postLists.png) |
+| ![新規投稿](https://user-images.githubusercontent.com/76162690/144736206-2865e9e7-d726-45bc-87d8-145ffded2a41.png) | ![みんなの投稿](https://user-images.githubusercontent.com/76162690/144736209-ea96cef7-6c66-4086-bfd9-c01c5b5496e1.png) |
 
 |               いいね               |              コメント              |
 | :--------------------------------: | :--------------------------------: |
-| ![いいね](public/likeFunction.png) | ![コメント](public/newComment.png) |
+| ![いいね](https://user-images.githubusercontent.com/76162690/144736216-fbc5ec94-23b7-4ba6-b4c0-ee2b2836a030.png) | ![コメント](https://user-images.githubusercontent.com/76162690/144736258-9ff45255-3456-4b19-b66b-861fda4b4726.png) |
 
 ### スマホ版
 
 |                   認証                   |                みんなの投稿                 |
 | :--------------------------------------: | :-----------------------------------------: |
-| ![認証](public/mobileAuthentication.png) | ![みんなの投稿](public/mobilePostLists.png) |
+| <img width="253" alt="mobileAuthentication" src="https://user-images.githubusercontent.com/76162690/144736425-9993f4a9-72e6-4ae0-bf25-59d6ea241dbd.png"> | ![みんなの投稿](public/mobilePostLists.png) |
 
 ## Demo
 
@@ -122,4 +122,4 @@ $ npm run dev
 ```
 
 ### Firebase
-![firebase](https://user-images.githubusercontent.com/76162690/144735642-9d2a73ee-18aa-4024-856a-d23d892641f4.png)
+![firebase](https://user-images.githubusercontent.com/76162690/144736132-a62e8410-d612-4c0f-a401-b92114ccaa36.png)
