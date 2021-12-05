@@ -57,6 +57,7 @@ export const useLoginAction = () => {
       });
     currentLogin();
   };
+
   const currentLogin = async () => {
     const authUser = auth.currentUser;
     if (authUser) {
@@ -102,6 +103,7 @@ export const useLoginAction = () => {
       console.log("誰もいない");
     }
   };
+
   const onetimeLogin = () => {
     const authUser = auth.currentUser;
     if (authUser) {
@@ -119,6 +121,7 @@ export const useLoginAction = () => {
       alert("ログインユーザーが見つかりません");
     }
   };
+
   const anonymousLogin = async () => {
     try {
       await auth
