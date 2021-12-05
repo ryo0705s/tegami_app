@@ -122,4 +122,4 @@ $ npm run dev
 ```
 
 ### Firebase
-![Firebase](public/firebase.png)
+![firebase](https://user-images.githubusercontent.com/76162690/144735642-9d2a73ee-18aa-4024-856a-d23d892641f4.png)
