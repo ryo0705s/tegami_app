@@ -4,7 +4,7 @@ import "firebase/firestore";
 import { postDB, userDB } from "../firebase";
 import { AppContext } from "../context/PageStates";
 
-// post.tsxのいいね機能に関するstateをコンポーネント化
+// post.tsxのいいね機能に関するstateを抽出
 export const useLikeAction = () => {
   const likeArray = firebase.firestore.FieldValue.arrayUnion;
   const likeGood = firebase.firestore.FieldValue.increment(1);

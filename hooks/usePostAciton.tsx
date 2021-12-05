@@ -3,7 +3,7 @@ import "firebase/firestore";
 import { storage, postDB } from "../firebase";
 import { AppContext } from "../context/PageStates";
 
-// post.tsxの投稿に関するstateをコンポーネント化
+// post.tsxの投稿に関するstateを抽出
 export const usePostAction = () => {
   const editText = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setClickedPost({
